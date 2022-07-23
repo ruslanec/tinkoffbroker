@@ -1,12 +1,11 @@
-package service
+package tinkoffbroker
 
 import (
 	"context"
 	"errors"
 	"time"
 
-	domain "github.com/ruslanec/tinkoffbroker"
-	tkf "github.com/ruslanec/tinkoffbroker/service/proto"
+	tkf "github.com/ruslanec/tinkoffbroker/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -26,7 +25,7 @@ type instrumentsService struct {
 	client tkf.InstrumentsServiceClient
 }
 
-func NewInstrumentsService(conn *grpc.ClientConn) service.InstrumentsService {
+func NewInstrumentsService(conn *grpc.ClientConn) InstrumentsService {
 	instrumentsServiceClient := tkf.NewInstrumentsServiceClient(conn)
 
 	return &instrumentsService{
@@ -36,7 +35,7 @@ func NewInstrumentsService(conn *grpc.ClientConn) service.InstrumentsService {
 }
 
 // Метод получения расписания торгов торговых площадок
-func (s *instrumentsService) TradingSchedules(ctx context.Context, exchange string, from, to time.Time) ([]*domain.TradingSchedule, error) {
+func (s *instrumentsService) TradingSchedules(ctx context.Context, exchange string, from, to time.Time) ([]*TradingSchedule, error) {
 	var resp *tkf.TradingSchedulesResponse
 	var err error
 
@@ -56,9 +55,9 @@ func (s *instrumentsService) TradingSchedules(ctx context.Context, exchange stri
 		return nil, err
 	}
 
-	var schedules []*domain.TradingSchedule
+	var schedules []*TradingSchedule
 	for _, v := range resp.GetExchanges() {
-		var days []*domain.TradingDay
+		var days []*TradingDay
 		for _, day := range v.GetDays() {
 			date := day.GetDate().AsTime()
 			startTime := day.GetStartTime().AsTime()
@@ -72,7 +71,7 @@ func (s *instrumentsService) TradingSchedules(ctx context.Context, exchange stri
 			clearingEndTime := day.GetClearingEndTime().AsTime()
 			premarketStartTime := day.GetPremarketStartTime().AsTime()
 			premarketEndTime := day.GetPremarketEndTime().AsTime()
-			days = append(days, &domain.TradingDay{
+			days = append(days, &TradingDay{
 				Date:                           &date,
 				IsTradingDay:                   day.GetIsTradingDay(),
 				StartTime:                      &startTime,
@@ -88,7 +87,7 @@ func (s *instrumentsService) TradingSchedules(ctx context.Context, exchange stri
 				PremarketEndTime:               &premarketEndTime,
 			})
 		}
-		schedules = append(schedules, &domain.TradingSchedule{
+		schedules = append(schedules, &TradingSchedule{
 			Exchange: v.GetExchange(),
 			Days:     days,
 		})
@@ -97,7 +96,7 @@ func (s *instrumentsService) TradingSchedules(ctx context.Context, exchange stri
 }
 
 // Метод получения облигации по FIGI
-func (s *instrumentsService) BondByFigi(ctx context.Context, figi string) (*domain.Bond, error) {
+func (s *instrumentsService) BondByFigi(ctx context.Context, figi string) (*Bond, error) {
 	resp, err := s.client.BondBy(ctx, &tkf.InstrumentRequest{
 		IdType: tkf.InstrumentIdType_INSTRUMENT_ID_TYPE_FIGI,
 		Id:     figi,
@@ -110,7 +109,7 @@ func (s *instrumentsService) BondByFigi(ctx context.Context, figi string) (*doma
 }
 
 // Метод получения списка облигаций
-func (s *instrumentsService) Bonds(ctx context.Context) ([]*domain.Bond, error) {
+func (s *instrumentsService) Bonds(ctx context.Context) ([]*Bond, error) {
 	resp, err := s.client.Bonds(ctx, &tkf.InstrumentsRequest{
 		InstrumentStatus: INSTRUMENT_STATUS,
 	})
@@ -118,7 +117,7 @@ func (s *instrumentsService) Bonds(ctx context.Context) ([]*domain.Bond, error) 
 		return nil, err
 	}
 
-	var bonds []*domain.Bond
+	var bonds []*Bond
 	for _, v := range resp.GetInstruments() {
 		bonds = append(bonds, convBond(v))
 	}
@@ -126,7 +125,7 @@ func (s *instrumentsService) Bonds(ctx context.Context) ([]*domain.Bond, error) 
 }
 
 // Запрос купонов по облигации
-func (s *instrumentsService) BondCoupons(ctx context.Context, figi string, from, to *time.Time) ([]*domain.Coupon, error) {
+func (s *instrumentsService) BondCoupons(ctx context.Context, figi string, from, to *time.Time) ([]*Coupon, error) {
 	resp, err := s.client.GetBondCoupons(ctx, &tkf.GetBondCouponsRequest{
 		Figi: figi,
 		From: timestamppb.New(*from),
@@ -136,19 +135,19 @@ func (s *instrumentsService) BondCoupons(ctx context.Context, figi string, from,
 		return nil, err
 	}
 
-	var coupons []*domain.Coupon
+	var coupons []*Coupon
 	for _, v := range resp.GetEvents() {
 		couponDate := v.GetCouponDate().AsTime()
 		fixDate := v.GetFixDate().AsTime()
 		couponStartDate := v.GetCouponStartDate().AsTime()
 		couponEndDate := v.GetCouponEndDate().AsTime()
-		coupons = append(coupons, &domain.Coupon{
+		coupons = append(coupons, &Coupon{
 			Figi:            v.GetFigi(),
 			CouponDate:      &couponDate,
 			CouponNumber:    v.GetCouponNumber(),
 			FixDate:         &fixDate,
 			PayOneBond:      convMoneyValue(v.GetPayOneBond()),
-			CouponType:      domain.CouponType(v.GetCouponType()),
+			CouponType:      CouponType(v.GetCouponType()),
 			CouponStartDate: &couponStartDate,
 			CouponEndDate:   &couponEndDate,
 			CouponPeriod:    v.GetCouponPeriod(),
@@ -158,7 +157,7 @@ func (s *instrumentsService) BondCoupons(ctx context.Context, figi string, from,
 }
 
 // Метод получения валюты по FIGI
-func (s *instrumentsService) CurrencyByFigi(ctx context.Context, figi string) (*domain.Currency, error) {
+func (s *instrumentsService) CurrencyByFigi(ctx context.Context, figi string) (*Currency, error) {
 	resp, err := s.client.CurrencyBy(ctx, &tkf.InstrumentRequest{
 		IdType: tkf.InstrumentIdType_INSTRUMENT_ID_TYPE_FIGI,
 		Id:     figi,
@@ -171,7 +170,7 @@ func (s *instrumentsService) CurrencyByFigi(ctx context.Context, figi string) (*
 }
 
 // Метод получения списка валют
-func (s *instrumentsService) Currencies(ctx context.Context) ([]*domain.Currency, error) {
+func (s *instrumentsService) Currencies(ctx context.Context) ([]*Currency, error) {
 	resp, err := s.client.Currencies(ctx, &tkf.InstrumentsRequest{
 		InstrumentStatus: INSTRUMENT_STATUS,
 	})
@@ -179,7 +178,7 @@ func (s *instrumentsService) Currencies(ctx context.Context) ([]*domain.Currency
 		return nil, err
 	}
 
-	var currencies []*domain.Currency
+	var currencies []*Currency
 	for _, v := range resp.GetInstruments() {
 		currencies = append(currencies, convCurrency(v))
 	}
@@ -187,7 +186,7 @@ func (s *instrumentsService) Currencies(ctx context.Context) ([]*domain.Currency
 }
 
 // Метод получения инвестиционного фонда по его идентификатору
-func (s *instrumentsService) EtfByFigi(ctx context.Context, figi string) (*domain.Etf, error) {
+func (s *instrumentsService) EtfByFigi(ctx context.Context, figi string) (*Etf, error) {
 	resp, err := s.client.EtfBy(ctx, &tkf.InstrumentRequest{
 		IdType: tkf.InstrumentIdType_INSTRUMENT_ID_TYPE_FIGI,
 		Id:     figi,
@@ -200,7 +199,7 @@ func (s *instrumentsService) EtfByFigi(ctx context.Context, figi string) (*domai
 }
 
 // Метод получения списка инвестиционных фондов
-func (s *instrumentsService) Etfs(ctx context.Context) ([]*domain.Etf, error) {
+func (s *instrumentsService) Etfs(ctx context.Context) ([]*Etf, error) {
 	resp, err := s.client.Etfs(ctx, &tkf.InstrumentsRequest{
 		InstrumentStatus: INSTRUMENT_STATUS,
 	})
@@ -208,7 +207,7 @@ func (s *instrumentsService) Etfs(ctx context.Context) ([]*domain.Etf, error) {
 		return nil, err
 	}
 
-	var etfs []*domain.Etf
+	var etfs []*Etf
 	for _, v := range resp.GetInstruments() {
 		etfs = append(etfs, convEtf(v))
 	}
@@ -216,7 +215,7 @@ func (s *instrumentsService) Etfs(ctx context.Context) ([]*domain.Etf, error) {
 }
 
 // Метод получения фьючерса по FIGI
-func (s *instrumentsService) ShareByFigi(ctx context.Context, figi string) (*domain.Share, error) {
+func (s *instrumentsService) ShareByFigi(ctx context.Context, figi string) (*Share, error) {
 	resp, err := s.client.ShareBy(ctx, &tkf.InstrumentRequest{
 		IdType: tkf.InstrumentIdType_INSTRUMENT_ID_TYPE_FIGI,
 		Id:     figi,
@@ -229,7 +228,7 @@ func (s *instrumentsService) ShareByFigi(ctx context.Context, figi string) (*dom
 }
 
 // Метод получения списка акций
-func (s *instrumentsService) Shares(ctx context.Context) ([]*domain.Share, error) {
+func (s *instrumentsService) Shares(ctx context.Context) ([]*Share, error) {
 	resp, err := s.client.Shares(ctx, &tkf.InstrumentsRequest{
 		InstrumentStatus: INSTRUMENT_STATUS,
 	})
@@ -237,7 +236,7 @@ func (s *instrumentsService) Shares(ctx context.Context) ([]*domain.Share, error
 		return nil, err
 	}
 
-	var shares []*domain.Share
+	var shares []*Share
 	for _, v := range resp.GetInstruments() {
 		shares = append(shares, convShare(v))
 	}
@@ -246,7 +245,7 @@ func (s *instrumentsService) Shares(ctx context.Context) ([]*domain.Share, error
 }
 
 // Метод получения фьючерса по FIGI
-func (s *instrumentsService) FutureByFigi(ctx context.Context, figi string) (*domain.Future, error) {
+func (s *instrumentsService) FutureByFigi(ctx context.Context, figi string) (*Future, error) {
 	resp, err := s.client.FutureBy(ctx, &tkf.InstrumentRequest{
 		IdType: tkf.InstrumentIdType_INSTRUMENT_ID_TYPE_FIGI,
 		Id:     figi,
@@ -259,7 +258,7 @@ func (s *instrumentsService) FutureByFigi(ctx context.Context, figi string) (*do
 }
 
 // Метод получения списка фьючерсов
-func (s *instrumentsService) Future(ctx context.Context) ([]*domain.Future, error) {
+func (s *instrumentsService) Future(ctx context.Context) ([]*Future, error) {
 	resp, err := s.client.Futures(ctx, &tkf.InstrumentsRequest{
 		InstrumentStatus: INSTRUMENT_STATUS,
 	})
@@ -267,7 +266,7 @@ func (s *instrumentsService) Future(ctx context.Context) ([]*domain.Future, erro
 		return nil, err
 	}
 
-	var futures []*domain.Future
+	var futures []*Future
 	for _, v := range resp.GetInstruments() {
 		futures = append(futures, convFuture(v))
 	}
@@ -275,7 +274,7 @@ func (s *instrumentsService) Future(ctx context.Context) ([]*domain.Future, erro
 }
 
 // Метод получения накопленного купонного дохода по облигации
-func (s *instrumentsService) AccruedInterests(ctx context.Context, figi string, from, to *time.Time) ([]*domain.AccruedInterest, error) {
+func (s *instrumentsService) AccruedInterests(ctx context.Context, figi string, from, to *time.Time) ([]*AccruedInterest, error) {
 	resp, err := s.client.GetAccruedInterests(ctx, &tkf.GetAccruedInterestsRequest{
 		Figi: figi,
 		From: timestamppb.New(*from),
@@ -285,10 +284,10 @@ func (s *instrumentsService) AccruedInterests(ctx context.Context, figi string, 
 		return nil, err
 	}
 
-	var interests []*domain.AccruedInterest
+	var interests []*AccruedInterest
 	for _, v := range resp.GetAccruedInterests() {
 		date := v.GetDate().AsTime()
-		interests = append(interests, &domain.AccruedInterest{
+		interests = append(interests, &AccruedInterest{
 			Date:         &date,
 			Value:        convQuotation(v.GetValue()),
 			ValuePercent: convQuotation(v.GetValuePercent()),
@@ -300,14 +299,14 @@ func (s *instrumentsService) AccruedInterests(ctx context.Context, figi string, 
 }
 
 // Метод получения размера гарантийного обеспечения по фьючерсам
-func (s *instrumentsService) FuturesMargin(ctx context.Context, figi string) (*domain.FuturesMargin, error) {
+func (s *instrumentsService) FuturesMargin(ctx context.Context, figi string) (*FuturesMargin, error) {
 	resp, err := s.client.GetFuturesMargin(ctx, &tkf.GetFuturesMarginRequest{
 		Figi: figi,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return &domain.FuturesMargin{
+	return &FuturesMargin{
 		InitialMarginOnBuy:      convMoneyValue(resp.InitialMarginOnBuy),
 		InitialMarginOnSell:     convMoneyValue(resp.InitialMarginOnSell),
 		MinPriceIncrement:       convQuotation(resp.MinPriceIncrement),
@@ -317,7 +316,7 @@ func (s *instrumentsService) FuturesMargin(ctx context.Context, figi string) (*d
 }
 
 // Метод получения основной информации об инструменте
-func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) (*domain.Instrument, error) {
+func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) (*Instrument, error) {
 	resp, err := s.client.GetInstrumentBy(ctx, &tkf.InstrumentRequest{
 		IdType: tkf.InstrumentIdType_INSTRUMENT_ID_TYPE_FIGI,
 		Id:     figi,
@@ -326,9 +325,9 @@ func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) 
 		return nil, err
 	}
 
-	var instrument *domain.Instrument
+	var instrument *Instrument
 	if tkfInstrument := resp.GetInstrument(); tkfInstrument != nil {
-		instrument = &domain.Instrument{
+		instrument = &Instrument{
 			Figi:                  tkfInstrument.GetFigi(),
 			Ticker:                tkfInstrument.GetTicker(),
 			ClassCode:             tkfInstrument.GetClassCode(),
@@ -347,7 +346,7 @@ func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) 
 			CountryOfRisk:         tkfInstrument.GetCountryOfRisk(),
 			CountryOfRiskName:     tkfInstrument.GetCountryOfRiskName(),
 			InstrumentType:        tkfInstrument.GetInstrumentType(),
-			TradingStatus:         domain.SecurityTradingStatus(tkfInstrument.GetTradingStatus()),
+			TradingStatus:         SecurityTradingStatus(tkfInstrument.GetTradingStatus()),
 			OtcFlag:               tkfInstrument.GetOtcFlag(),
 			BuyAvailableFlag:      tkfInstrument.GetBuyAvailableFlag(),
 			SellAvailableFlag:     tkfInstrument.GetSellAvailableFlag(),
@@ -360,7 +359,7 @@ func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) 
 }
 
 // Метод для получения событий выплаты дивидендов по инструменту
-func (s *instrumentsService) Dividends(ctx context.Context, figi string, from, to *time.Time) ([]*domain.Dividend, error) {
+func (s *instrumentsService) Dividends(ctx context.Context, figi string, from, to *time.Time) ([]*Dividend, error) {
 	if from.After(*to) {
 		return nil, ErrInputArgument
 	}
@@ -373,7 +372,7 @@ func (s *instrumentsService) Dividends(ctx context.Context, figi string, from, t
 		return nil, err
 	}
 
-	var dividends []*domain.Dividend
+	var dividends []*Dividend
 	for _, v := range resp.GetDividends() {
 		paymentDate := v.GetPaymentDate().AsTime()
 		declaredDate := v.GetDeclaredDate().AsTime()
@@ -381,7 +380,7 @@ func (s *instrumentsService) Dividends(ctx context.Context, figi string, from, t
 		recordDate := v.GetRecordDate().AsTime()
 		createdAt := v.GetCreatedAt().AsTime()
 
-		dividends = append(dividends, &domain.Dividend{
+		dividends = append(dividends, &Dividend{
 			DividendNet:  convMoneyValue(v.GetDividendNet()),
 			PaymentDate:  &paymentDate,
 			DeclaredDate: &declaredDate,
@@ -399,7 +398,7 @@ func (s *instrumentsService) Dividends(ctx context.Context, figi string, from, t
 }
 
 // Метод получения актива по его идентификатору
-func (s *instrumentsService) AssetById(ctx context.Context, id string) (*domain.AssetFull, error) {
+func (s *instrumentsService) AssetById(ctx context.Context, id string) (*AssetFull, error) {
 	if id == "" {
 		return nil, ErrWrongArg
 	}
@@ -416,30 +415,30 @@ func (s *instrumentsService) AssetById(ctx context.Context, id string) (*domain.
 
 	deletedAt := tkfAF.GetDeletedAt().AsTime()
 
-	// Convert tkf.AssetCurrency to domain.AssetCurrency
-	var currency *domain.AssetCurrency
+	// Convert tkf.AssetCurrency to AssetCurrency
+	var currency *AssetCurrency
 	if tkfAF.GetType() == tkf.AssetType_ASSET_TYPE_CURRENCY {
-		currency = &domain.AssetCurrency{
+		currency = &AssetCurrency{
 			BaseCurrency: tkfAF.GetCurrency().GetBaseCurrency(),
 		}
 	}
 
-	// Convert tkf.AssetSecurity to domain.AssetSecurity
-	var security *domain.AssetSecurity
+	// Convert tkf.AssetSecurity to AssetSecurity
+	var security *AssetSecurity
 	tkfAS := tkfAF.GetSecurity()
 	if tkfAS != nil && tkfAF.GetType() == tkf.AssetType_ASSET_TYPE_SECURITY {
 		security = convAssetSecurity(tkfAS)
 	}
 
-	// Convert []*tkf.AssetInstrument to []*domain.AssetInstrument
-	var instruments []*domain.AssetInstrument
+	// Convert []*tkf.AssetInstrument to []*AssetInstrument
+	var instruments []*AssetInstrument
 	for _, tkfInstrument := range tkfAF.GetInstruments() {
 		instruments = append(instruments, convAssetInstrument(tkfInstrument))
 	}
 
-	return &domain.AssetFull{
+	return &AssetFull{
 		Uid:           tkfAF.GetUid(),
-		Type:          domain.AssetType(tkfAF.GetType()),
+		Type:          AssetType(tkfAF.GetType()),
 		Name:          tkfAF.GetName(),
 		NameBrief:     tkfAF.GetNameBrief(),
 		Description:   tkfAF.GetDescription(),
@@ -459,7 +458,7 @@ func (s *instrumentsService) AssetById(ctx context.Context, id string) (*domain.
 }
 
 // Метод получения списка активов
-func (s *instrumentsService) Assets(ctx context.Context) ([]*domain.Asset, error) {
+func (s *instrumentsService) Assets(ctx context.Context) ([]*Asset, error) {
 	resp, err := s.client.GetAssets(ctx, &tkf.AssetsRequest{})
 	if err != nil {
 		return nil, err
@@ -470,18 +469,18 @@ func (s *instrumentsService) Assets(ctx context.Context) ([]*domain.Asset, error
 		return nil, ErrEmptyField
 	}
 
-	// Convert tkf.Asset to domain.Asset
-	var assets []*domain.Asset
+	// Convert tkf.Asset to Asset
+	var assets []*Asset
 	for _, tkfAsset := range tkfAssets {
-		// Convert []*tkf.AssetInstrument to []*domain.AssetInstrument
-		var instruments []*domain.AssetInstrument
+		// Convert []*tkf.AssetInstrument to []*AssetInstrument
+		var instruments []*AssetInstrument
 		for _, tkfInstrument := range tkfAsset.GetInstruments() {
 			instruments = append(instruments, convAssetInstrument(tkfInstrument))
 		}
 
-		assets = append(assets, &domain.Asset{
+		assets = append(assets, &Asset{
 			Uid:         tkfAsset.GetUid(),
-			Type:        domain.AssetType(tkfAsset.GetType()),
+			Type:        AssetType(tkfAsset.GetType()),
 			Name:        tkfAsset.GetName(),
 			Instruments: instruments,
 		})
@@ -491,13 +490,13 @@ func (s *instrumentsService) Assets(ctx context.Context) ([]*domain.Asset, error
 }
 
 // Метод получения списка избранных инструментов
-func (s *instrumentsService) Favorites(ctx context.Context) ([]*domain.FavoriteInstrument, error) {
+func (s *instrumentsService) Favorites(ctx context.Context) ([]*FavoriteInstrument, error) {
 	resp, err := s.client.GetFavorites(ctx, &tkf.GetFavoritesRequest{})
 	if err != nil {
 		return nil, err
 	}
 
-	var favoriteInstruments []*domain.FavoriteInstrument
+	var favoriteInstruments []*FavoriteInstrument
 	for _, tkfFInstrument := range resp.GetFavoriteInstruments() {
 		favoriteInstruments = append(favoriteInstruments, convFavoriteInstrument(tkfFInstrument))
 	}
@@ -506,8 +505,8 @@ func (s *instrumentsService) Favorites(ctx context.Context) ([]*domain.FavoriteI
 }
 
 // Метод редактирования списка избранных инструментов
-func (s *instrumentsService) EditFavorites(ctx context.Context, figies []string, action domain.EditFavoritesActionType) ([]*domain.FavoriteInstrument, error) {
-	if len(figies) == 0 || action == domain.EDIT_FAVORITES_ACTION_TYPE_UNSPECIFIED {
+func (s *instrumentsService) EditFavorites(ctx context.Context, figies []string, action EditFavoritesActionType) ([]*FavoriteInstrument, error) {
+	if len(figies) == 0 || action == EDIT_FAVORITES_ACTION_TYPE_UNSPECIFIED {
 		return nil, ErrWrongArg
 	}
 
@@ -526,7 +525,7 @@ func (s *instrumentsService) EditFavorites(ctx context.Context, figies []string,
 		return nil, err
 	}
 
-	var favoriteInstruments []*domain.FavoriteInstrument
+	var favoriteInstruments []*FavoriteInstrument
 	for _, tkfFInstrument := range resp.GetFavoriteInstruments() {
 		favoriteInstruments = append(favoriteInstruments, convFavoriteInstrument(tkfFInstrument))
 	}
@@ -535,15 +534,15 @@ func (s *instrumentsService) EditFavorites(ctx context.Context, figies []string,
 }
 
 // Метод получения списка стран
-func (s *instrumentsService) Countries(ctx context.Context) ([]*domain.Country, error) {
+func (s *instrumentsService) Countries(ctx context.Context) ([]*Country, error) {
 	resp, err := s.client.GetCountries(ctx, &tkf.GetCountriesRequest{})
 	if err != nil {
 		return nil, err
 	}
 
-	var countries []*domain.Country
+	var countries []*Country
 	for _, tkfCountry := range resp.GetCountries() {
-		countries = append(countries, &domain.Country{
+		countries = append(countries, &Country{
 			AlfaTwo:   tkfCountry.GetAlfaTwo(),
 			AlfaThree: tkfCountry.GetAlfaThree(),
 			Name:      tkfCountry.GetName(),
@@ -554,7 +553,7 @@ func (s *instrumentsService) Countries(ctx context.Context) ([]*domain.Country, 
 }
 
 // Метод поиска инструмента
-func (s *instrumentsService) FindInstrument(ctx context.Context, query string) ([]*domain.InstrumentShort, error) {
+func (s *instrumentsService) FindInstrument(ctx context.Context, query string) ([]*InstrumentShort, error) {
 	if len(query) == 0 {
 		return nil, ErrInputArgument
 	}
@@ -566,7 +565,7 @@ func (s *instrumentsService) FindInstrument(ctx context.Context, query string) (
 		return nil, err
 	}
 
-	var instruments []*domain.InstrumentShort
+	var instruments []*InstrumentShort
 	for _, tkfInstrument := range resp.GetInstruments() {
 		instruments = append(instruments, convInstrumentShort(tkfInstrument))
 	}
@@ -574,13 +573,13 @@ func (s *instrumentsService) FindInstrument(ctx context.Context, query string) (
 }
 
 // Метод получения списка брендов
-func (s *instrumentsService) Brands(ctx context.Context) ([]*domain.Brand, error) {
+func (s *instrumentsService) Brands(ctx context.Context) ([]*Brand, error) {
 	resp, err := s.client.GetBrands(ctx, &tkf.GetBrandsRequest{})
 	if err != nil {
 		return nil, err
 	}
 
-	var brands []*domain.Brand
+	var brands []*Brand
 	for _, tkfBrand := range resp.GetBrands() {
 		brands = append(brands, convBrand(tkfBrand))
 	}
@@ -589,7 +588,7 @@ func (s *instrumentsService) Brands(ctx context.Context) ([]*domain.Brand, error
 }
 
 // Метод получения бренда по его идентификатору
-func (s *instrumentsService) BrandById(ctx context.Context, id string) (*domain.Brand, error) {
+func (s *instrumentsService) BrandById(ctx context.Context, id string) (*Brand, error) {
 	if len(id) == 0 {
 		return nil, ErrInputArgument
 	}

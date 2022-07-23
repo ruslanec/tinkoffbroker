@@ -1,12 +1,11 @@
 /* Сервис получения информации о портфеле по конкретному счёту*/
-package service
+package tinkoffbroker
 
 import (
 	"context"
 	"time"
 
-	domain "github.com/ruslanec/tinkoffbroker"
-	tkf "github.com/ruslanec/tinkoffbroker/service/proto"
+	tkf "github.com/ruslanec/tinkoffbroker/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -17,7 +16,7 @@ type operationsService struct {
 }
 
 // Конструктор сервиса
-func NewOperationsService(conn *grpc.ClientConn) service.OperationsService {
+func NewOperationsService(conn *grpc.ClientConn) OperationsService {
 	client := tkf.NewOperationsServiceClient(conn)
 
 	return &operationsService{
@@ -27,7 +26,7 @@ func NewOperationsService(conn *grpc.ClientConn) service.OperationsService {
 }
 
 // Метод получения портфеля по счёту
-func (s *operationsService) Portfolio(ctx context.Context, accountId string) (*domain.Portfolio, error) {
+func (s *operationsService) Portfolio(ctx context.Context, accountId string) (*Portfolio, error) {
 	if accountId == "" {
 		return nil, ErrCandleInterval
 	}
@@ -37,12 +36,12 @@ func (s *operationsService) Portfolio(ctx context.Context, accountId string) (*d
 	if err != nil {
 		return nil, err
 	}
-	var positions []*domain.PortfolioPosition
+	var positions []*PortfolioPosition
 	for _, v := range resp.GetPositions() {
 		positions = append(positions, convPortfolioPosition(v))
 	}
 
-	return &domain.Portfolio{
+	return &Portfolio{
 		TotalAmountShares:     convMoneyValue(resp.TotalAmountShares),
 		TotalAmountBonds:      convMoneyValue(resp.TotalAmountBonds),
 		TotalAmountEtf:        convMoneyValue(resp.TotalAmountEtf),
@@ -54,7 +53,7 @@ func (s *operationsService) Portfolio(ctx context.Context, accountId string) (*d
 }
 
 // Метод получения списка операций по счёту
-func (s *operationsService) Operations(ctx context.Context, accountId string, from, to *time.Time, state domain.OperationState, figi string) ([]*domain.Operation, error) {
+func (s *operationsService) Operations(ctx context.Context, accountId string, from, to *time.Time, state OperationState, figi string) ([]*Operation, error) {
 	if accountId == "" {
 		return nil, ErrCandleInterval
 	}
@@ -69,7 +68,7 @@ func (s *operationsService) Operations(ctx context.Context, accountId string, fr
 		return nil, err
 	}
 
-	var operations []*domain.Operation
+	var operations []*Operation
 	for _, v := range resp.GetOperations() {
 		operations = append(operations, convOperation(v))
 	}
@@ -77,7 +76,7 @@ func (s *operationsService) Operations(ctx context.Context, accountId string, fr
 }
 
 // Метод получения списка позиций по счёту
-func (s *operationsService) Positions(ctx context.Context, accountId string) (*domain.Positions, error) {
+func (s *operationsService) Positions(ctx context.Context, accountId string) (*Positions, error) {
 	resp, err := s.client.GetPositions(ctx, &tkf.PositionsRequest{
 		AccountId: accountId,
 	})
@@ -85,42 +84,42 @@ func (s *operationsService) Positions(ctx context.Context, accountId string) (*d
 		return nil, err
 	}
 
-	var money []*domain.MoneyValue
+	var money []*MoneyValue
 	for _, v := range resp.GetMoney() {
-		money = append(money, &domain.MoneyValue{
+		money = append(money, &MoneyValue{
 			Currency: v.GetCurrency(),
 			Units:    v.GetUnits(),
 			Nano:     v.GetNano(),
 		})
 	}
 
-	var blocked []*domain.MoneyValue
+	var blocked []*MoneyValue
 	for _, v := range resp.GetBlocked() {
-		blocked = append(blocked, &domain.MoneyValue{
+		blocked = append(blocked, &MoneyValue{
 			Currency: v.GetCurrency(),
 			Units:    v.GetUnits(),
 			Nano:     v.GetNano(),
 		})
 	}
 
-	var securities []*domain.PositionInstrument
+	var securities []*PositionInstrument
 	for _, v := range resp.GetSecurities() {
-		securities = append(securities, &domain.PositionInstrument{
+		securities = append(securities, &PositionInstrument{
 			Figi:    v.GetFigi(),
 			Blocked: v.GetBlocked(),
 			Balance: v.GetBalance(),
 		})
 	}
 
-	var futures []*domain.PositionInstrument
+	var futures []*PositionInstrument
 	for _, v := range resp.GetFutures() {
-		futures = append(futures, &domain.PositionInstrument{
+		futures = append(futures, &PositionInstrument{
 			Figi:    v.GetFigi(),
 			Blocked: v.GetBlocked(),
 			Balance: v.GetBalance(),
 		})
 	}
-	return &domain.Positions{
+	return &Positions{
 		Money:                   money,
 		Blocked:                 blocked,
 		Securities:              securities,

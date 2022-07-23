@@ -6,19 +6,18 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ruslanec/tinkoffbroker/service"
 	"google.golang.org/grpc"
 )
 
 type Services struct {
-	Users            service.UsersService
-	Instruments      service.InstrumentsService
-	OrdersStream     service.OrdersStreamService
-	Orders           service.OrdersService
-	MarketData       service.MarketDataService
-	MarketDataStream service.MarketDataStreamService
-	StopOrders       service.StopOrdersService
-	Operations       service.OperationsService
+	Users            UsersService
+	Instruments      InstrumentsService
+	OrdersStream     OrdersStreamService
+	Orders           OrdersService
+	MarketData       MarketDataService
+	MarketDataStream MarketDataStreamService
+	StopOrders       StopOrdersService
+	Operations       OperationsService
 }
 
 type client struct {
@@ -43,49 +42,49 @@ func WithServices(s Services) Option {
 	}
 }
 
-func WithUsers(s service.UsersService) Option {
+func WithUsers(s UsersService) Option {
 	return func(c Client) {
 		c.(*client).services.Users = s
 	}
 }
 
-func WithStopOrders(s service.StopOrdersService) Option {
+func WithStopOrders(s StopOrdersService) Option {
 	return func(c Client) {
 		c.(*client).services.StopOrders = s
 	}
 }
 
-func WithOrders(s service.OrdersService) Option {
+func WithOrders(s OrdersService) Option {
 	return func(c Client) {
 		c.(*client).services.Orders = s
 	}
 }
 
-func WithOrdersStream(s service.OrdersStreamService) Option {
+func WithOrdersStream(s OrdersStreamService) Option {
 	return func(c Client) {
 		c.(*client).services.OrdersStream = s
 	}
 }
 
-func WithOperations(s service.OperationsService) Option {
+func WithOperations(s OperationsService) Option {
 	return func(c Client) {
 		c.(*client).services.Operations = s
 	}
 }
 
-func WithMarketData(s service.MarketDataService) Option {
+func WithMarketData(s MarketDataService) Option {
 	return func(c Client) {
 		c.(*client).services.MarketData = s
 	}
 }
 
-func WithMarketDataStream(s service.MarketDataStreamService) Option {
+func WithMarketDataStream(s MarketDataStreamService) Option {
 	return func(c Client) {
 		c.(*client).services.MarketDataStream = s
 	}
 }
 
-func WithInstruments(s service.InstrumentsService) Option {
+func WithInstruments(s InstrumentsService) Option {
 	return func(c Client) {
 		c.(*client).services.Instruments = s
 	}

@@ -1,11 +1,10 @@
-package service
+package tinkoffbroker
 
 import (
 	"context"
 	"fmt"
 
-	domain "github.com/ruslanec/tinkoffbroker"
-	tkf "github.com/ruslanec/tinkoffbroker/service/proto"
+	tkf "github.com/ruslanec/tinkoffbroker/proto"
 	"google.golang.org/grpc"
 )
 
@@ -16,7 +15,7 @@ type marketDataStreamService struct {
 }
 
 // Конструктор сервиса
-func NewMarketDataStreamService(conn *grpc.ClientConn) service.MarketDataStreamService {
+func NewMarketDataStreamService(conn *grpc.ClientConn) MarketDataStreamService {
 	return &marketDataStreamService{
 		conn:   conn,
 		client: tkf.NewMarketDataStreamServiceClient(conn),
@@ -24,7 +23,7 @@ func NewMarketDataStreamService(conn *grpc.ClientConn) service.MarketDataStreamS
 }
 
 // Подписка на свечи
-func (s *marketDataStreamService) SubscribeCandles(ctx context.Context, candles []*domain.CandleInstrument) error {
+func (s *marketDataStreamService) SubscribeCandles(ctx context.Context, candles []*CandleInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -52,7 +51,7 @@ func (s *marketDataStreamService) SubscribeCandles(ctx context.Context, candles 
 }
 
 // Закрытие подписки на свечи
-func (s *marketDataStreamService) UnsubscribeCandles(ctx context.Context, candles []*domain.CandleInstrument) error {
+func (s *marketDataStreamService) UnsubscribeCandles(ctx context.Context, candles []*CandleInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -80,7 +79,7 @@ func (s *marketDataStreamService) UnsubscribeCandles(ctx context.Context, candle
 }
 
 // Подписка на стакан
-func (s *marketDataStreamService) SubscribeOrderBook(ctx context.Context, orderbooks []*domain.OrderBookInstrument) error {
+func (s *marketDataStreamService) SubscribeOrderBook(ctx context.Context, orderbooks []*OrderBookInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -108,7 +107,7 @@ func (s *marketDataStreamService) SubscribeOrderBook(ctx context.Context, orderb
 }
 
 // Закрытие подписки на стакан
-func (s *marketDataStreamService) UnsubscribeOrderBook(ctx context.Context, orderbooks []*domain.OrderBookInstrument) error {
+func (s *marketDataStreamService) UnsubscribeOrderBook(ctx context.Context, orderbooks []*OrderBookInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -136,7 +135,7 @@ func (s *marketDataStreamService) UnsubscribeOrderBook(ctx context.Context, orde
 }
 
 // Подписка на ленту сделок
-func (s *marketDataStreamService) SubscribeTrades(ctx context.Context, trades []*domain.TradeInstrument) error {
+func (s *marketDataStreamService) SubscribeTrades(ctx context.Context, trades []*TradeInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -163,7 +162,7 @@ func (s *marketDataStreamService) SubscribeTrades(ctx context.Context, trades []
 }
 
 // Закрытие подписки на ленту сделок
-func (s *marketDataStreamService) UnsubscribeTrades(ctx context.Context, trades []*domain.TradeInstrument) error {
+func (s *marketDataStreamService) UnsubscribeTrades(ctx context.Context, trades []*TradeInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -190,7 +189,7 @@ func (s *marketDataStreamService) UnsubscribeTrades(ctx context.Context, trades 
 }
 
 // Подписка на торговые статусы
-func (s *marketDataStreamService) SubscribeInfo(ctx context.Context, instruments []*domain.InfoInstrument) error {
+func (s *marketDataStreamService) SubscribeInfo(ctx context.Context, instruments []*InfoInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -217,7 +216,7 @@ func (s *marketDataStreamService) SubscribeInfo(ctx context.Context, instruments
 }
 
 // Закрытие подписки на торговые статусы
-func (s *marketDataStreamService) UnsubscribeInfo(ctx context.Context, instruments []*domain.InfoInstrument) error {
+func (s *marketDataStreamService) UnsubscribeInfo(ctx context.Context, instruments []*InfoInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -244,7 +243,7 @@ func (s *marketDataStreamService) UnsubscribeInfo(ctx context.Context, instrumen
 }
 
 // Подписка на последнюю цену инструмента
-func (s *marketDataStreamService) SubscribeLastPrices(ctx context.Context, lastprices []*domain.LastPriceInstrument) error {
+func (s *marketDataStreamService) SubscribeLastPrices(ctx context.Context, lastprices []*LastPriceInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)
@@ -271,7 +270,7 @@ func (s *marketDataStreamService) SubscribeLastPrices(ctx context.Context, lastp
 }
 
 // Закрытие подписки на последнюю цену инструмента
-func (s *marketDataStreamService) UnsubscribeLastPrices(ctx context.Context, lastprices []*domain.LastPriceInstrument) error {
+func (s *marketDataStreamService) UnsubscribeLastPrices(ctx context.Context, lastprices []*LastPriceInstrument) error {
 	var err error
 	if s.stream == nil {
 		s.stream, err = s.client.MarketDataStream(ctx)

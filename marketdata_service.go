@@ -1,4 +1,4 @@
-package service
+package tinkoffbroker
 
 import (
 	"context"
@@ -6,8 +6,7 @@ import (
 	"time"
 
 	"github.com/ruslanec/timerange-go"
-	domain "github.com/ruslanec/tinkoffbroker"
-	tkf "github.com/ruslanec/tinkoffbroker/service/proto"
+	tkf "github.com/ruslanec/tinkoffbroker/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -42,7 +41,7 @@ const (
 var allowableOrderBookDepth = []int32{1, 10, 20, 30, 40, 50}
 
 // Конструктор сервиса
-func NewMarketDataService(conn *grpc.ClientConn) service.MarketDataService {
+func NewMarketDataService(conn *grpc.ClientConn) MarketDataService {
 	return &marketDataService{
 		conn:   conn,
 		client: tkf.NewMarketDataServiceClient(conn),
@@ -50,7 +49,7 @@ func NewMarketDataService(conn *grpc.ClientConn) service.MarketDataService {
 }
 
 // Метод запроса последних цен по инструментам
-func (s *marketDataService) LastPrices(ctx context.Context, figi []string) ([]*domain.LastPrice, error) {
+func (s *marketDataService) LastPrices(ctx context.Context, figi []string) ([]*LastPrice, error) {
 	resp, err := s.client.GetLastPrices(ctx, &tkf.GetLastPricesRequest{
 		Figi: figi,
 	})
@@ -59,10 +58,10 @@ func (s *marketDataService) LastPrices(ctx context.Context, figi []string) ([]*d
 		return nil, err
 	}
 
-	var prices []*domain.LastPrice
+	var prices []*LastPrice
 	for _, v := range resp.GetLastPrices() {
 		t := v.GetTime().AsTime()
-		prices = append(prices, &domain.LastPrice{
+		prices = append(prices, &LastPrice{
 			Figi:  v.GetFigi(),
 			Price: convQuotation(v.GetPrice()),
 			Time:  &t,
@@ -72,7 +71,7 @@ func (s *marketDataService) LastPrices(ctx context.Context, figi []string) ([]*d
 }
 
 // Метод запроса исторических свечей по инструменту
-func (s *marketDataService) Candles(ctx context.Context, figi string, from, to time.Time, interval domain.CandleInterval) ([]*domain.Candle, error) {
+func (s *marketDataService) Candles(ctx context.Context, figi string, from, to time.Time, interval CandleInterval) ([]*Candle, error) {
 	ctx, cancel := context.WithTimeout(ctx, REQ_TIMEOUT)
 	defer cancel()
 
@@ -90,7 +89,7 @@ func (s *marketDataService) Candles(ctx context.Context, figi string, from, to t
 		return nil, ErrCandleInterval
 	}
 
-	var candles []*domain.Candle
+	var candles []*Candle
 	timerangeIter := timerange.New(from, to, timerangeInterval)
 	for timerangeIter.Next() {
 		start := timerangeIter.Current()
@@ -129,7 +128,7 @@ func (s *marketDataService) Candles(ctx context.Context, figi string, from, to t
 
 		for _, v := range resp.GetCandles() {
 			dt := v.Time.AsTime()
-			candles = append(candles, &domain.Candle{
+			candles = append(candles, &Candle{
 				Figi:     figi,
 				DateTime: &dt,
 				Interval: interval,
@@ -145,7 +144,7 @@ func (s *marketDataService) Candles(ctx context.Context, figi string, from, to t
 }
 
 // Метод получения стакана по инструменту
-func (s *marketDataService) OrderBook(ctx context.Context, figi string, depth int32) (*domain.OrderBook, error) {
+func (s *marketDataService) OrderBook(ctx context.Context, figi string, depth int32) (*OrderBook, error) {
 	if !contains(allowableOrderBookDepth, depth) {
 		return nil, ErrCandleInterval
 	}
@@ -158,21 +157,21 @@ func (s *marketDataService) OrderBook(ctx context.Context, figi string, depth in
 		return nil, err
 	}
 
-	var bids, asks []*domain.Order
+	var bids, asks []*Order
 	for _, v := range resp.GetBids() {
-		bids = append(bids, &domain.Order{
+		bids = append(bids, &Order{
 			Price:    convQuotation(v.GetPrice()),
 			Quantity: v.GetQuantity(),
 		})
 	}
 	for _, v := range resp.GetAsks() {
-		asks = append(asks, &domain.Order{
+		asks = append(asks, &Order{
 			Price:    convQuotation(v.GetPrice()),
 			Quantity: v.GetQuantity(),
 		})
 	}
 
-	return &domain.OrderBook{
+	return &OrderBook{
 		Figi:       resp.GetFigi(),
 		Depth:      resp.GetDepth(),
 		Bids:       bids,
@@ -185,16 +184,16 @@ func (s *marketDataService) OrderBook(ctx context.Context, figi string, depth in
 }
 
 // Метод запроса статуса торгов по инструментам
-func (s *marketDataService) TradingStatus(ctx context.Context, figi string) (*domain.InstrumentTradingStatus, error) {
+func (s *marketDataService) TradingStatus(ctx context.Context, figi string) (*InstrumentTradingStatus, error) {
 	resp, err := s.client.GetTradingStatus(ctx, &tkf.GetTradingStatusRequest{
 		Figi: figi,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return &domain.InstrumentTradingStatus{
+	return &InstrumentTradingStatus{
 		Figi:          resp.GetFigi(),
-		TradingStatus: domain.SecurityTradingStatus(resp.GetTradingStatus()),
+		TradingStatus: SecurityTradingStatus(resp.GetTradingStatus()),
 	}, nil
 }
 

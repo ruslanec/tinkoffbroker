@@ -1,4 +1,4 @@
-package service
+package tinkoffbroker
 
 import (
 	"encoding/json"

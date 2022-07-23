@@ -1,4 +1,4 @@
-package service
+package tinkoffbroker
 
 import (
 	"context"
@@ -7,12 +7,11 @@ import (
 
 	"github.com/google/uuid"
 
-	domain "github.com/ruslanec/tinkoffbroker"
-	tkf "github.com/ruslanec/tinkoffbroker/service/proto"
+	tkf "github.com/ruslanec/tinkoffbroker/proto"
 	"google.golang.org/grpc"
 )
 
-var _ service.OrdersService = (*ordersService)(nil)
+var _ OrdersService = (*ordersService)(nil)
 
 // Сервис предназначен для работы с торговыми поручениями
 type ordersService struct {
@@ -23,7 +22,7 @@ type ordersService struct {
 	mu        sync.Mutex
 }
 
-func NewOrdersService(conn *grpc.ClientConn, accountID string) service.OrdersService {
+func NewOrdersService(conn *grpc.ClientConn, accountID string) OrdersService {
 	ordersServiceClient := tkf.NewOrdersServiceClient(conn)
 
 	return &ordersService{
@@ -81,7 +80,7 @@ func (s *ordersService) orderIdList() []string {
 }
 
 // Метод выставления рыночной заявки на покупку
-func (s *ordersService) OrderBuyLimit(ctx context.Context, figi string, quantity int64, price *domain.Quotation) (*domain.PostOrderResponse, error) {
+func (s *ordersService) OrderBuyLimit(ctx context.Context, figi string, quantity int64, price *Quotation) (*PostOrderResponse, error) {
 	const (
 		ORDER_DIRECTION = tkf.OrderDirection_ORDER_DIRECTION_BUY
 		ORDER_TYPE      = tkf.OrderType_ORDER_TYPE_LIMIT
@@ -91,7 +90,7 @@ func (s *ordersService) OrderBuyLimit(ctx context.Context, figi string, quantity
 }
 
 // Метод выставления лимитной заявки на продажу
-func (s *ordersService) OrderSellLimit(ctx context.Context, figi string, quantity int64, price *domain.Quotation) (*domain.PostOrderResponse, error) {
+func (s *ordersService) OrderSellLimit(ctx context.Context, figi string, quantity int64, price *Quotation) (*PostOrderResponse, error) {
 	const (
 		ORDER_DIRECTION = tkf.OrderDirection_ORDER_DIRECTION_SELL
 		ORDER_TYPE      = tkf.OrderType_ORDER_TYPE_LIMIT
@@ -101,7 +100,7 @@ func (s *ordersService) OrderSellLimit(ctx context.Context, figi string, quantit
 }
 
 // Метод выставления рыночной заявки на покупку
-func (s *ordersService) OrderBuyMarket(ctx context.Context, figi string, quantity int64, price *domain.Quotation) (*domain.PostOrderResponse, error) {
+func (s *ordersService) OrderBuyMarket(ctx context.Context, figi string, quantity int64, price *Quotation) (*PostOrderResponse, error) {
 	const (
 		ORDER_DIRECTION = tkf.OrderDirection_ORDER_DIRECTION_BUY
 		ORDER_TYPE      = tkf.OrderType_ORDER_TYPE_MARKET
@@ -111,7 +110,7 @@ func (s *ordersService) OrderBuyMarket(ctx context.Context, figi string, quantit
 }
 
 // Метод выставления рыночной заявки на продажу
-func (s *ordersService) OrderSellMarket(ctx context.Context, figi string, quantity int64, price *domain.Quotation) (*domain.PostOrderResponse, error) {
+func (s *ordersService) OrderSellMarket(ctx context.Context, figi string, quantity int64, price *Quotation) (*PostOrderResponse, error) {
 	const (
 		ORDER_DIRECTION = tkf.OrderDirection_ORDER_DIRECTION_SELL
 		ORDER_TYPE      = tkf.OrderType_ORDER_TYPE_MARKET
@@ -135,7 +134,7 @@ func (s *ordersService) CancelOrder(ctx context.Context, orderId string) (*time.
 }
 
 // Метод получения статуса торгового поручения
-func (s *ordersService) OrderState(ctx context.Context, orderId string) (*domain.OrderState, error) {
+func (s *ordersService) OrderState(ctx context.Context, orderId string) (*OrderState, error) {
 	resp, err := s.client.GetOrderState(ctx, &tkf.GetOrderStateRequest{
 		AccountId: s.accountID,
 		OrderId:   orderId,
@@ -144,9 +143,9 @@ func (s *ordersService) OrderState(ctx context.Context, orderId string) (*domain
 		return nil, err
 	}
 
-	var stages []*domain.OrderStage
+	var stages []*OrderStage
 	for _, v := range resp.GetStages() {
-		stages = append(stages, &domain.OrderStage{
+		stages = append(stages, &OrderStage{
 			Price:    convMoneyValue(v.GetPrice()),
 			Quantity: v.GetQuantity(),
 			TradeId:  v.GetTradeId(),
@@ -159,7 +158,7 @@ func (s *ordersService) OrderState(ctx context.Context, orderId string) (*domain
 }
 
 // Метод получения списка активных заявок по счёту
-func (s *ordersService) Orders(ctx context.Context) ([]*domain.OrderState, error) {
+func (s *ordersService) Orders(ctx context.Context) ([]*OrderState, error) {
 	resp, err := s.client.GetOrders(ctx, &tkf.GetOrdersRequest{
 		AccountId: s.accountID,
 	})
@@ -167,7 +166,7 @@ func (s *ordersService) Orders(ctx context.Context) ([]*domain.OrderState, error
 		return nil, err
 	}
 
-	var orders []*domain.OrderState
+	var orders []*OrderState
 	for _, v := range resp.GetOrders() {
 		orders = append(orders, convOrderState(v))
 	}
@@ -200,9 +199,9 @@ func (s *ordersService) Orders(ctx context.Context) ([]*domain.OrderState, error
 func (s *ordersService) postOrder(ctx context.Context,
 	figi string,
 	quantity int64,
-	price *domain.Quotation,
+	price *Quotation,
 	orderdirection tkf.OrderDirection,
-	ordertype tkf.OrderType) (*domain.PostOrderResponse, error) {
+	ordertype tkf.OrderType) (*PostOrderResponse, error) {
 	id := uuid.New()
 	p := tkf.Quotation{
 		Units: price.Units,

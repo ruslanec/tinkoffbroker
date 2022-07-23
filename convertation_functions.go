@@ -1,32 +1,31 @@
-package service
+package tinkoffbroker
 
 import (
 	"time"
 
-	domain "github.com/ruslanec/tinkoffbroker"
-	tkf "github.com/ruslanec/tinkoffbroker/service/proto"
+	tkf "github.com/ruslanec/tinkoffbroker/proto"
 )
 
-// Конвертация tkf.MoneyValue в domain.MoneyValue
-func convMoneyValue(moneyValue *tkf.MoneyValue) *domain.MoneyValue {
-	return &domain.MoneyValue{
+// Конвертация tkf.MoneyValue в MoneyValue
+func convMoneyValue(moneyValue *tkf.MoneyValue) *MoneyValue {
+	return &MoneyValue{
 		Currency: moneyValue.GetCurrency(),
 		Units:    moneyValue.GetUnits(),
 		Nano:     moneyValue.GetNano(),
 	}
 }
 
-// Конвертация tkf.Quotation в domain.Quotation
-func convQuotation(quotation *tkf.Quotation) *domain.Quotation {
-	return &domain.Quotation{
+// Конвертация tkf.Quotation в Quotation
+func convQuotation(quotation *tkf.Quotation) *Quotation {
+	return &Quotation{
 		Units: quotation.GetUnits(),
 		Nano:  quotation.GetNano(),
 	}
 }
 
-// Конвертация tkf.PortfolioPosition в domain.PortfolioPosition
-func convPortfolioPosition(portfolioPosition *tkf.PortfolioPosition) *domain.PortfolioPosition {
-	return &domain.PortfolioPosition{
+// Конвертация tkf.PortfolioPosition в PortfolioPosition
+func convPortfolioPosition(portfolioPosition *tkf.PortfolioPosition) *PortfolioPosition {
+	return &PortfolioPosition{
 		Figi:                     portfolioPosition.GetFigi(),
 		InstrumentType:           portfolioPosition.GetInstrumentType(),
 		Quantity:                 convQuotation(portfolioPosition.GetQuantity()),
@@ -40,13 +39,13 @@ func convPortfolioPosition(portfolioPosition *tkf.PortfolioPosition) *domain.Por
 	}
 }
 
-// Конвертация tkf.Operation в domain.Operation
-func convOperation(operation *tkf.Operation) *domain.Operation {
+// Конвертация tkf.Operation в Operation
+func convOperation(operation *tkf.Operation) *Operation {
 	date := operation.GetDate().AsTime()
-	var trades []*domain.OperationTrade
+	var trades []*OperationTrade
 	for _, v := range operation.GetTrades() {
 		dt := v.GetDateTime().AsTime()
-		trades = append(trades, &domain.OperationTrade{
+		trades = append(trades, &OperationTrade{
 			TradeId:  v.GetTradeId(),
 			DateTime: &dt,
 			Quantity: operation.GetQuantity(),
@@ -54,39 +53,39 @@ func convOperation(operation *tkf.Operation) *domain.Operation {
 		})
 	}
 
-	return &domain.Operation{
+	return &Operation{
 		Id:                operation.GetId(),
 		ParentOperationId: operation.GetParentOperationId(),
 		Currency:          operation.GetCurrency(),
 		Payment:           convMoneyValue(operation.GetPayment()),
 		Price:             convMoneyValue(operation.GetPrice()),
-		State:             domain.OperationState(operation.GetState()),
+		State:             OperationState(operation.GetState()),
 		Quantity:          operation.GetQuantity(),
 		QuantityRest:      operation.GetQuantityRest(),
 		Figi:              operation.GetFigi(),
 		InstrumentType:    operation.GetInstrumentType(),
 		Date:              &date,
 		Type:              operation.GetType(),
-		OperationType:     domain.OperationType(operation.GetOperationType()),
+		OperationType:     OperationType(operation.GetOperationType()),
 		Trades:            trades,
 	}
 
 }
 
-// Конвертация tkf.OrderState в domain.OrderState
-func convOrderState(orderState *tkf.OrderState) *domain.OrderState {
-	var stages []*domain.OrderStage
+// Конвертация tkf.OrderState в OrderState
+func convOrderState(orderState *tkf.OrderState) *OrderState {
+	var stages []*OrderStage
 	for _, v := range orderState.GetStages() {
-		stages = append(stages, &domain.OrderStage{
+		stages = append(stages, &OrderStage{
 			Price:    convMoneyValue(v.GetPrice()),
 			Quantity: v.GetQuantity(),
 			TradeId:  v.GetTradeId(),
 		})
 	}
 	date := orderState.GetOrderDate().AsTime()
-	return &domain.OrderState{
+	return &OrderState{
 		OrderId:               orderState.GetOrderId(),
-		ExecutionReportStatus: domain.OrderExecutionReportStatus(orderState.GetExecutionReportStatus()),
+		ExecutionReportStatus: OrderExecutionReportStatus(orderState.GetExecutionReportStatus()),
 		LotsRequested:         orderState.GetLotsRequested(),
 		LotsExecuted:          orderState.GetLotsExecuted(),
 		InitialOrderPrice:     convMoneyValue(orderState.GetInitialOrderPrice()),
@@ -96,21 +95,21 @@ func convOrderState(orderState *tkf.OrderState) *domain.OrderState {
 		InitialCommission:     convMoneyValue(orderState.GetInitialCommission()),
 		ExecutedCommission:    convMoneyValue(orderState.GetExecutedCommission()),
 		Figi:                  orderState.GetFigi(),
-		Direction:             domain.OrderDirection(orderState.GetDirection()),
+		Direction:             OrderDirection(orderState.GetDirection()),
 		InitialSecurityPrice:  convMoneyValue(orderState.GetInitialSecurityPrice()),
 		Stages:                stages,
 		ServiceCommission:     convMoneyValue(orderState.GetServiceCommission()),
 		Currency:              orderState.GetCurrency(),
-		OrderType:             domain.OrderType(orderState.GetOrderType()),
+		OrderType:             OrderType(orderState.GetOrderType()),
 		OrderDate:             &date,
 	}
 }
 
-// Конвертация tkf.PostOrderResponse в domain.PostOrderResponse
-func convPostOrderResponse(postOrderResponse *tkf.PostOrderResponse) *domain.PostOrderResponse {
-	return &domain.PostOrderResponse{
+// Конвертация tkf.PostOrderResponse в PostOrderResponse
+func convPostOrderResponse(postOrderResponse *tkf.PostOrderResponse) *PostOrderResponse {
+	return &PostOrderResponse{
 		OrderId:               postOrderResponse.GetOrderId(),
-		ExecutionReportStatus: domain.OrderExecutionReportStatus(postOrderResponse.GetExecutionReportStatus()),
+		ExecutionReportStatus: OrderExecutionReportStatus(postOrderResponse.GetExecutionReportStatus()),
 		LotsRequested:         postOrderResponse.GetLotsRequested(),
 		LotsExecuted:          postOrderResponse.GetLotsExecuted(),
 		InitialOrderPrice:     convMoneyValue(postOrderResponse.GetInitialOrderPrice()),
@@ -120,18 +119,18 @@ func convPostOrderResponse(postOrderResponse *tkf.PostOrderResponse) *domain.Pos
 		ExecutedCommission:    convMoneyValue(postOrderResponse.GetExecutedCommission()),
 		AciValue:              convMoneyValue(postOrderResponse.GetAciValue()),
 		Figi:                  postOrderResponse.GetFigi(),
-		Direction:             domain.OrderDirection(postOrderResponse.GetDirection()),
+		Direction:             OrderDirection(postOrderResponse.GetDirection()),
 		InitialSecurityPrice:  convMoneyValue(postOrderResponse.GetInitialSecurityPrice()),
-		OrderType:             domain.OrderType(postOrderResponse.GetOrderType()),
+		OrderType:             OrderType(postOrderResponse.GetOrderType()),
 		Message:               postOrderResponse.GetMessage(),
 		InitialOrderPricePt:   convQuotation(postOrderResponse.GetInitialOrderPricePt()),
 	}
 }
 
-// Конвертация tkf.Share в domain.Share
-func convShare(share *tkf.Share) *domain.Share {
+// Конвертация tkf.Share в Share
+func convShare(share *tkf.Share) *Share {
 	ipoDate := share.GetIpoDate().AsTime()
-	return &domain.Share{
+	return &Share{
 		Figi:                  share.GetFigi(),
 		Ticker:                share.GetTicker(),
 		ClassCode:             share.GetClassCode(),
@@ -154,23 +153,23 @@ func convShare(share *tkf.Share) *domain.Share {
 		Sector:                share.GetSector(),
 		IssueSizePlan:         share.GetIssueSizePlan(),
 		Nominal:               convMoneyValue(share.GetNominal()),
-		TradingStatus:         domain.SecurityTradingStatus(share.GetTradingStatus()),
+		TradingStatus:         SecurityTradingStatus(share.GetTradingStatus()),
 		OtcFlag:               share.GetOtcFlag(),
 		BuyAvailableFlag:      share.GetBuyAvailableFlag(),
 		SellAvailableFlag:     share.GetSellAvailableFlag(),
 		DivYieldFlag:          share.GetDivYieldFlag(),
-		ShareType:             domain.ShareType(share.GetShareType()),
+		ShareType:             ShareType(share.GetShareType()),
 		MinPriceIncrement:     convQuotation(share.GetMinPriceIncrement()),
 		ApiTradeAvailableFlag: share.GetApiTradeAvailableFlag(),
 	}
 }
 
-// Конвертация tkf.Bond в domain.Bond
-func convBond(bond *tkf.Bond) *domain.Bond {
+// Конвертация tkf.Bond в Bond
+func convBond(bond *tkf.Bond) *Bond {
 	maturityDate := bond.GetMaturityDate().AsTime()
 	stateRegDate := bond.GetStateRegDate().AsTime()
 	placementDate := bond.GetPlacementDate().AsTime()
-	return &domain.Bond{
+	return &Bond{
 		Figi:                  bond.GetFigi(),
 		Ticker:                bond.GetTicker(),
 		ClassCode:             bond.GetClassCode(),
@@ -198,7 +197,7 @@ func convBond(bond *tkf.Bond) *domain.Bond {
 		Sector:                bond.GetSector(),
 		IssueKind:             bond.GetIssueKind(),
 		IssueSize:             bond.GetIssueSize(),
-		TradingStatus:         domain.SecurityTradingStatus(bond.GetTradingStatus()),
+		TradingStatus:         SecurityTradingStatus(bond.GetTradingStatus()),
 		OtcFlag:               bond.GetOtcFlag(),
 		BuyAvailableFlag:      bond.GetBuyAvailableFlag(),
 		SellAvailableFlag:     bond.GetSellAvailableFlag(),
@@ -210,9 +209,9 @@ func convBond(bond *tkf.Bond) *domain.Bond {
 	}
 }
 
-// Конвертация tkf.Currency в domain.Currency
-func convCurrency(currency *tkf.Currency) *domain.Currency {
-	return &domain.Currency{
+// Конвертация tkf.Currency в Currency
+func convCurrency(currency *tkf.Currency) *Currency {
+	return &Currency{
 		Figi:                  currency.GetFigi(),
 		Ticker:                currency.GetTicker(),
 		ClassCode:             currency.GetClassCode(),
@@ -231,7 +230,7 @@ func convCurrency(currency *tkf.Currency) *domain.Currency {
 		Nominal:               convMoneyValue(currency.GetNominal()),
 		CountryOfRisk:         currency.GetCountryOfRisk(),
 		CountryOfRiskName:     currency.GetCountryOfRiskName(),
-		TradingStatus:         domain.SecurityTradingStatus(currency.GetTradingStatus()),
+		TradingStatus:         SecurityTradingStatus(currency.GetTradingStatus()),
 		OtcFlag:               currency.GetOtcFlag(),
 		SellAvailableFlag:     currency.GetSellAvailableFlag(),
 		IsoCurrencyName:       currency.GetIsoCurrencyName(),
@@ -240,10 +239,10 @@ func convCurrency(currency *tkf.Currency) *domain.Currency {
 	}
 }
 
-// Конвертация tkf.Etf в domain.Etf
-func convEtf(etf *tkf.Etf) *domain.Etf {
+// Конвертация tkf.Etf в Etf
+func convEtf(etf *tkf.Etf) *Etf {
 	releasedDate := etf.ReleasedDate.AsTime()
-	return &domain.Etf{
+	return &Etf{
 		Figi:                  etf.GetFigi(),
 		Ticker:                etf.GetTicker(),
 		ClassCode:             etf.GetClassCode(),
@@ -267,7 +266,7 @@ func convEtf(etf *tkf.Etf) *domain.Etf {
 		CountryOfRiskName:     etf.GetCountryOfRiskName(),
 		Sector:                etf.GetSector(),
 		RebalancingFreq:       etf.GetRebalancingFreq(),
-		TradingStatus:         domain.SecurityTradingStatus(etf.GetTradingStatus()),
+		TradingStatus:         SecurityTradingStatus(etf.GetTradingStatus()),
 		OtcFlag:               etf.GetOtcFlag(),
 		BuyAvailableFlag:      etf.GetBuyAvailableFlag(),
 		SellAvailableFlag:     etf.GetSellAvailableFlag(),
@@ -276,12 +275,12 @@ func convEtf(etf *tkf.Etf) *domain.Etf {
 	}
 }
 
-// Конвертация tkf.Future в domain.Future
-func convFuture(future *tkf.Future) *domain.Future {
+// Конвертация tkf.Future в Future
+func convFuture(future *tkf.Future) *Future {
 	firstTradeDate := future.GetFirstTradeDate().AsTime()
 	lastTradeDate := future.GetLastTradeDate().AsTime()
 	expirationDate := future.GetExpirationDate().AsTime()
-	return &domain.Future{
+	return &Future{
 		Figi:                  future.GetFigi(),
 		Ticker:                future.GetTicker(),
 		ClassCode:             future.GetClassCode(),
@@ -306,7 +305,7 @@ func convFuture(future *tkf.Future) *domain.Future {
 		CountryOfRiskName:     future.GetCountryOfRiskName(),
 		Sector:                future.GetSector(),
 		ExpirationDate:        &expirationDate,
-		TradingStatus:         domain.SecurityTradingStatus(future.GetTradingStatus()),
+		TradingStatus:         SecurityTradingStatus(future.GetTradingStatus()),
 		OtcFlag:               future.GetOtcFlag(),
 		BuyAvailableFlag:      future.GetBuyAvailableFlag(),
 		SellAvailableFlag:     future.GetSellAvailableFlag(),
@@ -315,47 +314,47 @@ func convFuture(future *tkf.Future) *domain.Future {
 	}
 }
 
-// Конвертация tkf.AssetSecurity в domain.AssetSecurity
-func convAssetSecurity(tkfAS *tkf.AssetSecurity) *domain.AssetSecurity {
-	// Конвертация tkf.AssetShare в domain.tkf.AssetShare
+// Конвертация tkf.AssetSecurity в AssetSecurity
+func convAssetSecurity(tkfAS *tkf.AssetSecurity) *AssetSecurity {
+	// Конвертация tkf.AssetShare в tkf.AssetShare
 	tkfShare := tkfAS.GetShare()
-	var share *domain.AssetShare
+	var share *AssetShare
 	if tkfAS.GetType() == "share" && tkfShare != nil {
 		share = convAssetShare(tkfShare)
 	}
 
-	// Конвертация tkf.AssetBond в domain.AssetBond
+	// Конвертация tkf.AssetBond в AssetBond
 	tkfBond := tkfAS.GetBond()
-	var bond *domain.AssetBond
+	var bond *AssetBond
 	if tkfAS.GetType() == "bond" && tkfBond != nil {
 		bond = convAssetBond(tkfBond)
 	}
 
-	// Конвертация tkf.AssetStructuredProduct в domain.AssetStructuredProduct
+	// Конвертация tkf.AssetStructuredProduct в AssetStructuredProduct
 	tkfSP := tkfAS.GetSp()
-	var structuredProduct *domain.AssetStructuredProduct
+	var structuredProduct *AssetStructuredProduct
 	if tkfAS.GetType() == "sp" && tkfSP != nil {
 		structuredProduct = convAssetStructuredProduct(tkfSP)
 	}
 
-	// Конвертация tkf.AssetEtf в domain.AssetEtf
+	// Конвертация tkf.AssetEtf в AssetEtf
 	tkfEtf := tkfAS.GetEtf()
-	var etf *domain.AssetEtf
+	var etf *AssetEtf
 	if tkfAS.GetType() == "etf" && tkfEtf != nil {
 		etf = convAssetEtf(tkfEtf)
 	}
 
-	// Конвертация tkf.AssetClearingCertificate в domain.AssetClearingCertificate
+	// Конвертация tkf.AssetClearingCertificate в AssetClearingCertificate
 	tkfCC := tkfAS.GetClearingCertificate()
-	var clearingCertificate *domain.AssetClearingCertificate
+	var clearingCertificate *AssetClearingCertificate
 	if tkfAS.GetType() == "clearing_certificate" && tkfCC != nil {
-		clearingCertificate = &domain.AssetClearingCertificate{
+		clearingCertificate = &AssetClearingCertificate{
 			Nominal:         *convQuotation(tkfCC.GetNominal()),
 			NominalCurrency: tkfCC.GetNominalCurrency(),
 		}
 	}
 
-	return &domain.AssetSecurity{
+	return &AssetSecurity{
 		Isin:                tkfAS.GetIsin(),
 		Type:                tkfAS.GetType(),
 		Share:               share,
@@ -366,8 +365,8 @@ func convAssetSecurity(tkfAS *tkf.AssetSecurity) *domain.AssetSecurity {
 	}
 }
 
-// Конвертация tkf.AssetShare в domain.tkf.AssetShare
-func convAssetShare(assetShare *tkf.AssetShare) *domain.AssetShare {
+// Конвертация tkf.AssetShare в tkf.AssetShare
+func convAssetShare(assetShare *tkf.AssetShare) *AssetShare {
 	if assetShare == nil {
 		return nil
 	}
@@ -375,8 +374,8 @@ func convAssetShare(assetShare *tkf.AssetShare) *domain.AssetShare {
 	ipoDate := assetShare.GetIpoDate().AsTime()
 	regestryDate := assetShare.GetRegistryDate().AsTime()
 	placementDate := assetShare.GetPlacementDate().AsTime()
-	return &domain.AssetShare{
-		Type:               domain.ShareType(assetShare.GetType()),
+	return &AssetShare{
+		Type:               ShareType(assetShare.GetType()),
 		IssueSize:          *convQuotation(assetShare.GetIssueSize()),
 		Nominal:            *convQuotation(assetShare.GetNominal()),
 		NominalCurrency:    assetShare.GetNominalCurrency(),
@@ -394,8 +393,8 @@ func convAssetShare(assetShare *tkf.AssetShare) *domain.AssetShare {
 	}
 }
 
-// Конвертация tkf.AssetBond в domain.AssetBond
-func convAssetBond(assetBond *tkf.AssetBond) *domain.AssetBond {
+// Конвертация tkf.AssetBond в AssetBond
+func convAssetBond(assetBond *tkf.AssetBond) *AssetBond {
 	if assetBond == nil {
 		return nil
 	}
@@ -403,7 +402,7 @@ func convAssetBond(assetBond *tkf.AssetBond) *domain.AssetBond {
 	maturityDate := assetBond.GetMaturityDate().AsTime()
 	stateRegDate := assetBond.GetStateRegDate().AsTime()
 	placementDate := assetBond.GetPlacementDate().AsTime()
-	return &domain.AssetBond{
+	return &AssetBond{
 		CurrentNominal:        *convQuotation(assetBond.GetCurrentNominal()),
 		BorrowName:            assetBond.GetBorrowName(),
 		IssueSize:             *convQuotation(assetBond.GetIssueSize()),
@@ -428,21 +427,21 @@ func convAssetBond(assetBond *tkf.AssetBond) *domain.AssetBond {
 	}
 }
 
-// Конвертация tkf.AssetStructuredProduct в domain.AssetStructuredProduct
-func convAssetStructuredProduct(assetSP *tkf.AssetStructuredProduct) *domain.AssetStructuredProduct {
+// Конвертация tkf.AssetStructuredProduct в AssetStructuredProduct
+func convAssetStructuredProduct(assetSP *tkf.AssetStructuredProduct) *AssetStructuredProduct {
 	if assetSP == nil {
 		return nil
 	}
 
 	maturityDate := assetSP.GetMaturityDate().AsTime()
 	placementDate := assetSP.GetPlacementDate().AsTime()
-	return &domain.AssetStructuredProduct{
+	return &AssetStructuredProduct{
 		BorrowName:      assetSP.GetBorrowName(),
 		Nominal:         *convQuotation(assetSP.GetNominal()),
 		NominalCurrency: assetSP.GetNominalCurrency(),
-		Type:            domain.StructuredProductType(assetSP.GetType()),
+		Type:            StructuredProductType(assetSP.GetType()),
 		LogicPortfolio:  assetSP.GetLogicPortfolio(),
-		AssetType:       domain.AssetType(assetSP.GetAssetType()),
+		AssetType:       AssetType(assetSP.GetAssetType()),
 		BasicAsset:      assetSP.GetBasicAsset(),
 		SafetyBarrier:   *convQuotation(assetSP.GetSafetyBarrier()),
 		MaturityDate:    &maturityDate,
@@ -453,8 +452,8 @@ func convAssetStructuredProduct(assetSP *tkf.AssetStructuredProduct) *domain.Ass
 	}
 }
 
-// Конвертация tkf.AssetEtf в domain.AssetEtf
-func convAssetEtf(assetEtf *tkf.AssetEtf) *domain.AssetEtf {
+// Конвертация tkf.AssetEtf в AssetEtf
+func convAssetEtf(assetEtf *tkf.AssetEtf) *AssetEtf {
 	if assetEtf == nil {
 		return nil
 	}
@@ -465,7 +464,7 @@ func convAssetEtf(assetEtf *tkf.AssetEtf) *domain.AssetEtf {
 		tkfRT := v.AsTime()
 		rebalancingDates = append(rebalancingDates, &tkfRT)
 	}
-	return &domain.AssetEtf{
+	return &AssetEtf{
 		TotalExpense:              *convQuotation(assetEtf.GetTotalExpense()),
 		HurdleRate:                *convQuotation(assetEtf.GetHurdleRate()),
 		PerformanceFee:            *convQuotation(assetEtf.GetPerformanceFee()),
@@ -500,9 +499,9 @@ func convAssetEtf(assetEtf *tkf.AssetEtf) *domain.AssetEtf {
 	}
 }
 
-// Конвертация tkf.Brand в domain.Brand
-func convBrand(brand *tkf.Brand) *domain.Brand {
-	return &domain.Brand{
+// Конвертация tkf.Brand в Brand
+func convBrand(brand *tkf.Brand) *Brand {
+	return &Brand{
 		Uid:               brand.GetUid(),
 		Name:              brand.GetName(),
 		Description:       brand.GetDescription(),
@@ -514,22 +513,22 @@ func convBrand(brand *tkf.Brand) *domain.Brand {
 	}
 }
 
-// Конвертация []*tkf.AssetInstrument в []*domain.AssetInstrument
-func convAssetInstrument(instrument *tkf.AssetInstrument) *domain.AssetInstrument {
+// Конвертация []*tkf.AssetInstrument в []*AssetInstrument
+func convAssetInstrument(instrument *tkf.AssetInstrument) *AssetInstrument {
 	if instrument == nil {
 		return nil
 	}
 
-	var links []*domain.InstrumentLink
+	var links []*InstrumentLink
 	for _, tkfLink := range instrument.GetLinks() {
-		link := &domain.InstrumentLink{
+		link := &InstrumentLink{
 			Type:          tkfLink.GetType(),
 			InstrumentUid: tkfLink.GetInstrumentUid(),
 		}
 		links = append(links, link)
 	}
 
-	return &domain.AssetInstrument{
+	return &AssetInstrument{
 		Uid:            instrument.GetUid(),
 		Figi:           instrument.GetFigi(),
 		InstrumentType: instrument.GetInstrumentType(),
@@ -539,13 +538,13 @@ func convAssetInstrument(instrument *tkf.AssetInstrument) *domain.AssetInstrumen
 	}
 }
 
-// Конвертация tkf.FavoriteInstrument в domain.FavoriteInstrument
-func convFavoriteInstrument(instrument *tkf.FavoriteInstrument) *domain.FavoriteInstrument {
+// Конвертация tkf.FavoriteInstrument в FavoriteInstrument
+func convFavoriteInstrument(instrument *tkf.FavoriteInstrument) *FavoriteInstrument {
 	if instrument == nil {
 		return nil
 	}
 
-	return &domain.FavoriteInstrument{
+	return &FavoriteInstrument{
 		Figi:              instrument.GetFigi(),
 		Ticker:            instrument.GetTicker(),
 		ClassCode:         instrument.GetClassCode(),
@@ -556,13 +555,13 @@ func convFavoriteInstrument(instrument *tkf.FavoriteInstrument) *domain.Favorite
 	}
 }
 
-// Конвертация tkf.InstrumentShort в domain.InstrumentShort
-func convInstrumentShort(instrument *tkf.InstrumentShort) *domain.InstrumentShort {
+// Конвертация tkf.InstrumentShort в InstrumentShort
+func convInstrumentShort(instrument *tkf.InstrumentShort) *InstrumentShort {
 	if instrument == nil {
 		return nil
 	}
 
-	return &domain.InstrumentShort{
+	return &InstrumentShort{
 		Isin:              instrument.GetIsin(),
 		Figi:              instrument.GetFigi(),
 		Ticker:            instrument.GetTicker(),

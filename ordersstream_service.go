@@ -1,11 +1,11 @@
-package service
+package tinkoffbroker
 
 import (
 	"context"
 	"errors"
 	"fmt"
 
-	tkf "github.com/ruslanec/tinkoffbroker/service/proto"
+	tkf "github.com/ruslanec/tinkoffbroker/proto"
 	"google.golang.org/grpc"
 )
 
@@ -15,7 +15,7 @@ type ordersStreamService struct {
 	streamClient tkf.OrdersStreamService_TradesStreamClient
 }
 
-func NewOrdersStreamService(conn *grpc.ClientConn) service.OrdersStreamService {
+func NewOrdersStreamService(conn *grpc.ClientConn) OrdersStreamService {
 	return &ordersStreamService{
 		conn:   conn,
 		client: tkf.NewOrdersStreamServiceClient(conn),
