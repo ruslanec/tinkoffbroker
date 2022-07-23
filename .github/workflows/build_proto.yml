@@ -1,0 +1,56 @@
+name: build proto files Tinkoff InvestAPI
+
+on:
+  schedule:
+    # Генерация файлов 1 числа каждого месяца
+    - cron:  '* * 1 * *'
+  workflow_dispatch:
+
+jobs:
+  build_proto:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout repository https://github.com/Tinkoff/investAPI.git
+      uses: actions/checkout@master
+      with:
+        repository: Tinkoff/investAPI
+        fetch-depth: 2
+
+    - name: Install protoc compiler
+      run: |
+        sudo apt-get update 
+        sudo apt-get install -y protobuf-compiler
+        sudo apt-get install -y golang-go
+        export GO111MODULE=on
+        export GOPATH=$HOME/go
+        export PATH=$PATH:$GOPATH/bin
+        go get -u google.golang.org/protobuf/cmd/protoc-gen-go
+        go install google.golang.org/protobuf/cmd/protoc-gen-go
+        go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
+        go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+
+    - name: Build proto files
+      run: |
+        export GOPATH=$HOME/go
+        export PATH=$PATH:$GOPATH/bin
+        cd src/docs/contracts/
+        protoc --go_out=. ./*.proto
+        protoc --go-grpc_out=. ./*.proto
+    
+    - name: Save proto files as artifact
+      uses: actions/upload-artifact@v2
+      with: 
+        name: proto
+        path: src/docs/contracts/
+
+    - name: Send telegram message on build
+      if: always()
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHANNEL }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+            Build proto files from https://github.com/Tinkoff/investAPI.git
+            
+            Build: ${{ github.job }} job in workflow ${{ github.workflow }}
+            Status: ${{ job.status }}

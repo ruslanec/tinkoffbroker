@@ -1,0 +1,364 @@
+package tinkoffbroker
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"time"
+)
+
+type backtestClient struct {
+	period               *TimePeriod
+	availableInstruments []string
+	Client               Client
+	repository           repository.Repository
+}
+
+var (
+	ErrPeriodBounds = errors.New("error period bounds")
+)
+
+// Опциональные параметры
+type BackTestOption func(Client)
+
+// Хранение биржевой информации
+// Доступные варианты хранения данных:
+// filestorage - тексовые файлы в формате GOB
+// memorystorage - структуры данных в оперативной памяти
+// mongodb - документоориентированная база данных Mongo DB // TODO реализовать
+func WithRepository(s repository.Repository) BackTestOption {
+	return func(c Client) {
+		c.(*backtestClient).repository = s
+	}
+}
+
+func WithPeriod(p TimePeriod) BackTestOption {
+	return func(c Client) {
+		c.(*backtestClient).period = &p
+	}
+}
+
+// Конструктор
+func NewBackTest(period *TimePeriod, instruments []string, broker Client, opts ...BackTestOption) Client {
+	availableInstruments := make([]string, len(instruments))
+	copy(availableInstruments, instruments)
+	c := backtestClient{
+		period:               period,
+		availableInstruments: availableInstruments,
+		Client:               broker,
+	}
+
+	for _, opt := range opts {
+		opt(&c)
+	}
+
+	return &c
+}
+
+func (c *backtestClient) Init(ctx context.Context) error {
+	return nil
+}
+
+func (c *backtestClient) Run(ctx context.Context) (err error) {
+	return nil
+}
+
+// Close
+func (c *backtestClient) Close() {
+}
+
+func (c *backtestClient) Period() *TimePeriod {
+	return c.period
+}
+
+// Метод получения списка акций
+func (c *backtestClient) Shares(ctx context.Context) ([]*Share, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения фьючерса по FIGI
+func (c *backtestClient) ShareByFigi(ctx context.Context, figi string) (*Share, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка облигаций
+func (c *backtestClient) Bonds(ctx context.Context) (shares []*Bond, err error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения облигации по FIGI
+func (c *backtestClient) BondByFigi(ctx context.Context, figi string) (*Bond, error) {
+	return nil, ErrNotImplemented
+}
+
+// Запрос купонов по облигации
+func (c *backtestClient) BondCoupons(ctx context.Context, figi string, from, to *time.Time) ([]*Coupon, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения накопленного купонного дохода по облигации
+func (c *backtestClient) AccruedInterests(ctx context.Context, figi string, from, to *time.Time) ([]*AccruedInterest, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка валют
+func (c *backtestClient) Currencies(ctx context.Context) (shares []*Currency, err error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения валюты по FIGI
+func (c *backtestClient) CurrencyByFigi(ctx context.Context, figi string) (*Currency, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка инвестиционных фондов
+func (c *backtestClient) Etfs(ctx context.Context) ([]*Etf, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения инвестиционного фонда по его идентификатору
+func (c *backtestClient) EtfByFigi(ctx context.Context, figi string) (*Etf, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка фьючерсов
+func (c *backtestClient) Future(ctx context.Context) ([]*Future, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения фьючерса по FIGI
+func (c *backtestClient) FutureByFigi(ctx context.Context, figi string) (*Future, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения расписания торгов торговых площадок
+func (c *backtestClient) TradingSchedules(ctx context.Context, exchange string, from, to time.Time) ([]*TradingSchedule, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения размера гарантийного обеспечения по фьючерсам
+func (c *backtestClient) FuturesMargin(ctx context.Context, figi string) (*FuturesMargin, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения основной информации об инструменте
+func (c *backtestClient) InstrumentByFigi(ctx context.Context, figi string) (*Instrument, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод для получения событий выплаты дивидендов по инструменту
+func (c *backtestClient) Dividends(ctx context.Context, figi string, from, to *time.Time) ([]*Dividend, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения актива по его идентификатору
+func (c *backtestClient) AssetById(ctx context.Context, id string) (*AssetFull, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка активов
+func (c *backtestClient) Assets(ctx context.Context) ([]*Asset, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка избранных инструментов
+func (c *backtestClient) Favorites(ctx context.Context) ([]*FavoriteInstrument, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод редактирования списка избранных инструментов
+func (c *backtestClient) EditFavorites(ctx context.Context, figies []string, action EditFavoritesActionType) ([]*FavoriteInstrument, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка стран
+func (c *backtestClient) Countries(ctx context.Context) ([]*Country, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод поиска инструмента
+func (c *backtestClient) FindInstrument(ctx context.Context, query string) ([]*InstrumentShort, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка брендов
+func (c *backtestClient) Brands(ctx context.Context) ([]*Brand, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения бренда по его идентификатору
+func (c *backtestClient) BrandById(ctx context.Context, id string) (*Brand, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод запроса статуса торгов по инструментам
+func (c *backtestClient) TradingStatus(ctx context.Context, figi string) (*InstrumentTradingStatus, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод запроса последних цен по инструментам
+func (с *backtestClient) LastPrices(ctx context.Context, figi []string) ([]*LastPrice, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод запроса исторических свечей по инструменту
+func (c *backtestClient) Candles(ctx context.Context, figi string, from, to time.Time, interval CandleInterval) ([]*Candle, error) {
+	// Проверить наличие свечей в репозитории и вернуть их
+	if c.repository != nil {
+		candles, err := c.repository.Candles(ctx, figi, from, to, interval)
+		if err == nil {
+			return candles, nil
+		}
+	}
+
+	// Если свечи в репозитории отсутсвуют, запросить с сервера Tinkoff
+	if c.Client == nil {
+		return nil, fmt.Errorf("service MarketData not implemented")
+	}
+	candles, err := c.Client.Candles(ctx, figi, from, to, interval)
+	if err != nil {
+		return nil, err
+	}
+
+	// Если задан репозиторий, то сохранить свечи в репозитории
+	if c.repository != nil {
+		c.repository.AddCandles(ctx, figi, candles, interval)
+	}
+
+	return candles, nil
+}
+
+// Метод получения стакана по инструменту
+func (c *backtestClient) OrderBook(ctx context.Context, figi string, depth int32) (*OrderBook, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод выставления рыночной заявки на покупку
+func (c *backtestClient) OrderBuyLimit(ctx context.Context, figi string, quantity int64, price *Quotation) (*PostOrderResponse, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод выставления лимитной заявки на продажу
+func (c *backtestClient) OrderSellLimit(ctx context.Context, figi string, quantity int64, price *Quotation) (*PostOrderResponse, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод выставления рыночной заявки на покупку
+func (c *backtestClient) OrderBuyMarket(ctx context.Context, figi string, quantity int64, price *Quotation) (*PostOrderResponse, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод выставления рыночной заявки на продажу
+func (c *backtestClient) OrderSellMarket(ctx context.Context, figi string, quantity int64, price *Quotation) (*PostOrderResponse, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод отмены биржевой заявки
+func (c *backtestClient) CancelOrder(ctx context.Context, orderId string) (*time.Time, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения статуса торгового поручения
+func (c *backtestClient) OrderState(ctx context.Context, orderId string) (*OrderState, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка активных заявок по счёту
+func (c *backtestClient) Orders(ctx context.Context) ([]*OrderState, error) {
+	return nil, ErrNotImplemented
+}
+
+// Создать подписку на поток сделок пользователя
+func (c *backtestClient) SubscribeOrderTrades(ctx context.Context) error {
+	return ErrNotImplemented
+}
+
+// Отписаться от потока сделок пользователя
+func (c *backtestClient) UnsubscribeOrderTrades(ctx context.Context) error {
+	return ErrNotImplemented
+}
+
+// Метод получения портфеля по счёту
+func (c *backtestClient) Portfolio(ctx context.Context) (*Portfolio, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка операций по счёту
+func (c *backtestClient) Operations(ctx context.Context, from, to *time.Time, state OperationState, figi string) ([]*Operation, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения списка позиций по счёту
+func (c *backtestClient) Positions(ctx context.Context) (*Positions, error) {
+	return nil, ErrNotImplemented
+}
+
+// Метод получения открытых и активных счетов пользователя
+func (c *backtestClient) Accounts(ctx context.Context) ([]*Account, error) {
+	return nil, ErrNotImplemented
+}
+
+// Запрос тарифных лимитов пользователя
+func (c *backtestClient) UserTariff(ctx context.Context) (*UserTariff, error) {
+	return nil, ErrNotImplemented
+}
+
+// Расчёт маржинальных показателей по счёту
+func (c *backtestClient) MarginAttributes(ctx context.Context) (*MarginAttributes, error) {
+	return nil, ErrNotImplemented
+}
+
+// Подписка на свечи
+func (c *backtestClient) SubscribeCandles(ctx context.Context, candles []*CandleInstrument) error {
+	return ErrNotImplemented
+}
+
+// Закрытие подписки на свечи
+func (c *backtestClient) UnsubscribeCandles(ctx context.Context, candles []*CandleInstrument) error {
+	return ErrNotImplemented
+}
+
+// Подписка на стакан
+func (c *backtestClient) SubscribeOrderBook(ctx context.Context, orderbooks []*OrderBookInstrument) error {
+	return ErrNotImplemented
+}
+
+// Закрытие подписки на стакан
+func (c *backtestClient) UnsubscribeOrderBook(ctx context.Context, orderbooks []*OrderBookInstrument) error {
+	return ErrNotImplemented
+}
+
+// Подписка на ленту сделок
+func (c *backtestClient) SubscribeTrades(ctx context.Context, trades []*TradeInstrument) error {
+	return ErrNotImplemented
+}
+
+// Закрытие подписки на ленту сделок
+func (c *backtestClient) UnsubscribeTrades(ctx context.Context, trades []*TradeInstrument) error {
+	return ErrNotImplemented
+}
+
+// Подписка на торговые статусы
+func (c *backtestClient) SubscribeInfo(ctx context.Context, instruments []*InfoInstrument) error {
+	return ErrNotImplemented
+}
+
+// Закрытие подписки на торговые статусы
+func (c *backtestClient) UnsubscribeInfo(ctx context.Context, instruments []*InfoInstrument) error {
+	return ErrNotImplemented
+}
+
+// Подписка на последнюю цену инструмента
+func (c *backtestClient) SubscribeLastPrices(ctx context.Context, lastprices []*LastPriceInstrument) error {
+	return ErrNotImplemented
+}
+
+// Закрытие подписки на последнюю цену инструмента
+func (c *backtestClient) UnsubscribeLastPrices(ctx context.Context, lastprices []*LastPriceInstrument) error {
+	return ErrNotImplemented
+}
+
+// Получение данных по подпискам
+func (c *backtestClient) Recv(ctx context.Context) (interface{}, error) {
+	return nil, ErrNotImplemented
+}
