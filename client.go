@@ -22,7 +22,6 @@ type Services struct {
 
 type client struct {
 	conn      *grpc.ClientConn
-	period    *TimePeriod
 	accountId string
 	services  Services
 }
@@ -101,14 +100,6 @@ func NewClient(conn *grpc.ClientConn, accountId string, opts ...Option) Client {
 		opt(&c)
 	}
 
-	if c.period == nil {
-		now := time.Now()
-		c.period = &TimePeriod{
-			Start: &now,
-			End:   &now,
-		}
-	}
-
 	return &c
 }
 
@@ -148,10 +139,6 @@ func (c *client) Close() {
 	ctx := context.Background()
 	c.services.OrdersStream.UnsubscribeOrderTrades(ctx)
 	c.conn.Close()
-}
-
-func (c *client) Period() TimePeriod {
-	return *c.period
 }
 
 // Метод получения списка акций

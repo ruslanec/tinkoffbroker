@@ -65,7 +65,7 @@ type AssetFull struct {
 	CodeNsd       string             `json:"code_nsd,omitempty"`       // Код НРД инструмента
 	Status        string             `json:"status,omitempty"`         // Статус актива
 	Brand         *Brand             `json:"brand,omitempty"`          // Бренд
-	UpdatedAt     *time.Time         `json:"updated___at,omitempty"`   // Дата и время последнего обновления записи
+	UpdatedAt     *time.Time         `json:"updated_at,omitempty"`     // Дата и время последнего обновления записи
 	BrCode        string             `json:"br_code,omitempty"`        // Код типа ц.б. по классификации Банка России
 	BrCodeName    string             `json:"br_code_name,omitempty"`   // Наименование кода типа ц.б. по классификации Банка России
 	Instruments   []*AssetInstrument `json:"instruments,omitempty"`    // Массив идентификаторов инструментов
@@ -98,7 +98,7 @@ type AssetShare struct {
 	PreferredShareType string     `json:"preferred_share_type,omitempty"` // Тип привилегированных акций
 	IpoDate            *time.Time `json:"ipo_date,omitempty"`             // Дата IPO
 	RegistryDate       *time.Time `json:"registry_date,omitempty"`        // Дата регистрации
-	DivYield           bool       `json:"div_yield_flag,omitempty"`       // Признак наличия дивидендной доходности.
+	DivYield           bool       `json:"div_yield,omitempty"`            // Признак наличия дивидендной доходности.
 	IssueKind          string     `json:"issue_kind,omitempty"`           // Форма выпуска ФИ
 	PlacementDate      *time.Time `json:"placement_date,omitempty"`       // Дата размещения акции
 	RepresIsin         string     `json:"repres_isin,omitempty"`          // ISIN базового актива
@@ -168,7 +168,7 @@ type AssetEtf struct {
 	Ucits                     bool         `json:"ucits,omitempty"`                        // Признак обязательства по отчетности перед регулятором.
 	ReleasedDate              *time.Time   `json:"released_date,omitempty"`                // Дата выпуска.
 	Description               string       `json:"description,omitempty"`                  // Описание фонда.
-	PrimaryIndexDescription   string       `json:"primary_index___description,omitempty"`  // Описание индекса, за которым следует фонд.
+	PrimaryIndexDescription   string       `json:"primary_index_description,omitempty"`    // Описание индекса, за которым следует фонд.
 	PrimaryIndexCompany       string       `json:"primary_index_company,omitempty"`        // Основные компании, в которые вкладывается фонд.
 	IndexRecoveryPeriod       Quotation    `json:"index_recovery_period,omitempty"`        // Срок восстановления индекса (после просадки).
 	InavCode                  string       `json:"inav_code,omitempty"`                    // IVAV-код.

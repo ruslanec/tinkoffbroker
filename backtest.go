@@ -8,7 +8,6 @@ import (
 )
 
 type backtestClient struct {
-	period               *TimePeriod
 	availableInstruments []string
 	Client               Client
 	repository           repository.Repository
@@ -65,10 +64,6 @@ func (c *backtestClient) Run(ctx context.Context) (err error) {
 
 // Close
 func (c *backtestClient) Close() {
-}
-
-func (c *backtestClient) Period() *TimePeriod {
-	return c.period
 }
 
 // Метод получения списка акций

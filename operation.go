@@ -64,26 +64,26 @@ const (
 
 //Сделка по операции.
 type OperationTrade struct {
-	TradeId  string      `json:"trade_id"`  //Идентификатор сделки
-	DateTime *time.Time  `json:"date_time"` //Дата и время сделки в часовом поясе UTC
-	Quantity int64       `json:"quantity"`  //Количество инструментов
-	Price    *MoneyValue `json:"price"`     //Цена
+	TradeId  string      `json:"trade_id,omitempty"`  //Идентификатор сделки
+	DateTime *time.Time  `json:"date_time,omitempty"` //Дата и время сделки в часовом поясе UTC
+	Quantity int64       `json:"quantity,omitempty"`  //Количество инструментов
+	Price    *MoneyValue `json:"price,omitempty"`     //Цена
 }
 
 //Данные по операции.
 type Operation struct {
-	Id                string            `json:"id"`                  //Идентификатор операции
-	ParentOperationId string            `json:"parent_operation_id"` //Идентификатор родительской операции
-	Currency          string            `json:"currency"`            //Валюта операции
-	Payment           *MoneyValue       `json:"payment"`             //Сумма операции
-	Price             *MoneyValue       `json:"price"`               //Цена операции
-	State             OperationState    `json:"state"`               //Статус операции
-	Quantity          int64             `json:"quantity"`            //Количество лотов инструмента
-	QuantityRest      int64             `json:"quantity_rest"`       //Неисполненный остаток по сделке
-	Figi              string            `json:"figi"`                //Figi-идентификатор инструмента, связанного с операцией
-	InstrumentType    string            `json:"instrument_type"`     //Тип инструмента. Возможные значения: </br>**bond** — облигация; </br>**share** — акция; </br>**currency** — валюта; </br>**etf** — фонд; </br>**futures** — фьючерс.
-	Date              *time.Time        `json:"date"`                //Дата и время операции в формате часовом поясе UTC
-	Type              string            `json:"type"`                //Текстовое описание типа операции
-	OperationType     OperationType     `json:"operation_type"`      //Тип операции
-	Trades            []*OperationTrade `json:"trades"`              //Массив сделок
+	Id                string            `json:"id,omitempty"`                  //Идентификатор операции
+	ParentOperationId string            `json:"parent_operation_id,omitempty"` //Идентификатор родительской операции
+	Currency          string            `json:"currency,omitempty"`            //Валюта операции
+	Payment           *MoneyValue       `json:"payment,omitempty"`             //Сумма операции
+	Price             *MoneyValue       `json:"price,omitempty"`               //Цена операции
+	State             OperationState    `json:"state,omitempty"`               //Статус операции
+	Quantity          int64             `json:"quantity,omitempty"`            //Количество лотов инструмента
+	QuantityRest      int64             `json:"quantity_rest,omitempty"`       //Неисполненный остаток по сделке
+	Figi              string            `json:"figi,omitempty"`                //Figi-идентификатор инструмента, связанного с операцией
+	InstrumentType    string            `json:"instrument_type,omitempty"`     //Тип инструмента. Возможные значения: </br>**bond** — облигация; </br>**share** — акция; </br>**currency** — валюта; </br>**etf** — фонд; </br>**futures** — фьючерс.
+	Date              *time.Time        `json:"date,omitempty"`                //Дата и время операции в формате часовом поясе UTC
+	Type              string            `json:"type,omitempty"`                //Текстовое описание типа операции
+	OperationType     OperationType     `json:"operation_type,omitempty"`      //Тип операции
+	Trades            []*OperationTrade `json:"trades,omitempty"`              //Массив сделок
 }

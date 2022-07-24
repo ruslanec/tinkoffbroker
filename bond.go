@@ -20,62 +20,62 @@ const (
 
 // Объект передачи информации об облигации.
 type Bond struct {
-	Figi                  string                `json:"figi"`                     // Figi-идентификатор инструмента.
-	Ticker                string                `json:"ticker"`                   // Тикер инструмента.
-	ClassCode             string                `json:"class_code"`               // Класс-код (секция торгов).
-	Isin                  string                `json:"isin"`                     // Isin-идентификатор инструмента.
-	Lot                   int32                 `json:"lot"`                      // Лотность инструмента. Возможно совершение операций только на количества ценной бумаги, кратные параметру *lot*. Подробнее: [лот](https:// tinkoff.github.io/investAPI/glossary#lot)
-	Currency              string                `json:"currency"`                 // Валюта расчётов.
-	Klong                 *Quotation            `json:"klong"`                    // Коэффициент ставки риска длинной позиции по инструменту.
-	Kshort                *Quotation            `json:"kshort"`                   // Коэффициент ставки риска короткой позиции по инструменту.
-	Dlong                 *Quotation            `json:"dlong"`                    // Ставка риска минимальной маржи в лонг. Подробнее: [ставка риска в лонг](https:// help.tinkoff.ru/margin-trade/long/risk-rate/)
-	Dshort                *Quotation            `json:"dshort"`                   // Ставка риска минимальной маржи в шорт. Подробнее: [ставка риска в шорт](https:// help.tinkoff.ru/margin-trade/short/risk-rate/)
-	DlongMin              *Quotation            `json:"dlong_min"`                // Ставка риска начальной маржи в лонг. Подробнее: [ставка риска в лонг](https:// help.tinkoff.ru/margin-trade/long/risk-rate/)
-	DshortMin             *Quotation            `json:"dshort_min"`               // Ставка риска начальной маржи в шорт. Подробнее: [ставка риска в шорт](https:// help.tinkoff.ru/margin-trade/short/risk-rate/)
-	ShortEnabledFlag      bool                  `json:"short_enabled_flag"`       // Признак доступности для операций в шорт.
-	Name                  string                `json:"name"`                     // Название инструмента.
-	Exchange              string                `json:"exchange"`                 // Торговая площадка.
-	CouponQuantityPerYear int32                 `json:"coupon_quantity_per_year"` // Количество выплат по купонам в год.
-	MaturityDate          *time.Time            `json:"maturity_date"`            // Дата погашения облигации в часовом поясе UTC.
-	Nominal               *MoneyValue           `json:"nominal"`                  // Номинал облигации.
-	StateRegDate          *time.Time            `json:"state_reg_date"`           // Дата выпуска облигации в часовом поясе UTC.
-	PlacementDate         *time.Time            `json:"placement_date"`           // Дата размещения в часовом поясе UTC.
-	PlacementPrice        *MoneyValue           `json:"placement_price"`          // Цена размещения.
-	AciValue              *MoneyValue           `json:"aci_value"`                // Значение НКД (накопленного купонного дохода) на дату.
-	CountryOfRisk         string                `json:"country_of_risk"`          // Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
-	CountryOfRiskName     string                `json:"country_of_risk_name"`     // Наименование страны риска, т.е. страны, в которой компания ведёт основной бизнес.
-	Sector                string                `json:"sector"`                   // Сектор экономики.
-	IssueKind             string                `json:"issue_kind"`               // Форма выпуска. Возможные значения: </br>**documentary** — документарная; </br>**non_documentary** — бездокументарная.
-	IssueSize             int64                 `json:"issue_size"`               // Размер выпуска.
-	IssueSizePlan         int64                 `json:"issue_size_plan"`          // Плановый размер выпуска.
-	TradingStatus         SecurityTradingStatus `json:"trading_status"`           // Текущий режим торгов инструмента.
-	OtcFlag               bool                  `json:"otc_flag"`                 // Признак внебиржевой ценной бумаги.
-	BuyAvailableFlag      bool                  `json:"buy_available_flag"`       // Признак доступности для покупки.
-	SellAvailableFlag     bool                  `json:"sell_available_flag"`      // Признак доступности для продажи.
-	FloatingCouponFlag    bool                  `json:"floating_coupon_flag"`     // Признак облигации с плавающим купоном.
-	PerpetualFlag         bool                  `json:"perpetual_flag"`           // Признак бессрочной облигации.
-	AmortizationFlag      bool                  `json:"amortization_flag"`        // Признак облигации с амортизацией долга.
-	MinPriceIncrement     *Quotation            `json:"min_price_increment"`      // Шаг цены.
-	ApiTradeAvailableFlag bool                  `json:"api_trade_available_flag"` // Признак доступности торгов через API.
+	Figi                  string                `json:"figi,omitempty"`                     // Figi-идентификатор инструмента.
+	Ticker                string                `json:"ticker,omitempty"`                   // Тикер инструмента.
+	ClassCode             string                `json:"class_code,omitempty"`               // Класс-код (секция торгов).
+	Isin                  string                `json:"isin,omitempty"`                     // Isin-идентификатор инструмента.
+	Lot                   int32                 `json:"lot,omitempty"`                      // Лотность инструмента. Возможно совершение операций только на количества ценной бумаги, кратные параметру *lot*. Подробнее: [лот](https:// tinkoff.github.io/investAPI/glossary#lot)
+	Currency              string                `json:"currency,omitempty"`                 // Валюта расчётов.
+	Klong                 *Quotation            `json:"klong,omitempty"`                    // Коэффициент ставки риска длинной позиции по инструменту.
+	Kshort                *Quotation            `json:"kshort,omitempty"`                   // Коэффициент ставки риска короткой позиции по инструменту.
+	Dlong                 *Quotation            `json:"dlong,omitempty"`                    // Ставка риска минимальной маржи в лонг. Подробнее: [ставка риска в лонг](https:// help.tinkoff.ru/margin-trade/long/risk-rate/)
+	Dshort                *Quotation            `json:"dshort,omitempty"`                   // Ставка риска минимальной маржи в шорт. Подробнее: [ставка риска в шорт](https:// help.tinkoff.ru/margin-trade/short/risk-rate/)
+	DlongMin              *Quotation            `json:"dlong_min,omitempty"`                // Ставка риска начальной маржи в лонг. Подробнее: [ставка риска в лонг](https:// help.tinkoff.ru/margin-trade/long/risk-rate/)
+	DshortMin             *Quotation            `json:"dshort_min,omitempty"`               // Ставка риска начальной маржи в шорт. Подробнее: [ставка риска в шорт](https:// help.tinkoff.ru/margin-trade/short/risk-rate/)
+	ShortEnabled          bool                  `json:"short_enabled,omitempty"`            // Признак доступности для операций в шорт.
+	Name                  string                `json:"name,omitempty"`                     // Название инструмента.
+	Exchange              string                `json:"exchange,omitempty"`                 // Торговая площадка.
+	CouponQuantityPerYear int32                 `json:"coupon_quantity_per_year,omitempty"` // Количество выплат по купонам в год.
+	MaturityDate          *time.Time            `json:"maturity_date,omitempty"`            // Дата погашения облигации в часовом поясе UTC.
+	Nominal               *MoneyValue           `json:"nominal,omitempty"`                  // Номинал облигации.
+	StateRegDate          *time.Time            `json:"state_reg_date,omitempty"`           // Дата выпуска облигации в часовом поясе UTC.
+	PlacementDate         *time.Time            `json:"placement_date,omitempty"`           // Дата размещения в часовом поясе UTC.
+	PlacementPrice        *MoneyValue           `json:"placement_price,omitempty"`          // Цена размещения.
+	AciValue              *MoneyValue           `json:"aci_value,omitempty"`                // Значение НКД (накопленного купонного дохода) на дату.
+	CountryOfRisk         string                `json:"country_of_risk,omitempty"`          // Код страны риска, т.е. страны, в которой компания ведёт основной бизнес.
+	CountryOfRiskName     string                `json:"country_of_risk_name,omitempty"`     // Наименование страны риска, т.е. страны, в которой компания ведёт основной бизнес.
+	Sector                string                `json:"sector,omitempty"`                   // Сектор экономики.
+	IssueKind             string                `json:"issue_kind,omitempty"`               // Форма выпуска. Возможные значения: </br>**documentary** — документарная; </br>**non_documentary** — бездокументарная.
+	IssueSize             int64                 `json:"issue_size,omitempty"`               // Размер выпуска.
+	IssueSizePlan         int64                 `json:"issue_size_plan,omitempty"`          // Плановый размер выпуска.
+	TradingStatus         SecurityTradingStatus `json:"trading_status,omitempty"`           // Текущий режим торгов инструмента.
+	Otc                   bool                  `json:"otc,omitempty"`                      // Признак внебиржевой ценной бумаги.
+	BuyAvailable          bool                  `json:"buy_available,omitempty"`            // Признак доступности для покупки.
+	SellAvailable         bool                  `json:"sell_available,omitempty"`           // Признак доступности для продажи.
+	FloatingCoupon        bool                  `json:"floating_coupon,omitempty"`          // Признак облигации с плавающим купоном.
+	Perpetual             bool                  `json:"perpetual,omitempty"`                // Признак бессрочной облигации.
+	Amortization          bool                  `json:"amortization,omitempty"`             // Признак облигации с амортизацией долга.
+	MinPriceIncrement     *Quotation            `json:"min_price_increment,omitempty"`      // Шаг цены.
+	ApiTradeAvailable     bool                  `json:"api_trade_available,omitempty"`      // Признак доступности торгов через API.
 }
 
 // Объект передачи информации о купоне облигации
 type Coupon struct {
-	Figi            string      `json:"figi"`              // Figi-идентификатор инструмента
-	CouponDate      *time.Time  `json:"coupon_date"`       // Дата события
-	CouponNumber    int64       `json:"coupon_number"`     // Номер купона
-	FixDate         *time.Time  `json:"fix_date"`          // (Опционально) Дата фиксации реестра для выплаты купона
-	PayOneBond      *MoneyValue `json:"pay_one_bond"`      // Выплата на одну облигацию
-	CouponType      CouponType  `json:"coupon_type"`       // Тип купона
-	CouponStartDate *time.Time  `json:"coupon_start_date"` // Начало купонного периода
-	CouponEndDate   *time.Time  `json:"coupon_end_date"`   // Окончание купонного периода
-	CouponPeriod    int32       `json:"coupon_period"`     // Купонный период в днях
+	Figi            string      `json:"figi,omitempty"`              // Figi-идентификатор инструмента
+	CouponDate      *time.Time  `json:"coupon_date,omitempty"`       // Дата события
+	CouponNumber    int64       `json:"coupon_number,omitempty"`     // Номер купона
+	FixDate         *time.Time  `json:"fix_date,omitempty"`          // (Опционально) Дата фиксации реестра для выплаты купона
+	PayOneBond      *MoneyValue `json:"pay_one_bond,omitempty"`      // Выплата на одну облигацию
+	CouponType      CouponType  `json:"coupon_type,omitempty"`       // Тип купона
+	CouponStartDate *time.Time  `json:"coupon_start_date,omitempty"` // Начало купонного периода
+	CouponEndDate   *time.Time  `json:"coupon_end_date,omitempty"`   // Окончание купонного периода
+	CouponPeriod    int32       `json:"coupon_period,omitempty"`     // Купонный период в днях
 }
 
 // Операция начисления купонов.
 type AccruedInterest struct {
-	Date         *time.Time `json:"date"`          // Дата и время выплаты в часовом поясе UTC
-	Value        *Quotation `json:"value"`         // Величина выплаты
-	ValuePercent *Quotation `json:"value_percent"` // Величина выплаты в процентах от номинала
-	Nominal      *Quotation `json:"nominal"`       // Номинал облигации
+	Date         *time.Time `json:"date,omitempty"`          // Дата и время выплаты в часовом поясе UTC
+	Value        *Quotation `json:"value,omitempty"`         // Величина выплаты
+	ValuePercent *Quotation `json:"value_percent,omitempty"` // Величина выплаты в процентах от номинала
+	Nominal      *Quotation `json:"nominal,omitempty"`       // Номинал облигации
 }

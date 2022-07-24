@@ -41,26 +41,20 @@ const (
 	SubscriptionInterval_SUBSCRIPTION_INTERVAL_FIVE_MINUTES SubscriptionInterval = 2 // Пятиминутные свечи
 )
 
-// Период времени от начала до конца // TODO: remove
-type TimePeriod struct {
-	Start *time.Time
-	End   *time.Time
-}
-
 // Информация о свече
 type Candle struct {
-	Figi     string         `json:"figi"`     // Figi-идентификатор инструмента
-	DateTime *time.Time     `json:"datetime"` // Время свечи в часовом поясе UTC
-	Interval CandleInterval `json:"interval"` // Интервал свечи
-	Open     *Quotation     `json:"open"`     // Цена открытия за 1 лот
-	High     *Quotation     `json:"high"`     // Максимальная цена за 1 лот
-	Low      *Quotation     `json:"low"`      // Минимальная цена за 1 лот
-	Close    *Quotation     `json:"close"`    // Цена закрытия за 1 лот
-	Volume   int64          `json:"volume"`   // Объём сделок в лотах
+	Figi     string         `json:"figi,omitempty"`      // Figi-идентификатор инструмента
+	DateTime *time.Time     `json:"date_time,omitempty"` // Время свечи в часовом поясе UTC
+	Interval CandleInterval `json:"interval,omitempty"`  // Интервал свечи
+	Open     *Quotation     `json:"open,omitempty"`      // Цена открытия за 1 лот
+	High     *Quotation     `json:"high,omitempty"`      // Максимальная цена за 1 лот
+	Low      *Quotation     `json:"low,omitempty"`       // Минимальная цена за 1 лот
+	Close    *Quotation     `json:"close,omitempty"`     // Цена закрытия за 1 лот
+	Volume   int64          `json:"volume,omitempty"`    // Объём сделок в лотах
 }
 
 //Запрос изменения статус подписки на свечи
 type CandleInstrument struct {
-	Figi     string               `json:"figi"`     // Figi-идентификатор инструмента
-	Interval SubscriptionInterval `json:"interval"` // Интервал свечей
+	Figi     string               `json:"figi,omitempty"`     // Figi-идентификатор инструмента
+	Interval SubscriptionInterval `json:"interval,omitempty"` // Интервал свечей
 }

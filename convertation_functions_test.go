@@ -1,0 +1,408 @@
+package tinkoffbroker
+
+import (
+	"reflect"
+	"testing"
+
+	tkf "github.com/ruslanec/tinkoffbroker/proto"
+)
+
+func Test_convMoneyValue(t *testing.T) {
+	type args struct {
+		moneyValue *tkf.MoneyValue
+	}
+	tests := []struct {
+		name string
+		args args
+		want *MoneyValue
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convMoneyValue(tt.args.moneyValue); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convMoneyValue() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convQuotation(t *testing.T) {
+	type args struct {
+		quotation *tkf.Quotation
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Quotation
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convQuotation(tt.args.quotation); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convQuotation() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convPortfolioPosition(t *testing.T) {
+	type args struct {
+		portfolioPosition *tkf.PortfolioPosition
+	}
+	tests := []struct {
+		name string
+		args args
+		want *PortfolioPosition
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convPortfolioPosition(tt.args.portfolioPosition); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convPortfolioPosition() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convOperation(t *testing.T) {
+	type args struct {
+		operation *tkf.Operation
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Operation
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convOperation(tt.args.operation); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convOperation() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convOrderState(t *testing.T) {
+	type args struct {
+		orderState *tkf.OrderState
+	}
+	tests := []struct {
+		name string
+		args args
+		want *OrderState
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convOrderState(tt.args.orderState); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convOrderState() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convPostOrderResponse(t *testing.T) {
+	type args struct {
+		postOrderResponse *tkf.PostOrderResponse
+	}
+	tests := []struct {
+		name string
+		args args
+		want *PostOrderResponse
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convPostOrderResponse(tt.args.postOrderResponse); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convPostOrderResponse() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convShare(t *testing.T) {
+	type args struct {
+		share *tkf.Share
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Share
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convShare(tt.args.share); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convShare() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convBond(t *testing.T) {
+	type args struct {
+		bond *tkf.Bond
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Bond
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convBond(tt.args.bond); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convBond() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convCurrency(t *testing.T) {
+	type args struct {
+		currency *tkf.Currency
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Currency
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convCurrency(tt.args.currency); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convCurrency() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convEtf(t *testing.T) {
+	type args struct {
+		etf *tkf.Etf
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Etf
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convEtf(tt.args.etf); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convEtf() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convFuture(t *testing.T) {
+	type args struct {
+		future *tkf.Future
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Future
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convFuture(tt.args.future); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convFuture() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convAssetSecurity(t *testing.T) {
+	type args struct {
+		tkfAS *tkf.AssetSecurity
+	}
+	tests := []struct {
+		name string
+		args args
+		want *AssetSecurity
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convAssetSecurity(tt.args.tkfAS); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convAssetSecurity() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convAssetShare(t *testing.T) {
+	type args struct {
+		assetShare *tkf.AssetShare
+	}
+	tests := []struct {
+		name string
+		args args
+		want *AssetShare
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convAssetShare(tt.args.assetShare); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convAssetShare() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convAssetBond(t *testing.T) {
+	type args struct {
+		assetBond *tkf.AssetBond
+	}
+	tests := []struct {
+		name string
+		args args
+		want *AssetBond
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convAssetBond(tt.args.assetBond); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convAssetBond() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convAssetStructuredProduct(t *testing.T) {
+	type args struct {
+		assetSP *tkf.AssetStructuredProduct
+	}
+	tests := []struct {
+		name string
+		args args
+		want *AssetStructuredProduct
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convAssetStructuredProduct(tt.args.assetSP); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convAssetStructuredProduct() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convAssetEtf(t *testing.T) {
+	type args struct {
+		assetEtf *tkf.AssetEtf
+	}
+	tests := []struct {
+		name string
+		args args
+		want *AssetEtf
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convAssetEtf(tt.args.assetEtf); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convAssetEtf() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convBrand(t *testing.T) {
+	type args struct {
+		brand *tkf.Brand
+	}
+	tests := []struct {
+		name string
+		args args
+		want *Brand
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convBrand(tt.args.brand); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convBrand() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convAssetInstrument(t *testing.T) {
+	type args struct {
+		instrument *tkf.AssetInstrument
+	}
+	tests := []struct {
+		name string
+		args args
+		want *AssetInstrument
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convAssetInstrument(tt.args.instrument); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convAssetInstrument() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convFavoriteInstrument(t *testing.T) {
+	type args struct {
+		instrument *tkf.FavoriteInstrument
+	}
+	tests := []struct {
+		name string
+		args args
+		want *FavoriteInstrument
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convFavoriteInstrument(tt.args.instrument); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convFavoriteInstrument() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_convInstrumentShort(t *testing.T) {
+	type args struct {
+		instrument *tkf.InstrumentShort
+	}
+	tests := []struct {
+		name string
+		args args
+		want *InstrumentShort
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convInstrumentShort(tt.args.instrument); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("convInstrumentShort() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

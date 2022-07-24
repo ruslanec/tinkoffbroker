@@ -34,38 +34,38 @@ const (
 
 // Информация о счёте
 type Account struct {
-	Id          string        `json:"id"`           // Идентификатор счёта
-	Type        AccountType   `json:"type"`         // Тип счёта
-	Name        string        `json:"name"`         // Название счёта
-	Status      AccountStatus `json:"status"`       // Статус счёта
-	OpenedDate  *time.Time    `json:"opened_date"`  // Дата открытия счёта в часовом поясе UTC
-	ClosedDate  *time.Time    `json:"closed_date"`  // Дата закрытия счёта в часовом поясе UTC
-	AccessLevel AccessLevel   `json:"access_level"` // Уровень доступа к текущему счёту (определяется токеном)
+	Id          string        `json:"id,omitempty"`           // Идентификатор счёта
+	Type        AccountType   `json:"type,omitempty"`         // Тип счёта
+	Name        string        `json:"name,omitempty"`         // Название счёта
+	Status      AccountStatus `json:"status,omitempty"`       // Статус счёта
+	OpenedDate  *time.Time    `json:"opened_date,omitempty"`  // Дата открытия счёта в часовом поясе UTC
+	ClosedDate  *time.Time    `json:"closed_date,omitempty"`  // Дата закрытия счёта в часовом поясе UTC
+	AccessLevel AccessLevel   `json:"access_level,omitempty"` // Уровень доступа к текущему счёту (определяется токеном)
 }
 
 // Маржинальные показатели по счёту
 type MarginAttributes struct {
-	LiquidPortfolio       *MoneyValue `json:"liquid_portfolio"`        // Ликвидная стоимость портфеля
-	StartingMargin        *MoneyValue `json:"starting_margin"`         // Начальная маржа — начальное обеспечение для совершения новой сделки
-	MinimalMargin         *MoneyValue `json:"minimal_margin"`          // Минимальная маржа — это минимальное обеспечение для поддержания позиции
-	FundsSufficiencyLevel *Quotation  `json:"funds_sufficiency_level"` // Уровень достаточности средств. Соотношение стоимости ликвидного портфеля к начальной марже.
-	AmountOfMissingFunds  *MoneyValue `json:"amount_of_missing_funds"` // Объем недостающих средств. Разница между стартовой маржой и ликвидной стоимости портфеля.
+	LiquidPortfolio       *MoneyValue `json:"liquid_portfolio,omitempty"`        // Ликвидная стоимость портфеля
+	StartingMargin        *MoneyValue `json:"starting_margin,omitempty"`         // Начальная маржа — начальное обеспечение для совершения новой сделки
+	MinimalMargin         *MoneyValue `json:"minimal_margin,omitempty"`          // Минимальная маржа — это минимальное обеспечение для поддержания позиции
+	FundsSufficiencyLevel *Quotation  `json:"funds_sufficiency_level,omitempty"` // Уровень достаточности средств. Соотношение стоимости ликвидного портфеля к начальной марже.
+	AmountOfMissingFunds  *MoneyValue `json:"amount_of_missing_funds,omitempty"` // Объем недостающих средств. Разница между стартовой маржой и ликвидной стоимости портфеля.
 }
 
 //Текущие лимиты пользователя.
 type UserTariff struct {
-	UnaryMethodLimitsPerMinute map[string]UnaryLimit `json:"unary_limits"`  //Массив лимитов пользователя по unary-запросам
-	StreamLimits               []*StreamLimit        `json:"stream_limits"` //Массив лимитов пользователей для stream-соединений
+	UnaryMethodLimitsPerMinute map[string]UnaryLimit `json:"unary_method_limits_per_minute,omitempty"` //Массив лимитов пользователя по unary-запросам
+	StreamLimits               []*StreamLimit        `json:"stream_limits,omitempty"`                  //Массив лимитов пользователей для stream-соединений
 }
 
 // Лимит unary-методов
 type UnaryLimit struct {
-	MaxValue     int32 `json:"max_value"`     //Максимальное количество unary-запросов в минуту
-	CurrentValue int32 `json:"current_value"` //Текущее количество unary-запросов в минуту
+	MaxValue     int32 `json:"max_value,omitempty"`     //Максимальное количество unary-запросов в минуту
+	CurrentValue int32 `json:"current_value,omitempty"` //Текущее количество unary-запросов в минуту
 }
 
 // Лимит stream-соединений
 type StreamLimit struct {
-	Limit   int32    `json:"limit"`   //Максимальное количество stream-соединений
-	Streams []string `json:"streams"` //Названия stream-методов
+	Limit   int32    `json:"limit,omitempty"`   //Максимальное количество stream-соединений
+	Streams []string `json:"streams,omitempty"` //Названия stream-методов
 }

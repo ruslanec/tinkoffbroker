@@ -9,9 +9,9 @@ import (
 const REQ_TIMEOUT time.Duration = time.Second * 60 * 3
 
 type TinkoffBrokerConfig struct {
-	ApiUrl    string `json:"apiurl"`    // URL адрес API сервиса Тинькофф инвестиции
-	Token     string `json:"token"`     // Токен доступа к сервису Тинькофф инвестиции
-	AccountID string `json:"accountid"` // Номер счета в сервисе API Тинькофф инвестиции
+	ApiUrl    string `json:"api_url,omitempty"`    // URL адрес API сервиса Тинькофф инвестиции
+	Token     string `json:"token,omitempty"`      // Токен доступа к сервису Тинькофф инвестиции
+	AccountID string `json:"account_id,omitempty"` // Номер счета в сервисе API Тинькофф инвестиции
 }
 
 func (s *TinkoffBrokerConfig) ToJSON() []byte {
