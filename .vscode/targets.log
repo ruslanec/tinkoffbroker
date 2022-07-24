@@ -5,9 +5,8 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Sat Jul 23 21:34:57 2022
+# Make data base, printed on Mon Jul 25 02:19:24 2022
 
 # Variables
 
@@ -42,7 +41,7 @@ GOPATH = C:\WORK\GO
 # environment
 DOKANLIBRARY1_LIBRARYPATH_X64 = C:\Program Files\Dokan\Dokan Library-1.1.0\lib\
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_19832_IRPBHHPEEIWIZGKI
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_20524_ULTNOYKVHXNMBNBK
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -94,7 +93,7 @@ MAKEFILE_LIST := Makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 19832
+VSCODE_PID = 20524
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -172,6 +171,8 @@ MAKE_VERSION := 4.3
 # environment
 PROGRAMFILES(X86) = C:\Program Files (x86)
 # environment
+TKF_ACCOUNTID = 2010440499
+# environment
 UATDATA = C:\Windows\CCM\UATData\D9F8C395-CAB8-491d-B8AC-179A1FE1BE77
 # environment
 USERDOMAIN_ROAMINGPROFILE = MSC
@@ -216,8 +217,6 @@ PT7HOME = C:\Program Files\Cisco Packet Tracer 7.2.1
 # environment
 PROCESSOR_REVISION = 8e0a
 # environment
-TKF_ACCOUNID = 2010440499
-# environment
 SIMATIC_OAM_DATA = C:\ProgramData\Siemens\Automation\Simatic OAM
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
@@ -230,9 +229,9 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 142 Stepping 10, GenuineIntel
 
 # Directories
 
-# . (key c:/WORK/PROJECTS/tinkoffbroker, mtime 1658601281): 37 files, no impossibilities.
+# . (key c:/WORK/PROJECTS/tinkoffbroker, mtime 1658704681): 24 files, no impossibilities.
 
-# 37 files, no impossibilities in 1 directories.
+# 24 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -251,7 +250,7 @@ build_proto:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-15 23:45:21
+#  Last modified 2022-07-25 01:55:36
 #  File has been updated.
 #  Successfully updated.
 
@@ -321,7 +320,7 @@ build:
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  recipe to execute (from 'Makefile', line 14):
-	go build -ldflags="-X 'main.Version=v1.0.0'" -o ./bin/ ./cmd/tinkoffbroker/
+	go build .\examples\portfolio.go
 
 test:
 #  Phony target (prerequisite of .PHONY).
@@ -366,12 +365,12 @@ docker_lint:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 49 / storage = 487 B / avg = 9 B
-# current buf: size = 8174 B / used = 487 B / count = 49 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 36 / storage = 335 B / avg = 9 B
+# current buf: size = 8174 B / used = 335 B / count = 36 / avg = 9 B
 
-# strcache performance: lookups = 91 / hit rate = 46%
+# strcache performance: lookups = 78 / hit rate = 53%
 # hash-table stats:
-# Load=49/8192=1%, Rehash=0, Collisions=1/91=1%
-# Finished Make data base on Sat Jul 23 21:34:57 2022
+# Load=36/8192=0%, Rehash=0, Collisions=0/78=0%
+# Finished Make data base on Mon Jul 25 02:19:24 2022
 
  

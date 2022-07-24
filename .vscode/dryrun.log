@@ -1,5 +1,5 @@
 make.exe --dry-run --always-make --keep-going --print-directory
 make: Entering directory 'c:/WORK/PROJECTS/tinkoffbroker'
-go build -ldflags="-X 'main.Version=v1.0.0'" -o ./bin/ ./cmd/tinkoffbroker/
+go build .\examples\portfolio.go
 make: Leaving directory 'c:/WORK/PROJECTS/tinkoffbroker'
  

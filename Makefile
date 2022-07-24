@@ -11,7 +11,7 @@ vet:
 
 .PHONY: build
 build:
-	go build -ldflags="-X 'main.Version=v1.0.0'" -o ./bin/ ./cmd/tinkoffbroker/
+	go build .\examples\portfolio.go
 
 .PHONY: build_compose
 build_compose:

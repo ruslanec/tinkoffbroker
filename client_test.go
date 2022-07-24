@@ -6,6 +6,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ruslanec/tinkoffbroker/domain"
+	"github.com/ruslanec/tinkoffbroker/service"
 	"google.golang.org/grpc"
 )
 
@@ -31,7 +33,7 @@ func TestWithServices(t *testing.T) {
 
 func TestWithUsers(t *testing.T) {
 	type args struct {
-		s UsersService
+		s service.UsersService
 	}
 	tests := []struct {
 		name string
@@ -51,7 +53,7 @@ func TestWithUsers(t *testing.T) {
 
 func TestWithStopOrders(t *testing.T) {
 	type args struct {
-		s StopOrdersService
+		s service.StopOrdersService
 	}
 	tests := []struct {
 		name string
@@ -71,7 +73,7 @@ func TestWithStopOrders(t *testing.T) {
 
 func TestWithOrders(t *testing.T) {
 	type args struct {
-		s OrdersService
+		s service.OrdersService
 	}
 	tests := []struct {
 		name string
@@ -91,7 +93,7 @@ func TestWithOrders(t *testing.T) {
 
 func TestWithOrdersStream(t *testing.T) {
 	type args struct {
-		s OrdersStreamService
+		s service.OrdersStreamService
 	}
 	tests := []struct {
 		name string
@@ -111,7 +113,7 @@ func TestWithOrdersStream(t *testing.T) {
 
 func TestWithOperations(t *testing.T) {
 	type args struct {
-		s OperationsService
+		s service.OperationsService
 	}
 	tests := []struct {
 		name string
@@ -131,7 +133,7 @@ func TestWithOperations(t *testing.T) {
 
 func TestWithMarketData(t *testing.T) {
 	type args struct {
-		s MarketDataService
+		s service.MarketDataService
 	}
 	tests := []struct {
 		name string
@@ -151,7 +153,7 @@ func TestWithMarketData(t *testing.T) {
 
 func TestWithMarketDataStream(t *testing.T) {
 	type args struct {
-		s MarketDataStreamService
+		s service.MarketDataStreamService
 	}
 	tests := []struct {
 		name string
@@ -171,7 +173,7 @@ func TestWithMarketDataStream(t *testing.T) {
 
 func TestWithInstruments(t *testing.T) {
 	type args struct {
-		s InstrumentsService
+		s service.InstrumentsService
 	}
 	tests := []struct {
 		name string
@@ -302,7 +304,7 @@ func Test_client_Shares(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Share
+		want    []*domain.Share
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -330,7 +332,7 @@ func Test_client_ShareByFigi(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Share
+		want    *domain.Share
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -357,7 +359,7 @@ func Test_client_Bonds(t *testing.T) {
 		name       string
 		c          *client
 		args       args
-		wantShares []*Bond
+		wantShares []*domain.Bond
 		wantErr    bool
 	}{
 		// TODO: Add test cases.
@@ -385,7 +387,7 @@ func Test_client_BondByFigi(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Bond
+		want    *domain.Bond
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -415,7 +417,7 @@ func Test_client_BondCoupons(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Coupon
+		want    []*domain.Coupon
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -445,7 +447,7 @@ func Test_client_AccruedInterests(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*AccruedInterest
+		want    []*domain.AccruedInterest
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -472,7 +474,7 @@ func Test_client_Currencies(t *testing.T) {
 		name       string
 		c          *client
 		args       args
-		wantShares []*Currency
+		wantShares []*domain.Currency
 		wantErr    bool
 	}{
 		// TODO: Add test cases.
@@ -500,7 +502,7 @@ func Test_client_CurrencyByFigi(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Currency
+		want    *domain.Currency
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -527,7 +529,7 @@ func Test_client_Etfs(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Etf
+		want    []*domain.Etf
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -555,7 +557,7 @@ func Test_client_EtfByFigi(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Etf
+		want    *domain.Etf
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -582,7 +584,7 @@ func Test_client_Future(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Future
+		want    []*domain.Future
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -610,7 +612,7 @@ func Test_client_FutureByFigi(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Future
+		want    *domain.Future
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -640,7 +642,7 @@ func Test_client_TradingSchedules(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*TradingSchedule
+		want    []*domain.TradingSchedule
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -668,7 +670,7 @@ func Test_client_FuturesMargin(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *FuturesMargin
+		want    *domain.FuturesMargin
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -696,7 +698,7 @@ func Test_client_InstrumentByFigi(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Instrument
+		want    *domain.Instrument
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -726,7 +728,7 @@ func Test_client_Dividends(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Dividend
+		want    []*domain.Dividend
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -754,7 +756,7 @@ func Test_client_AssetById(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *AssetFull
+		want    *domain.AssetFull
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -781,7 +783,7 @@ func Test_client_Assets(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Asset
+		want    []*domain.Asset
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -808,7 +810,7 @@ func Test_client_Favorites(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*FavoriteInstrument
+		want    []*domain.FavoriteInstrument
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -831,13 +833,13 @@ func Test_client_EditFavorites(t *testing.T) {
 	type args struct {
 		ctx    context.Context
 		figies []string
-		action EditFavoritesActionType
+		action domain.EditFavoritesActionType
 	}
 	tests := []struct {
 		name    string
 		c       *client
 		args    args
-		want    []*FavoriteInstrument
+		want    []*domain.FavoriteInstrument
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -864,7 +866,7 @@ func Test_client_Countries(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Country
+		want    []*domain.Country
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -892,7 +894,7 @@ func Test_client_FindInstrument(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*InstrumentShort
+		want    []*domain.InstrumentShort
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -919,7 +921,7 @@ func Test_client_Brands(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Brand
+		want    []*domain.Brand
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -947,7 +949,7 @@ func Test_client_BrandById(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Brand
+		want    *domain.Brand
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -975,7 +977,7 @@ func Test_client_TradingStatus(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *InstrumentTradingStatus
+		want    *domain.InstrumentTradingStatus
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1003,7 +1005,7 @@ func Test_client_LastPrices(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*LastPrice
+		want    []*domain.LastPrice
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1028,13 +1030,13 @@ func Test_client_Candles(t *testing.T) {
 		figi     string
 		from     time.Time
 		to       time.Time
-		interval CandleInterval
+		interval domain.CandleInterval
 	}
 	tests := []struct {
 		name    string
 		c       *client
 		args    args
-		want    []*Candle
+		want    []*domain.Candle
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1063,7 +1065,7 @@ func Test_client_OrderBook(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *OrderBook
+		want    *domain.OrderBook
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1087,13 +1089,13 @@ func Test_client_OrderBuyLimit(t *testing.T) {
 		ctx      context.Context
 		figi     string
 		quantity int64
-		price    *Quotation
+		price    *domain.Quotation
 	}
 	tests := []struct {
 		name    string
 		c       *client
 		args    args
-		want    *PostOrderResponse
+		want    *domain.PostOrderResponse
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1117,13 +1119,13 @@ func Test_client_OrderSellLimit(t *testing.T) {
 		ctx      context.Context
 		figi     string
 		quantity int64
-		price    *Quotation
+		price    *domain.Quotation
 	}
 	tests := []struct {
 		name    string
 		c       *client
 		args    args
-		want    *PostOrderResponse
+		want    *domain.PostOrderResponse
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1147,13 +1149,13 @@ func Test_client_OrderBuyMarket(t *testing.T) {
 		ctx      context.Context
 		figi     string
 		quantity int64
-		price    *Quotation
+		price    *domain.Quotation
 	}
 	tests := []struct {
 		name    string
 		c       *client
 		args    args
-		want    *PostOrderResponse
+		want    *domain.PostOrderResponse
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1177,13 +1179,13 @@ func Test_client_OrderSellMarket(t *testing.T) {
 		ctx      context.Context
 		figi     string
 		quantity int64
-		price    *Quotation
+		price    *domain.Quotation
 	}
 	tests := []struct {
 		name    string
 		c       *client
 		args    args
-		want    *PostOrderResponse
+		want    *domain.PostOrderResponse
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1239,7 +1241,7 @@ func Test_client_OrderState(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *OrderState
+		want    *domain.OrderState
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1266,7 +1268,7 @@ func Test_client_Orders(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*OrderState
+		want    []*domain.OrderState
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1335,7 +1337,7 @@ func Test_client_Portfolio(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Portfolio
+		want    *domain.Portfolio
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1359,14 +1361,14 @@ func Test_client_Operations(t *testing.T) {
 		ctx   context.Context
 		from  *time.Time
 		to    *time.Time
-		state OperationState
+		state domain.OperationState
 		figi  string
 	}
 	tests := []struct {
 		name    string
 		c       *client
 		args    args
-		want    []*Operation
+		want    []*domain.Operation
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1393,7 +1395,7 @@ func Test_client_Positions(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *Positions
+		want    *domain.Positions
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1420,7 +1422,7 @@ func Test_client_Accounts(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    []*Account
+		want    []*domain.Account
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1447,7 +1449,7 @@ func Test_client_UserTariff(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *UserTariff
+		want    *domain.UserTariff
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1474,7 +1476,7 @@ func Test_client_MarginAttributes(t *testing.T) {
 		name    string
 		c       *client
 		args    args
-		want    *MarginAttributes
+		want    *domain.MarginAttributes
 		wantErr bool
 	}{
 		// TODO: Add test cases.
@@ -1496,7 +1498,7 @@ func Test_client_MarginAttributes(t *testing.T) {
 func Test_client_SubscribeCandles(t *testing.T) {
 	type args struct {
 		ctx     context.Context
-		candles []*CandleInstrument
+		candles []*domain.CandleInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1518,7 +1520,7 @@ func Test_client_SubscribeCandles(t *testing.T) {
 func Test_client_UnsubscribeCandles(t *testing.T) {
 	type args struct {
 		ctx     context.Context
-		candles []*CandleInstrument
+		candles []*domain.CandleInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1540,7 +1542,7 @@ func Test_client_UnsubscribeCandles(t *testing.T) {
 func Test_client_SubscribeOrderBook(t *testing.T) {
 	type args struct {
 		ctx        context.Context
-		orderbooks []*OrderBookInstrument
+		orderbooks []*domain.OrderBookInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1562,7 +1564,7 @@ func Test_client_SubscribeOrderBook(t *testing.T) {
 func Test_client_UnsubscribeOrderBook(t *testing.T) {
 	type args struct {
 		ctx        context.Context
-		orderbooks []*OrderBookInstrument
+		orderbooks []*domain.OrderBookInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1584,7 +1586,7 @@ func Test_client_UnsubscribeOrderBook(t *testing.T) {
 func Test_client_SubscribeTrades(t *testing.T) {
 	type args struct {
 		ctx    context.Context
-		trades []*TradeInstrument
+		trades []*domain.TradeInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1606,7 +1608,7 @@ func Test_client_SubscribeTrades(t *testing.T) {
 func Test_client_UnsubscribeTrades(t *testing.T) {
 	type args struct {
 		ctx    context.Context
-		trades []*TradeInstrument
+		trades []*domain.TradeInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1628,7 +1630,7 @@ func Test_client_UnsubscribeTrades(t *testing.T) {
 func Test_client_SubscribeInfo(t *testing.T) {
 	type args struct {
 		ctx         context.Context
-		instruments []*InfoInstrument
+		instruments []*domain.InfoInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1650,7 +1652,7 @@ func Test_client_SubscribeInfo(t *testing.T) {
 func Test_client_UnsubscribeInfo(t *testing.T) {
 	type args struct {
 		ctx         context.Context
-		instruments []*InfoInstrument
+		instruments []*domain.InfoInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1672,7 +1674,7 @@ func Test_client_UnsubscribeInfo(t *testing.T) {
 func Test_client_SubscribeLastPrices(t *testing.T) {
 	type args struct {
 		ctx        context.Context
-		lastprices []*LastPriceInstrument
+		lastprices []*domain.LastPriceInstrument
 	}
 	tests := []struct {
 		name    string
@@ -1694,7 +1696,7 @@ func Test_client_SubscribeLastPrices(t *testing.T) {
 func Test_client_UnsubscribeLastPrices(t *testing.T) {
 	type args struct {
 		ctx        context.Context
-		lastprices []*LastPriceInstrument
+		lastprices []*domain.LastPriceInstrument
 	}
 	tests := []struct {
 		name    string
