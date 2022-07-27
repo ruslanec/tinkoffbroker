@@ -44,7 +44,7 @@ type PortfolioPosition struct {
 }
 
 func (s *PortfolioPosition) String() string {
-	return fmt.Sprintf("%s", s.Figi)
+	return fmt.Sprintf("Позиция: %s %s %s", s.InstrumentType, s.Figi, s.Quantity.String())
 }
 
 // Список позиций по счёту.

@@ -98,7 +98,7 @@ func NewClient(conn *grpc.ClientConn, accountId string, opts ...Option) Client {
 	return &c
 }
 
-func (c *client) Init(ctx context.Context) error {
+func (c *client) Init(ctx context.Context) error { // TODO Избавиться от Init
 	accounts, err := c.services.Users.Accounts(ctx)
 	if err != nil {
 		return err
@@ -131,6 +131,10 @@ func (c *client) Run(ctx context.Context) (err error) {
 
 // Close
 func (c *client) Close() {
+	// if c.services.MarketDataStream == nil {
+	// 	c.services.MarketDataStream
+	// }
+
 	ctx := context.Background()
 	c.services.OrdersStream.UnsubscribeOrderTrades(ctx) // TODO exception service not defined
 	c.conn.Close()
@@ -465,7 +469,7 @@ func (c *client) Portfolio(ctx context.Context) (*domain.Portfolio, error) {
 	if c.services.Operations == nil {
 		return nil, ErrSvcNotImplemented
 	}
-	return c.services.Operations.Portfolio(ctx, c.accountId)
+	return c.services.Operations.Portfolio(ctx)
 }
 
 // Метод получения списка операций по счёту
@@ -473,7 +477,7 @@ func (c *client) Operations(ctx context.Context, from, to *time.Time, state doma
 	if c.services.Operations == nil {
 		return nil, ErrSvcNotImplemented
 	}
-	return c.services.Operations.Operations(ctx, c.accountId, from, to, state, figi)
+	return c.services.Operations.Operations(ctx, from, to, state, figi)
 }
 
 // Метод получения списка позиций по счёту
@@ -481,7 +485,7 @@ func (c *client) Positions(ctx context.Context) (*domain.Positions, error) {
 	if c.services.Operations == nil {
 		return nil, ErrSvcNotImplemented
 	}
-	return c.services.Operations.Positions(ctx, c.accountId)
+	return c.services.Operations.Positions(ctx)
 }
 
 // Метод получения открытых и активных счетов пользователя
@@ -505,7 +509,7 @@ func (c *client) MarginAttributes(ctx context.Context) (*domain.MarginAttributes
 	if c.services.Users == nil {
 		return nil, ErrSvcNotImplemented
 	}
-	return c.services.Users.MarginAttributes(ctx, c.accountId)
+	return c.services.Users.MarginAttributes(ctx)
 }
 
 // Подписка на свечи
@@ -586,4 +590,12 @@ func (c *client) UnsubscribeLastPrices(ctx context.Context, lastprices []*domain
 		return ErrSvcNotImplemented
 	}
 	return c.services.MarketDataStream.UnsubscribeLastPrices(ctx, lastprices)
+}
+
+// Запрос активных подписок
+func (c *client) MySubscriptions(ctx context.Context) error {
+	if c.services.MarketDataStream == nil {
+		return ErrSvcNotImplemented
+	}
+	return c.services.MarketDataStream.MySubscriptions(ctx)
 }

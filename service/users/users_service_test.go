@@ -26,7 +26,8 @@ import (
 
 func TestNewUsersService(t *testing.T) {
 	type args struct {
-		conn *grpc.ClientConn
+		conn      *grpc.ClientConn
+		accountId string
 	}
 	tests := []struct {
 		name string
@@ -37,7 +38,7 @@ func TestNewUsersService(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewUsersService(tt.args.conn); !reflect.DeepEqual(got, tt.want) {
+			if got := NewUsersService(tt.args.conn, tt.args.accountId); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewUsersService() = %v, want %v", got, tt.want)
 			}
 		})
@@ -100,8 +101,7 @@ func Test_usersService_UserTariff(t *testing.T) {
 
 func Test_usersService_MarginAttributes(t *testing.T) {
 	type args struct {
-		ctx       context.Context
-		accountID string
+		ctx context.Context
 	}
 	tests := []struct {
 		name    string
@@ -114,7 +114,7 @@ func Test_usersService_MarginAttributes(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.s.MarginAttributes(tt.args.ctx, tt.args.accountID)
+			got, err := tt.s.MarginAttributes(tt.args.ctx)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("usersService.MarginAttributes() error = %v, wantErr %v", err, tt.wantErr)
 				return

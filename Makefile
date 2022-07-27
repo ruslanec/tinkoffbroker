@@ -11,7 +11,9 @@ vet:
 
 .PHONY: build
 build:
-	go build .\examples\portfolio.go
+	go build .\examples\portfolio\portfolio.go 
+	go build .\examples\marketdatastream\marketdatastream.go
+	go build .\examples\users\users.go
 
 .PHONY: build_compose
 build_compose:

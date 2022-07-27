@@ -95,6 +95,8 @@ type Client interface {
 	SubscribeLastPrices(ctx context.Context, lastprices []*domain.LastPriceInstrument) error
 	// Закрытие подписки на последнюю цену инструмента
 	UnsubscribeLastPrices(ctx context.Context, lastprices []*domain.LastPriceInstrument) error
+	// Запрос активных подписок
+	MySubscriptions(ctx context.Context) error
 
 	// Сервис работы с торговыми поручениями
 	// Метод выставления рыночной заявки на покупку

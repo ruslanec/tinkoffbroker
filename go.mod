@@ -3,6 +3,7 @@ module github.com/ruslanec/tinkoffbroker
 go 1.18
 
 require (
+	github.com/davecgh/go-spew v1.1.1
 	github.com/golang/protobuf v1.5.2
 	github.com/google/uuid v1.3.0
 	github.com/ruslanec/timerange-go v1.0.0

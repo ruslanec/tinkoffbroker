@@ -15,7 +15,8 @@ import (
 
 func TestNewOperationsService(t *testing.T) {
 	type args struct {
-		conn *grpc.ClientConn
+		conn      *grpc.ClientConn
+		accountId string
 	}
 	tests := []struct {
 		name string
@@ -26,7 +27,7 @@ func TestNewOperationsService(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewOperationsService(tt.args.conn); !reflect.DeepEqual(got, tt.want) {
+			if got := NewOperationsService(tt.args.conn, tt.args.accountId); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewOperationsService() = %v, want %v", got, tt.want)
 			}
 		})
@@ -35,8 +36,7 @@ func TestNewOperationsService(t *testing.T) {
 
 func Test_operationsService_Portfolio(t *testing.T) {
 	type args struct {
-		ctx       context.Context
-		accountId string
+		ctx context.Context
 	}
 	tests := []struct {
 		name    string
@@ -49,7 +49,7 @@ func Test_operationsService_Portfolio(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.s.Portfolio(tt.args.ctx, tt.args.accountId)
+			got, err := tt.s.Portfolio(tt.args.ctx)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("operationsService.Portfolio() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -63,12 +63,11 @@ func Test_operationsService_Portfolio(t *testing.T) {
 
 func Test_operationsService_Operations(t *testing.T) {
 	type args struct {
-		ctx       context.Context
-		accountId string
-		from      *time.Time
-		to        *time.Time
-		state     domain.OperationState
-		figi      string
+		ctx   context.Context
+		from  *time.Time
+		to    *time.Time
+		state domain.OperationState
+		figi  string
 	}
 	tests := []struct {
 		name    string
@@ -81,7 +80,7 @@ func Test_operationsService_Operations(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.s.Operations(tt.args.ctx, tt.args.accountId, tt.args.from, tt.args.to, tt.args.state, tt.args.figi)
+			got, err := tt.s.Operations(tt.args.ctx, tt.args.from, tt.args.to, tt.args.state, tt.args.figi)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("operationsService.Operations() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -95,8 +94,7 @@ func Test_operationsService_Operations(t *testing.T) {
 
 func Test_operationsService_Positions(t *testing.T) {
 	type args struct {
-		ctx       context.Context
-		accountId string
+		ctx context.Context
 	}
 	tests := []struct {
 		name    string
@@ -109,7 +107,7 @@ func Test_operationsService_Positions(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.s.Positions(tt.args.ctx, tt.args.accountId)
+			got, err := tt.s.Positions(tt.args.ctx)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("operationsService.Positions() error = %v, wantErr %v", err, tt.wantErr)
 				return

@@ -4,12 +4,14 @@ import (
 	"context"
 	"crypto/tls"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"time"
 
 	"github.com/ruslanec/tinkoffbroker"
-	"github.com/ruslanec/tinkoffbroker/service/operations"
+	"github.com/ruslanec/tinkoffbroker/domain"
+	"github.com/ruslanec/tinkoffbroker/service/marketdatastream"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -42,9 +44,9 @@ func main() {
 	}
 	defer conn.Close()
 
-	operations := operations.NewOperationsService(conn)
+	marketdatastream := marketdatastream.NewMarketDataStreamService(conn)
 
-	client := tinkoffbroker.NewClient(conn, *accountid, tinkoffbroker.WithOperations(operations))
+	client := tinkoffbroker.NewClient(conn, *accountid, tinkoffbroker.WithMarketDataStream(marketdatastream))
 	//defer client.Close()
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(time.Minute))
@@ -52,10 +54,43 @@ func main() {
 		cancel()
 	}()
 
-	portfolio, err := client.Portfolio(ctx)
+	var instruments []*domain.InfoInstrument
+	instruments = append(instruments, &domain.InfoInstrument{
+		Figi: "BBG00T22WKV5",
+	})
+	err = client.SubscribeInfo(ctx, instruments)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("Total amount currencies: %s", portfolio.TotalAmountCurrencies.Currency)
 
+	err = client.MySubscriptions(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for {
+		recv, err := client.Recv(context.Background())
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(recv)
+	}
+
+	// inter, err := client.Recv(ctx)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// log.Printf("Total amount currencies: %s", inter)
+
+	// inter, err = client.Recv(ctx)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// log.Printf("Total amount currencies: %s", inter)
+
+	// inter, err = client.Recv(ctx)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// log.Printf("Total amount currencies: %s", inter)
 }

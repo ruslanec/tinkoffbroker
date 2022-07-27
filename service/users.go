@@ -17,5 +17,5 @@ type UsersService interface {
 	// Запрос тарифных лимитов пользователя
 	UserTariff(ctx context.Context) (*domain.UserTariff, error)
 	// Расчёт маржинальных показателей по счёту
-	MarginAttributes(ctx context.Context, accountID string) (*domain.MarginAttributes, error)
+	MarginAttributes(ctx context.Context) (*domain.MarginAttributes, error)
 }

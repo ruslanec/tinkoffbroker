@@ -24,12 +24,12 @@ type ordersService struct {
 	mu        sync.Mutex
 }
 
-func NewOrdersService(conn *grpc.ClientConn, accountID string) service.OrdersService {
+func NewOrdersService(conn *grpc.ClientConn, accountId string) service.OrdersService {
 	ordersServiceClient := tkf.NewOrdersServiceClient(conn)
 
 	return &ordersService{
 		conn:      conn,
-		accountID: accountID,
+		accountID: accountId,
 		client:    ordersServiceClient,
 		orders:    make(map[string]interface{}),
 	}

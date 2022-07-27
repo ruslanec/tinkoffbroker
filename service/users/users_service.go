@@ -24,36 +24,40 @@ import (
 )
 
 type usersService struct {
-	conn   *grpc.ClientConn
-	client tkf.UsersServiceClient
+	conn      *grpc.ClientConn
+	accountId string
+	client    tkf.UsersServiceClient
 }
 
-func NewUsersService(conn *grpc.ClientConn) service.UsersService {
+func NewUsersService(conn *grpc.ClientConn, accountId string) service.UsersService {
 	return &usersService{
-		conn:   conn,
-		client: tkf.NewUsersServiceClient(conn),
+		conn:      conn,
+		accountId: accountId,
+		client:    tkf.NewUsersServiceClient(conn),
 	}
 }
 
 // Метод получения открытых и активных счетов пользователя
 func (s *usersService) Accounts(ctx context.Context) ([]*domain.Account, error) {
-	resp, err := s.client.GetAccounts(context.Background(), &tkf.GetAccountsRequest{})
+	resp, err := s.client.GetAccounts(ctx, &tkf.GetAccountsRequest{})
 	if err != nil {
 		return nil, err
 	}
 
-	var accounts []*domain.Account
-	for _, v := range resp.GetAccounts() {
-		openedDate := v.GetOpenedDate().AsTime()
-		closedDate := v.GetClosedDate().AsTime()
+	tkfAccounts := resp.GetAccounts()
+	accounts := make([]*domain.Account, 0, len(tkfAccounts))
+	for _, tkfAccount := range tkfAccounts {
+		openedDate := service.ConvTimestamp(tkfAccount.OpenedDate)
+		closedDate := service.ConvTimestamp(tkfAccount.ClosedDate)
+
 		accounts = append(accounts, &domain.Account{
-			Id:          v.GetId(),
-			Type:        domain.AccountType(v.GetType()),
-			Name:        v.GetName(),
-			Status:      domain.AccountStatus(v.GetStatus()),
-			OpenedDate:  &openedDate,
-			ClosedDate:  &closedDate,
-			AccessLevel: domain.AccessLevel(v.GetAccessLevel()),
+			Id:          tkfAccount.GetId(),
+			Type:        domain.AccountType(tkfAccount.GetType()),
+			Name:        tkfAccount.GetName(),
+			Status:      domain.AccountStatus(tkfAccount.GetStatus()),
+			OpenedDate:  openedDate,
+			ClosedDate:  closedDate,
+			AccessLevel: domain.AccessLevel(tkfAccount.GetAccessLevel()),
 		})
 	}
 	return accounts, nil
@@ -83,6 +87,7 @@ func (s *usersService) UserTariff(ctx context.Context) (*domain.UserTariff, erro
 			Streams: v.GetStreams(),
 		})
 	}
+
 	return &domain.UserTariff{
 		UnaryMethodLimitsPerMinute: unaryLimits,
 		StreamLimits:               streamLimits,
@@ -90,13 +95,14 @@ func (s *usersService) UserTariff(ctx context.Context) (*domain.UserTariff, erro
 }
 
 // Расчёт маржинальных показателей по счёту пользователя
-func (s *usersService) MarginAttributes(ctx context.Context, accountID string) (*domain.MarginAttributes, error) {
+func (s *usersService) MarginAttributes(ctx context.Context) (*domain.MarginAttributes, error) {
 	resp, err := s.client.GetMarginAttributes(ctx, &tkf.GetMarginAttributesRequest{
-		AccountId: accountID,
+		AccountId: s.accountId,
 	})
 	if err != nil {
 		return nil, err
 	}
+
 	return &domain.MarginAttributes{
 		LiquidPortfolio:       service.ConvMoneyValue(resp.GetLiquidPortfolio()),
 		StartingMargin:        service.ConvMoneyValue(resp.GetStartingMargin()),

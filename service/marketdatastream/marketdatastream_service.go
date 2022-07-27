@@ -298,6 +298,23 @@ func (s *marketDataStreamService) UnsubscribeLastPrices(ctx context.Context, las
 	})
 }
 
+// Запрос активных подписок
+func (s *marketDataStreamService) MySubscriptions(ctx context.Context) error { // TODO Not working
+	var err error
+	if s.stream == nil {
+		s.stream, err = s.client.MarketDataStream(ctx)
+		if err != nil {
+			return fmt.Errorf("MySubscriptions: %v", err)
+		}
+	}
+
+	return s.stream.Send(&tkf.MarketDataRequest{
+		Payload: &tkf.MarketDataRequest_GetMySubscriptions{
+			GetMySubscriptions: &tkf.GetMySubscriptions{},
+		},
+	})
+}
+
 // Получение данных по подпискам
 func (s *marketDataStreamService) Recv(ctx context.Context) (interface{}, error) {
 	var err error

@@ -14,31 +14,35 @@ import (
 )
 
 type operationsService struct {
-	conn   *grpc.ClientConn
-	client tkf.OperationsServiceClient
+	conn      *grpc.ClientConn
+	accountId string
+	client    tkf.OperationsServiceClient
 }
 
 // Конструктор сервиса
-func NewOperationsService(conn *grpc.ClientConn) service.OperationsService {
+func NewOperationsService(conn *grpc.ClientConn, accountId string) service.OperationsService {
 	client := tkf.NewOperationsServiceClient(conn)
 
 	return &operationsService{
-		conn:   conn,
-		client: client,
+		conn:      conn,
+		accountId: accountId,
+		client:    client,
 	}
 }
 
 // Метод получения портфеля по счёту
-func (s *operationsService) Portfolio(ctx context.Context, accountId string) (*domain.Portfolio, error) { // TOD remove connections
-	if accountId == "" {
+func (s *operationsService) Portfolio(ctx context.Context) (*domain.Portfolio, error) { // TOD remove connections
+	if s.accountId == "" {
 		return nil, tinkoffbroker.ErrArgEmptyAccounID
 	}
+
 	resp, err := s.client.GetPortfolio(ctx, &tkf.PortfolioRequest{
-		AccountId: accountId,
+		AccountId: s.accountId,
 	})
 	if err != nil {
 		return nil, err
 	}
+
 	var positions []*domain.PortfolioPosition
 	for _, v := range resp.GetPositions() {
 		positions = append(positions, service.ConvPortfolioPosition(v))
@@ -56,12 +60,13 @@ func (s *operationsService) Portfolio(ctx context.Context, accountId string) (*d
 }
 
 // Метод получения списка операций по счёту
-func (s *operationsService) Operations(ctx context.Context, accountId string, from, to *time.Time, state domain.OperationState, figi string) ([]*domain.Operation, error) {
-	if accountId == "" {
+func (s *operationsService) Operations(ctx context.Context, from, to *time.Time, state domain.OperationState, figi string) ([]*domain.Operation, error) {
+	if s.accountId == "" {
 		return nil, tinkoffbroker.ErrArgCandleUnspecified
 	}
+
 	resp, err := s.client.GetOperations(ctx, &tkf.OperationsRequest{
-		AccountId: accountId,
+		AccountId: s.accountId,
 		From:      timestamppb.New(*from),
 		To:        timestamppb.New(*to),
 		State:     tkf.OperationState(state),
@@ -79,9 +84,13 @@ func (s *operationsService) Operations(ctx context.Context, accountId string, fr
 }
 
 // Метод получения списка позиций по счёту
-func (s *operationsService) Positions(ctx context.Context, accountId string) (*domain.Positions, error) {
+func (s *operationsService) Positions(ctx context.Context) (*domain.Positions, error) {
+	if s.accountId == "" {
+		return nil, tinkoffbroker.ErrArgCandleUnspecified
+	}
+
 	resp, err := s.client.GetPositions(ctx, &tkf.PositionsRequest{
-		AccountId: accountId,
+		AccountId: s.accountId,
 	})
 	if err != nil {
 		return nil, err

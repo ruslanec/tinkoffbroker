@@ -15,9 +15,9 @@ type Operations interface {
 // Сервис получения информации о портфеле по конкретному счёту
 type OperationsService interface {
 	// Метод получения портфеля по счёту
-	Portfolio(ctx context.Context, accountId string) (*domain.Portfolio, error)
+	Portfolio(ctx context.Context) (*domain.Portfolio, error)
 	// Метод получения списка операций по счёту
-	Operations(ctx context.Context, accountId string, from, to *time.Time, state domain.OperationState, figi string) ([]*domain.Operation, error)
+	Operations(ctx context.Context, from, to *time.Time, state domain.OperationState, figi string) ([]*domain.Operation, error)
 	// Метод получения списка позиций по счёту
-	Positions(ctx context.Context, accountId string) (*domain.Positions, error)
+	Positions(ctx context.Context) (*domain.Positions, error)
 }

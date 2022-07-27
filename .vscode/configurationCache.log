@@ -1,1 +1,0 @@
-{"buildTargets":[".PHONY","all","build","build_compose","build_docker","build_proto","docker_lint","run","test","vet"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

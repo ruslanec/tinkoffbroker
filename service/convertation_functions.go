@@ -5,6 +5,7 @@ import (
 
 	"github.com/ruslanec/tinkoffbroker/domain"
 	tkf "github.com/ruslanec/tinkoffbroker/proto"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Конвертация tkf.MoneyValue в domain,MoneyValue
@@ -641,4 +642,13 @@ func ConvInstrumentShort(instrument *tkf.InstrumentShort) *domain.InstrumentShor
 		PositionUid:       instrument.GetPositionUid(),
 		ApiTradeAvailable: instrument.GetApiTradeAvailableFlag(),
 	}
+}
+
+func ConvTimestamp(timestamp *timestamppb.Timestamp) *time.Time {
+	if timestamp == nil {
+		return nil
+	}
+
+	t := timestamp.AsTime()
+	return &t
 }
