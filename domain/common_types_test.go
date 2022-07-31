@@ -1,71 +1,141 @@
 package domain
 
-import "testing"
+import (
+	"testing"
 
-func TestQuotation_String(t *testing.T) {
+	"github.com/shopspring/decimal"
+	"gotest.tools/assert"
+)
+
+func TestMoneyValue_Add(t *testing.T) {
 	tests := []struct {
-		name string
-		s    *Quotation
-		want string
+		src  *MoneyValue
+		add  *MoneyValue
+		want *MoneyValue
 	}{
-		// TODO: Add test cases.
+		{
+			src: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("123.45"),
+			},
+			add: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("1.5"),
+			},
+			want: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("124.95"),
+			},
+		},
+		{
+			src: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("123.45"),
+			},
+			add: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("-1.4"),
+			},
+			want: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("122.05"),
+			},
+		},
+		{
+			src: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("123.45"),
+			},
+			add: &MoneyValue{
+				Currency: "USD",
+				Value:    decimal.RequireFromString("1.5"),
+			},
+			want: nil,
+		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.s.String(); got != tt.want {
-				t.Errorf("Quotation.String() = %v, want %v", got, tt.want)
-			}
+		t.Run("", func(t *testing.T) {
+			got := tt.src.Add(tt.add)
+			assert.DeepEqual(t, tt.want, got)
 		})
 	}
 }
 
-func TestQuotation_Float64(t *testing.T) {
+func TestMoneyValue_Mul(t *testing.T) {
 	tests := []struct {
-		name string
-		s    *Quotation
-		want float64
+		src  *MoneyValue
+		mul  *Quotation
+		want *MoneyValue
 	}{
-		// TODO: Add test cases.
+		{
+			src: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("10.5"),
+			},
+			mul: &Quotation{
+				Value: decimal.RequireFromString("2"),
+			},
+			want: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("21"),
+			},
+		},
+		{
+			src: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("10.5"),
+			},
+			mul: &Quotation{
+				Value: decimal.RequireFromString("0"),
+			},
+			want: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("0"),
+			},
+		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.s.Float64(); got != tt.want {
-				t.Errorf("Quotation.Float64() = %v, want %v", got, tt.want)
-			}
+		t.Run("", func(t *testing.T) {
+			got := tt.src.Mul(tt.mul)
+			assert.DeepEqual(t, tt.want, got)
 		})
 	}
 }
 
-func TestMoneyValue_String(t *testing.T) {
+func TestMoneyValue_Div(t *testing.T) {
 	tests := []struct {
-		name string
-		s    *MoneyValue
-		want string
+		src  *MoneyValue
+		mul  *Quotation
+		want *MoneyValue
 	}{
-		// TODO: Add test cases.
+		{
+			src: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("21"),
+			},
+			mul: &Quotation{
+				Value: decimal.RequireFromString("2"),
+			},
+			want: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("10.5"),
+			},
+		},
+		{
+			src: &MoneyValue{
+				Currency: "RUB",
+				Value:    decimal.RequireFromString("21"),
+			},
+			mul: &Quotation{
+				Value: decimal.RequireFromString("0"),
+			},
+			want: nil,
+		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.s.String(); got != tt.want {
-				t.Errorf("MoneyValue.String() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestMoneyValue_Float64(t *testing.T) {
-	tests := []struct {
-		name string
-		s    *MoneyValue
-		want float64
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.s.Float64(); got != tt.want {
-				t.Errorf("MoneyValue.Float64() = %v, want %v", got, tt.want)
-			}
+		t.Run("", func(t *testing.T) {
+			got := tt.src.Div(tt.mul)
+			assert.DeepEqual(t, tt.want, got)
 		})
 	}
 }

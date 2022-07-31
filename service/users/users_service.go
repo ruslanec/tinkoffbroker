@@ -104,11 +104,11 @@ func (s *usersService) MarginAttributes(ctx context.Context) (*domain.MarginAttr
 	}
 
 	return &domain.MarginAttributes{
-		LiquidPortfolio:       service.ConvMoneyValue(resp.GetLiquidPortfolio()),
-		StartingMargin:        service.ConvMoneyValue(resp.GetStartingMargin()),
-		MinimalMargin:         service.ConvMoneyValue(resp.GetMinimalMargin()),
-		FundsSufficiencyLevel: service.ConvQuotation(resp.GetFundsSufficiencyLevel()),
-		AmountOfMissingFunds:  service.ConvMoneyValue(resp.GetAmountOfMissingFunds()),
+		LiquidPortfolio:       service.ConvMoneyValueFromTkf(resp.GetLiquidPortfolio()),
+		StartingMargin:        service.ConvMoneyValueFromTkf(resp.GetStartingMargin()),
+		MinimalMargin:         service.ConvMoneyValueFromTkf(resp.GetMinimalMargin()),
+		FundsSufficiencyLevel: service.ConvQuotationFromTkf(resp.GetFundsSufficiencyLevel()),
+		AmountOfMissingFunds:  service.ConvMoneyValueFromTkf(resp.GetAmountOfMissingFunds()),
 	}, nil
 }
 

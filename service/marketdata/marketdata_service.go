@@ -66,7 +66,7 @@ func (s *marketDataService) LastPrices(ctx context.Context, figi []string) ([]*d
 		t := v.GetTime().AsTime()
 		prices = append(prices, &domain.LastPrice{
 			Figi:  v.GetFigi(),
-			Price: service.ConvQuotation(v.GetPrice()),
+			Price: service.ConvQuotationFromTkf(v.GetPrice()),
 			Time:  &t,
 		})
 	}
@@ -135,10 +135,10 @@ func (s *marketDataService) Candles(ctx context.Context, figi string, from, to t
 				Figi:     figi,
 				DateTime: &dt,
 				Interval: interval,
-				Open:     service.ConvQuotation(v.GetOpen()),
-				High:     service.ConvQuotation(v.GetHigh()),
-				Low:      service.ConvQuotation(v.GetLow()),
-				Close:    service.ConvQuotation(v.GetClose()),
+				Open:     service.ConvQuotationFromTkf(v.GetOpen()),
+				High:     service.ConvQuotationFromTkf(v.GetHigh()),
+				Low:      service.ConvQuotationFromTkf(v.GetLow()),
+				Close:    service.ConvQuotationFromTkf(v.GetClose()),
 				Volume:   v.GetVolume(),
 			})
 		}
@@ -163,13 +163,13 @@ func (s *marketDataService) OrderBook(ctx context.Context, figi string, depth in
 	var bids, asks []*domain.Order
 	for _, v := range resp.GetBids() {
 		bids = append(bids, &domain.Order{
-			Price:    service.ConvQuotation(v.GetPrice()),
+			Price:    service.ConvQuotationFromTkf(v.GetPrice()),
 			Quantity: v.GetQuantity(),
 		})
 	}
 	for _, v := range resp.GetAsks() {
 		asks = append(asks, &domain.Order{
-			Price:    service.ConvQuotation(v.GetPrice()),
+			Price:    service.ConvQuotationFromTkf(v.GetPrice()),
 			Quantity: v.GetQuantity(),
 		})
 	}
@@ -179,10 +179,10 @@ func (s *marketDataService) OrderBook(ctx context.Context, figi string, depth in
 		Depth:      resp.GetDepth(),
 		Bids:       bids,
 		Asks:       asks,
-		LastPrice:  service.ConvQuotation(resp.GetLastPrice()),
-		ClosePrice: service.ConvQuotation(resp.GetClosePrice()),
-		LimitUp:    service.ConvQuotation(resp.GetLimitUp()),
-		LimitDown:  service.ConvQuotation(resp.GetLimitDown()),
+		LastPrice:  service.ConvQuotationFromTkf(resp.GetLastPrice()),
+		ClosePrice: service.ConvQuotationFromTkf(resp.GetClosePrice()),
+		LimitUp:    service.ConvQuotationFromTkf(resp.GetLimitUp()),
+		LimitDown:  service.ConvQuotationFromTkf(resp.GetLimitDown()),
 	}, nil
 }
 

@@ -148,7 +148,7 @@ func (s *ordersService) OrderState(ctx context.Context, orderId string) (*domain
 	var stages []*domain.OrderStage
 	for _, v := range resp.GetStages() {
 		stages = append(stages, &domain.OrderStage{
-			Price:    service.ConvMoneyValue(v.GetPrice()),
+			Price:    service.ConvMoneyValueFromTkf(v.GetPrice()),
 			Quantity: v.GetQuantity(),
 			TradeId:  v.GetTradeId(),
 		})
@@ -205,14 +205,10 @@ func (s *ordersService) postOrder(ctx context.Context,
 	orderdirection tkf.OrderDirection,
 	ordertype tkf.OrderType) (*domain.PostOrderResponse, error) {
 	id := uuid.New()
-	p := tkf.Quotation{
-		Units: price.Units,
-		Nano:  price.Nano,
-	}
 	resp, err := s.client.PostOrder(ctx, &tkf.PostOrderRequest{
 		Figi:      figi,
 		Quantity:  quantity,
-		Price:     &p,
+		Price:     service.ConvQuotationToTkf(price),
 		Direction: orderdirection,
 		AccountId: s.accountID,
 		OrderType: ordertype,

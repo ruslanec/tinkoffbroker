@@ -14,10 +14,17 @@ require (
 )
 
 require (
+	github.com/google/go-cmp v0.5.6 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+)
+
+require (
 	cloud.google.com/go v0.34.0 // indirect
+	github.com/shopspring/decimal v1.3.1
 	github.com/stretchr/testify v1.8.0 // indirect
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/appengine v1.4.0 // indirect
 	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
+	gotest.tools v2.2.0+incompatible
 )

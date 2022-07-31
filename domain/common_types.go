@@ -2,7 +2,8 @@ package domain
 
 import (
 	"fmt"
-	"strconv"
+
+	"github.com/shopspring/decimal"
 )
 
 //Режим торгов инструмента
@@ -30,41 +31,80 @@ const (
 
 // Котировка - денежная сумма без указания валюты
 type Quotation struct {
-	Units int64 `json:"units"` // целая часть суммы, может быть отрицательным числом
-	Nano  int32 `json:"nano"`  // дробная часть суммы, может быть отрицательным числом
+	Value decimal.Decimal `json:"value,omitempty"`
 }
 
 func (s *Quotation) String() string {
-	units := strconv.FormatInt(s.Units, 10)
-	nano := strconv.FormatInt(int64(s.Nano), 10)
-	return fmt.Sprintf("%s.%s", units, nano)
+	return s.Value.String()
+}
+
+func (s *Quotation) Display() string {
+	return s.Value.StringFixed(4)
 }
 
 func (s *Quotation) Float64() float64 {
-	f, err := strconv.ParseFloat(s.String(), 64)
-	if err != nil {
-		fmt.Printf("Quotation Float64(): %v", err)
+	return s.Value.InexactFloat64()
+}
+
+func (s *Quotation) Add(value *Quotation) *Quotation {
+	return &Quotation{
+		Value: s.Value.Add(value.Value),
 	}
-	return f
+}
+
+func (s *Quotation) Mul(value *Quotation) *Quotation {
+	return &Quotation{
+		Value: s.Value.Mul(value.Value),
+	}
 }
 
 // Денежная сумма в определенной валюте
 type MoneyValue struct {
-	Currency string `json:"currency"` // строковый ISO-код валюты
-	Units    int64  `json:"units"`    // целая часть суммы, может быть отрицательным числом
-	Nano     int32  `json:"nano"`     // дробная часть суммы, может быть отрицательным числом
+	Currency string          `json:"currency,omitempty"` // строковый ISO-код валюты
+	Value    decimal.Decimal `json:"value,omitempty"`
+}
+
+func (s *MoneyValue) GetCurrency() string {
+	return s.Currency
 }
 
 func (s *MoneyValue) String() string {
-	units := strconv.FormatInt(s.Units, 10)
-	nano := strconv.FormatInt(int64(s.Nano), 10)
-	return fmt.Sprintf("%s.%s %s", units, nano, s.Currency)
+	return s.Value.String()
+}
+
+func (s *MoneyValue) Display() string {
+	return fmt.Sprintf("%s %s", s.Value.StringFixed(2), s.Currency)
 }
 
 func (s *MoneyValue) Float64() float64 {
-	f, err := strconv.ParseFloat(s.String(), 64)
-	if err != nil {
-		fmt.Printf("MoneyValue Float64(): %v", err)
+	return s.Value.InexactFloat64()
+}
+
+func (s *MoneyValue) Add(value *MoneyValue) *MoneyValue {
+	if s.Currency != value.Currency {
+		return nil
 	}
-	return f
+
+	return &MoneyValue{
+		Currency: s.Currency,
+		Value:    s.Value.Add(value.Value),
+	}
+}
+
+func (s *MoneyValue) Mul(value *Quotation) *MoneyValue {
+	return &MoneyValue{
+		Currency: s.Currency,
+		Value:    s.Value.Mul(value.Value),
+	}
+}
+
+func (s *MoneyValue) Div(value *Quotation) *MoneyValue {
+	if value.Value.IsZero() {
+		return nil
+	}
+
+	return &MoneyValue{
+		Currency: s.Currency,
+		Value:    s.Value.Div(value.Value),
+	}
 }

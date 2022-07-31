@@ -143,7 +143,7 @@ func (s *instrumentsService) BondCoupons(ctx context.Context, figi string, from,
 			CouponDate:      &couponDate,
 			CouponNumber:    v.GetCouponNumber(),
 			FixDate:         &fixDate,
-			PayOneBond:      service.ConvMoneyValue(v.GetPayOneBond()),
+			PayOneBond:      service.ConvMoneyValueFromTkf(v.GetPayOneBond()),
 			CouponType:      domain.CouponType(v.GetCouponType()),
 			CouponStartDate: &couponStartDate,
 			CouponEndDate:   &couponEndDate,
@@ -286,9 +286,9 @@ func (s *instrumentsService) AccruedInterests(ctx context.Context, figi string, 
 		date := v.GetDate().AsTime()
 		interests = append(interests, &domain.AccruedInterest{
 			Date:         &date,
-			Value:        service.ConvQuotation(v.GetValue()),
-			ValuePercent: service.ConvQuotation(v.GetValuePercent()),
-			Nominal:      service.ConvQuotation(v.GetNominal()),
+			Value:        service.ConvQuotationFromTkf(v.GetValue()),
+			ValuePercent: service.ConvQuotationFromTkf(v.GetValuePercent()),
+			Nominal:      service.ConvQuotationFromTkf(v.GetNominal()),
 		})
 	}
 
@@ -304,10 +304,10 @@ func (s *instrumentsService) FuturesMargin(ctx context.Context, figi string) (*d
 		return nil, err
 	}
 	return &domain.FuturesMargin{
-		InitialMarginOnBuy:      service.ConvMoneyValue(resp.InitialMarginOnBuy),
-		InitialMarginOnSell:     service.ConvMoneyValue(resp.InitialMarginOnSell),
-		MinPriceIncrement:       service.ConvQuotation(resp.MinPriceIncrement),
-		MinPriceIncrementAmount: service.ConvQuotation(resp.MinPriceIncrementAmount),
+		InitialMarginOnBuy:      service.ConvMoneyValueFromTkf(resp.InitialMarginOnBuy),
+		InitialMarginOnSell:     service.ConvMoneyValueFromTkf(resp.InitialMarginOnSell),
+		MinPriceIncrement:       service.ConvQuotationFromTkf(resp.MinPriceIncrement),
+		MinPriceIncrementAmount: service.ConvQuotationFromTkf(resp.MinPriceIncrementAmount),
 	}, nil
 
 }
@@ -331,12 +331,12 @@ func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) 
 			Isin:              tkfInstrument.GetIsin(),
 			Lot:               tkfInstrument.GetLot(),
 			Currency:          tkfInstrument.GetCurrency(),
-			Klong:             service.ConvQuotation(tkfInstrument.GetKlong()),
-			Kshort:            service.ConvQuotation(tkfInstrument.GetKshort()),
-			Dlong:             service.ConvQuotation(tkfInstrument.GetDlong()),
-			Dshort:            service.ConvQuotation(tkfInstrument.GetDshort()),
-			DlongMin:          service.ConvQuotation(tkfInstrument.GetDlongMin()),
-			DshortMin:         service.ConvQuotation(tkfInstrument.GetDlongMin()),
+			Klong:             service.ConvQuotationFromTkf(tkfInstrument.GetKlong()),
+			Kshort:            service.ConvQuotationFromTkf(tkfInstrument.GetKshort()),
+			Dlong:             service.ConvQuotationFromTkf(tkfInstrument.GetDlong()),
+			Dshort:            service.ConvQuotationFromTkf(tkfInstrument.GetDshort()),
+			DlongMin:          service.ConvQuotationFromTkf(tkfInstrument.GetDlongMin()),
+			DshortMin:         service.ConvQuotationFromTkf(tkfInstrument.GetDlongMin()),
 			ShortEnabled:      tkfInstrument.GetShortEnabledFlag(),
 			Name:              tkfInstrument.GetName(),
 			Exchange:          tkfInstrument.GetExchange(),
@@ -347,7 +347,7 @@ func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) 
 			Otc:               tkfInstrument.GetOtcFlag(),
 			BuyAvailable:      tkfInstrument.GetBuyAvailableFlag(),
 			SellAvailable:     tkfInstrument.GetSellAvailableFlag(),
-			MinPriceIncrement: service.ConvQuotation(tkfInstrument.GetMinPriceIncrement()),
+			MinPriceIncrement: service.ConvQuotationFromTkf(tkfInstrument.GetMinPriceIncrement()),
 			ApiTradeAvailable: tkfInstrument.GetApiTradeAvailableFlag(),
 		}
 	}
@@ -378,15 +378,15 @@ func (s *instrumentsService) Dividends(ctx context.Context, figi string, from, t
 		createdAt := v.GetCreatedAt().AsTime()
 
 		dividends = append(dividends, &domain.Dividend{
-			DividendNet:  service.ConvMoneyValue(v.GetDividendNet()),
+			DividendNet:  service.ConvMoneyValueFromTkf(v.GetDividendNet()),
 			PaymentDate:  &paymentDate,
 			DeclaredDate: &declaredDate,
 			LastBuyDate:  &lastBuyDate,
 			DividendType: v.GetDividendType(),
 			RecordDate:   &recordDate,
 			Regularity:   v.GetRegularity(),
-			ClosePrice:   service.ConvMoneyValue(v.GetClosePrice()),
-			YieldValue:   service.ConvQuotation(v.GetYieldValue()),
+			ClosePrice:   service.ConvMoneyValueFromTkf(v.GetClosePrice()),
+			YieldValue:   service.ConvQuotationFromTkf(v.GetYieldValue()),
 			CreatedAt:    &createdAt,
 		})
 	}

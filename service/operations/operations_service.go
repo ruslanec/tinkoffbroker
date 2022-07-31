@@ -49,12 +49,12 @@ func (s *operationsService) Portfolio(ctx context.Context) (*domain.Portfolio, e
 	}
 
 	return &domain.Portfolio{
-		TotalAmountShares:     service.ConvMoneyValue(resp.TotalAmountShares),
-		TotalAmountBonds:      service.ConvMoneyValue(resp.TotalAmountBonds),
-		TotalAmountEtf:        service.ConvMoneyValue(resp.TotalAmountEtf),
-		TotalAmountCurrencies: service.ConvMoneyValue(resp.TotalAmountCurrencies),
-		TotalAmountFutures:    service.ConvMoneyValue(resp.TotalAmountFutures),
-		ExpectedYield:         service.ConvQuotation(resp.ExpectedYield),
+		TotalAmountShares:     service.ConvMoneyValueFromTkf(resp.TotalAmountShares),
+		TotalAmountBonds:      service.ConvMoneyValueFromTkf(resp.TotalAmountBonds),
+		TotalAmountEtf:        service.ConvMoneyValueFromTkf(resp.TotalAmountEtf),
+		TotalAmountCurrencies: service.ConvMoneyValueFromTkf(resp.TotalAmountCurrencies),
+		TotalAmountFutures:    service.ConvMoneyValueFromTkf(resp.TotalAmountFutures),
+		ExpectedYield:         service.ConvQuotationFromTkf(resp.ExpectedYield),
 		Positions:             positions,
 	}, nil
 }
@@ -98,20 +98,12 @@ func (s *operationsService) Positions(ctx context.Context) (*domain.Positions, e
 
 	var money []*domain.MoneyValue
 	for _, v := range resp.GetMoney() {
-		money = append(money, &domain.MoneyValue{
-			Currency: v.GetCurrency(),
-			Units:    v.GetUnits(),
-			Nano:     v.GetNano(),
-		})
+		money = append(money, service.ConvMoneyValueFromTkf(v))
 	}
 
 	var blocked []*domain.MoneyValue
 	for _, v := range resp.GetBlocked() {
-		blocked = append(blocked, &domain.MoneyValue{
-			Currency: v.GetCurrency(),
-			Units:    v.GetUnits(),
-			Nano:     v.GetNano(),
-		})
+		blocked = append(blocked, service.ConvMoneyValueFromTkf(v))
 	}
 
 	var securities []*domain.PositionInstrument
