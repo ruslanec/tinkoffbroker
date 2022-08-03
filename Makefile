@@ -4,8 +4,9 @@ all: build
 .PHONY: build_proto
 build_proto:
 	docker build -t proto \
+	--progress=plain \
 	--build-arg email=r.idrisov@gmail.com \
-	--build-arg username=protobuilder \
+	--build-arg username=ruslanec \
 	--secret id=my_env,src=.env \
 	--no-cache .
 
