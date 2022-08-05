@@ -11,7 +11,7 @@ update_proto:
 
 .PHONY: vet
 vet:
-	go vet ./cmd/tinkoffbroker/
+	go vet .
 
 .PHONY: win_build
 win_build:
