@@ -32,6 +32,15 @@ const (
 	OrderType_ORDER_TYPE_MARKET      OrderType = 2 //Рыночная
 )
 
+//Тип цены.
+type PriceType int32
+
+const (
+	PriceType_PRICE_TYPE_UNSPECIFIED PriceType = 0 //Значение не определено.
+	PriceType_PRICE_TYPE_POINT       PriceType = 1 //Цена в пунктах (только для фьючерсов и облигаций).
+	PriceType_PRICE_TYPE_CURRENCY    PriceType = 2 //Цена в валюте расчётов по инструменту.
+)
+
 //Сделки в рамках торгового поручения.
 type OrderStage struct {
 	Price    *MoneyValue `json:"price,omitempty"`    //Цена.

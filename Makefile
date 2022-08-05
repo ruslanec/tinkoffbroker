@@ -1,10 +1,9 @@
 .PHONY: all
 all: build
 
-.PHONY: build_proto
-build_proto:
+.PHONY: update_proto
+update_proto:
 	docker build -t proto \
-	--progress=plain \
 	--build-arg email=r.idrisov@gmail.com \
 	--build-arg username=ruslanec \
 	--secret id=my_env,src=.env \
@@ -19,6 +18,7 @@ build:
 	go build .\examples\portfolio\portfolio.go 
 	go build .\examples\marketdatastream\marketdatastream.go
 	go build .\examples\users\users.go
+	go build .\examples\errors\errors.go
 
 .PHONY: clean
 clean:

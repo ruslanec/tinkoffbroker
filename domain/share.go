@@ -51,18 +51,24 @@ type Share struct {
 	ShareType             ShareType             `json:"share_type,omitempty"`               //Тип акции. Возможные значения: [ShareType](https://tinkoff.github.io/investAPI/instruments#sharetype)
 	MinPriceIncrement     *Quotation            `json:"min_price_increment,omitempty"`      //Шаг цены.
 	ApiTradeAvailableFlag bool                  `json:"api_trade_available_flag,omitempty"` //Признак доступности торгов через API.
+	Uid                   string                `json:"uid,omitempty"`                      //Уникальный идентификатор инструмента.
+	RealExchange          RealExchange          `json:"real_exchange,omitempty"`            //Реальная площадка исполнения расчётов.
+	PositionUid           string                `json:"position_uid,omitempty"`             //Уникальный идентификатор позиции инструмента.
+	ForIis                bool                  `json:"for_iis,omitempty"`                  //Признак доступности для ИИС.
+	First1MinCandleDate   *time.Time            `json:"first_1_min_candle_date,omitempty"`  //Дата первой минутной свечи.
+	First1DayCandleDate   *time.Time            `json:"first_1_day_candle_date,omitempty"`  //Дата первой дневной свечи.
 }
 
-// Информация о выплате дивидентов
+//Информация о выплате дивидентов
 type Dividend struct {
-	DividendNet  *MoneyValue `json:"dividend_net,omitempty"`  // Величина дивиденда на 1 ценную бумагу (включая валюту).
-	PaymentDate  *time.Time  `json:"payment_date,omitempty"`  // Дата фактических выплат в часовом поясе UTC.
-	DeclaredDate *time.Time  `json:"declared_date,omitempty"` // Дата объявления дивидендов в часовом поясе UTC.
-	LastBuyDate  *time.Time  `json:"last_buy_date,omitempty"` // Последний день (включительно) покупки для получения выплаты в часовом поясе UTC.
-	DividendType string      `json:"dividend_type,omitempty"` // Тип выплаты. Возможные значения: Regular Cash – регулярные выплаты, Cancelled – выплата отменена, Daily Accrual – ежедневное начисление, Return of Capital – возврат капитала, прочие типы выплат.
-	RecordDate   *time.Time  `json:"record_date,omitempty"`   // Дата фиксации реестра в часовом поясе UTC.
-	Regularity   string      `json:"regularity,omitempty"`    // Регулярность выплаты. Возможные значения: Annual – ежегодная, Semi-Anl – каждые полгода, прочие типы выплат.
-	ClosePrice   *MoneyValue `json:"close_price,omitempty"`   // Цена закрытия инструмента на момент ex_dividend_date.
-	YieldValue   *Quotation  `json:"yield_value,omitempty"`   // Величина доходности.
-	CreatedAt    *time.Time  `json:"created_at,omitempty"`    // Дата и время создания записи в часовом поясе UTC.
+	DividendNet  *MoneyValue `json:"dividend_net,omitempty"`  //Величина дивиденда на 1 ценную бумагу (включая валюту).
+	PaymentDate  *time.Time  `json:"payment_date,omitempty"`  //Дата фактических выплат в часовом поясе UTC.
+	DeclaredDate *time.Time  `json:"declared_date,omitempty"` //Дата объявления дивидендов в часовом поясе UTC.
+	LastBuyDate  *time.Time  `json:"last_buy_date,omitempty"` //Последний день (включительно) покупки для получения выплаты в часовом поясе UTC.
+	DividendType string      `json:"dividend_type,omitempty"` //Тип выплаты. Возможные значения: Regular Cash – регулярные выплаты, Cancelled – выплата отменена, Daily Accrual – ежедневное начисление, Return of Capital – возврат капитала, прочие типы выплат.
+	RecordDate   *time.Time  `json:"record_date,omitempty"`   //Дата фиксации реестра в часовом поясе UTC.
+	Regularity   string      `json:"regularity,omitempty"`    //Регулярность выплаты. Возможные значения: Annual – ежегодная, Semi-Anl – каждые полгода, прочие типы выплат.
+	ClosePrice   *MoneyValue `json:"close_price,omitempty"`   //Цена закрытия инструмента на момент ex_dividend_date.
+	YieldValue   *Quotation  `json:"yield_value,omitempty"`   //Величина доходности.
+	CreatedAt    *time.Time  `json:"created_at,omitempty"`    //Дата и время создания записи в часовом поясе UTC.
 }

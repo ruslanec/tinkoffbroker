@@ -1,7 +1,7 @@
 # Stockbroker
 ## _Broker client for stock market trading_
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+[![Build Status](https://github.com/ruslanec/tinkoffbroker/actions/workflows/build_package.yml/badge.svg?branch=master)](https://github.com/ruslanec/tinkoffbroker)
 
 Dillinger is a cloud-enabled, mobile-ready, offline-storage compatible,
 AngularJS-powered HTML5 Markdown editor.
@@ -11,29 +11,16 @@ AngularJS-powered HTML5 Markdown editor.
 
 ## Features
 
-- Получение информации о счете пользователя
-- Получение информации о портфеле
-- Получение справочной информации о ценных бумагах
-- Получение биржевой информации (в т.ч. исторической)
-- Работа с торговыми поручениями
-- Работа со стоп-заявками
-- Торговля в песочнице
+| № | Функция | Статус | Комментарий |
+| :------: | ------ | :------: | ------ |
+| 1 | Получение информации о счете пользователя |  |  |
+| 2 | Получение информации о портфеле |  |  |
+| 3 | Получение справочной информации о ценных бумагах |  |  |
+| 4 | Получение биржевой информации (в т.ч. исторической) |  |  |
+| 5 | Работа с торговыми поручениями |  |  |
+| 6 | Работа со стоп-заявками |  |  |
+| 7 | Торговля в песочнице |  |  |
 
-Markdown is a lightweight markup language based on the formatting conventions
-that people naturally use in email.
-As [John Gruber] writes on the [Markdown site][df1]
-
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
-
-This text you see here is *actually- written in Markdown! To get a feel
-for Markdown's syntax, type some text into the left window and
-watch the results in the right.
 
 ## Tasks
 
@@ -42,7 +29,7 @@ watch the results in the right.
 | 1 | Настроить кроссплатформенную сборку проекта (Makefile) | :heavy_check_mark: | choco install make |
 | 2 | Настроить конвейер CI/CD (Github Actions) | :heavy_check_mark: | audit.yml |
 | 3 | Настроить линтеры | :heavy_check_mark: | redhat.vscode-yaml |
-| 4 | Генерация API из GRPC proto файлов (Dockerfile) |  |  |
+| 4 | Генерация API из GRPC proto файлов (Dockerfile) | :heavy_check_mark: |  |
 | 5 | Модульное тестирование |  |  |
 | 6 | Интеграционные тесты Tinkoff Invest API |  |  |
 | 7 | Нагрузочные тесты и профилирование |  |  |
@@ -54,14 +41,11 @@ watch the results in the right.
 Install dev
 1. choco install make
 
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
-
-Install the dependencies and devDependencies and start the server.
-
 ```sh
-cd dillinger
-npm i
-node app
+choco install make
+git clone https://github.com/ruslanec/tinkoffbroker.git
+cd tinkoffbroker
+go tidy
 ```
 
 For production environments...

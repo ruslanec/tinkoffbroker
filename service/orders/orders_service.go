@@ -220,3 +220,22 @@ func (s *ordersService) postOrder(ctx context.Context,
 
 	return service.ConvPostOrderResponse(resp), nil
 }
+
+//Метод изменения выставленной заявки.
+func (s *ordersService) ReplaceOrder(ctx context.Context, orderId string, quantity int64, price *domain.Quotation, priceType domain.PriceType) (*domain.PostOrderResponse, error) {
+	id := uuid.New()
+
+	resp, err := s.client.ReplaceOrder(ctx, &tkf.ReplaceOrderRequest{
+		AccountId:      s.accountID,
+		OrderId:        orderId,
+		IdempotencyKey: id.String(), // TODO Разобраться
+		Quantity:       quantity,
+		Price:          service.ConvQuotationToTkf(price),
+		PriceType:      tkf.PriceType(priceType),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return service.ConvPostOrderResponse(resp), nil
+}

@@ -229,8 +229,8 @@ func Test_client_BondCoupons(t *testing.T) {
 	type args struct {
 		ctx  context.Context
 		figi string
-		from *time.Time
-		to   *time.Time
+		from time.Time
+		to   time.Time
 	}
 	tests := []struct {
 		name    string
@@ -259,8 +259,8 @@ func Test_client_AccruedInterests(t *testing.T) {
 	type args struct {
 		ctx  context.Context
 		figi string
-		from *time.Time
-		to   *time.Time
+		from time.Time
+		to   time.Time
 	}
 	tests := []struct {
 		name    string
@@ -540,8 +540,8 @@ func Test_client_Dividends(t *testing.T) {
 	type args struct {
 		ctx  context.Context
 		figi string
-		from *time.Time
-		to   *time.Time
+		from time.Time
+		to   time.Time
 	}
 	tests := []struct {
 		name    string

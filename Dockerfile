@@ -12,8 +12,6 @@ RUN apt-get install -y git
 
 RUN git clone https://github.com/Tinkoff/investAPI.git
 
-#RUN cp /home/investAPI/src/docs/contracts/* /home/tinkoffbroker/proto/
-
 WORKDIR /home/investAPI/src/docs/contracts/
 RUN protoc --go_out=. ./*.proto
 RUN protoc --go-grpc_out=. ./*.proto

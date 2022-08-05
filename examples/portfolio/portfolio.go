@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -32,6 +33,7 @@ func main() {
 		*accountid = os.Getenv("TKF_ACCOUNTID")
 	}
 
+	*accountid = "5555"
 	// create connection to broker Tinkoff
 	conn, err := grpc.Dial(investApiUrl,
 		grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{})),
@@ -55,6 +57,8 @@ func main() {
 
 	portfolio, err := client.Portfolio(ctx)
 	if err != nil {
+		fmt.Println(err.Error())
+		fmt.Println(errors.Unwrap(err))
 		log.Fatal(err)
 	}
 

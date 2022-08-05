@@ -24,9 +24,9 @@ type InstrumentsService interface {
 	// Метод получения облигации по FIGI
 	BondByFigi(ctx context.Context, figi string) (*domain.Bond, error)
 	// Запрос купонов по облигации
-	BondCoupons(ctx context.Context, figi string, from, to *time.Time) ([]*domain.Coupon, error)
+	BondCoupons(ctx context.Context, figi string, from, to time.Time) ([]*domain.Coupon, error)
 	// Метод получения накопленного купонного дохода по облигации
-	AccruedInterests(ctx context.Context, figi string, from, to *time.Time) ([]*domain.AccruedInterest, error)
+	AccruedInterests(ctx context.Context, figi string, from, to time.Time) ([]*domain.AccruedInterest, error)
 	// Метод получения списка валют
 	Currencies(ctx context.Context) (shares []*domain.Currency, err error)
 	// Метод получения валюты по FIGI
@@ -46,7 +46,7 @@ type InstrumentsService interface {
 	// Метод получения основной информации об инструменте
 	InstrumentByFigi(ctx context.Context, figi string) (*domain.Instrument, error)
 	// Метод для получения событий выплаты дивидендов по инструменту
-	Dividends(ctx context.Context, figi string, from, to *time.Time) ([]*domain.Dividend, error)
+	Dividends(ctx context.Context, figi string, from, to time.Time) ([]*domain.Dividend, error)
 	// Метод получения актива по его идентификатору
 	AssetById(ctx context.Context, id string) (*domain.AssetFull, error)
 	// Метод получения списка активов

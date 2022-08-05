@@ -29,6 +29,8 @@ type OrdersService interface {
 	OrderState(ctx context.Context, orderId string) (*domain.OrderState, error)
 	// Метод получения списка активных заявок по счёту
 	Orders(ctx context.Context) ([]*domain.OrderState, error)
+	//Метод изменения выставленной заявки.
+	ReplaceOrder(ctx context.Context, orderId string, quantity int64, price *domain.Quotation, priceType domain.PriceType) (*domain.PostOrderResponse, error)
 }
 
 // Потоковый сервис получения информации о сделках пользователя

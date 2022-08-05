@@ -19,7 +19,7 @@ type operationsService struct {
 	client    tkf.OperationsServiceClient
 }
 
-// Конструктор сервиса
+//Конструктор сервиса
 func NewOperationsService(conn *grpc.ClientConn, accountId string) service.OperationsService {
 	client := tkf.NewOperationsServiceClient(conn)
 
@@ -30,8 +30,8 @@ func NewOperationsService(conn *grpc.ClientConn, accountId string) service.Opera
 	}
 }
 
-// Метод получения портфеля по счёту
-func (s *operationsService) Portfolio(ctx context.Context) (*domain.Portfolio, error) { // TOD remove connections
+//Метод получения портфеля по счёту
+func (s *operationsService) Portfolio(ctx context.Context) (*domain.Portfolio, error) { //TOD remove connections
 	if s.accountId == "" {
 		return nil, tinkoffbroker.ErrArgEmptyAccounID
 	}
@@ -59,7 +59,7 @@ func (s *operationsService) Portfolio(ctx context.Context) (*domain.Portfolio, e
 	}, nil
 }
 
-// Метод получения списка операций по счёту
+//Метод получения списка операций по счёту
 func (s *operationsService) Operations(ctx context.Context, from, to *time.Time, state domain.OperationState, figi string) ([]*domain.Operation, error) {
 	if s.accountId == "" {
 		return nil, tinkoffbroker.ErrArgCandleUnspecified
@@ -83,7 +83,7 @@ func (s *operationsService) Operations(ctx context.Context, from, to *time.Time,
 	return operations, nil
 }
 
-// Метод получения списка позиций по счёту
+//Метод получения списка позиций по счёту
 func (s *operationsService) Positions(ctx context.Context) (*domain.Positions, error) {
 	if s.accountId == "" {
 		return nil, tinkoffbroker.ErrArgCandleUnspecified
