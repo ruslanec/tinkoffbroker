@@ -13,12 +13,25 @@ update_proto:
 vet:
 	go vet ./cmd/tinkoffbroker/
 
-.PHONY: build
-build:
+.PHONY: win_build
+win_build:
 	go build .\examples\portfolio\portfolio.go 
 	go build .\examples\marketdatastream\marketdatastream.go
 	go build .\examples\users\users.go
 	go build .\examples\errors\errors.go
+
+.PHONY: win_clean
+clean:
+	rm ./portfolio.exe
+	rm ./marketdatastream.exe
+	rm ./users.exe
+
+.PHONY: build
+build:
+	go build ./examples/portfolio/portfolio.go 
+	go build ./examples/marketdatastream/marketdatastream.go
+	go build ./examples/users/users.go
+	go build ./examples/errors/errors.go
 
 .PHONY: clean
 clean:
