@@ -1,0 +1,16 @@
+@Host = https://api.todoist.com
+
+###
+# Get all projects
+# Returns JSON-encoded array containing all user projects.
+# A successful response has 200 OK status and application/json Content-Type.
+GET {{Host}}/rest/v1/projects
+Authorization: {{Todoist_token}}
+
+###
+GET https://api.todoist.com/rest/v1/sections?project_id=1213643916
+Authorization: {{Todoist_token}}
+
+###
+GET {{Host}}/rest/v1/tasks
+Authorization: {{Todoist_token}}
