@@ -46,10 +46,10 @@ jobs:
       run: go install golang.org/x/lint/golint@latest
 
     - name: Run golint
-      run: golint ./cmd/tinkoffbroker/
+      run: golint .
 
     - name: Run tests
-      run: go test -race -vet=off ./cmd/tinkoffbroker/
+      run: go test -race -vet=off .
 
     - name: Send telegram message on push with job ststus success
       if: ${{ success() }}
