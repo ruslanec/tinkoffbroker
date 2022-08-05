@@ -32,6 +32,7 @@ build:
 	go build ./examples/marketdatastream/marketdatastream.go
 	go build ./examples/users/users.go
 	go build ./examples/errors/errors.go
+	
 
 .PHONY: clean
 clean:
