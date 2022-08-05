@@ -1,7 +1,7 @@
 # Stockbroker
 ## _Broker client for stock market trading_
 
-[![Build Status](https://github.com/ruslanec/tinkoffbroker/actions/workflows/build_package.yml/badge.svg?branch=master)](https://github.com/ruslanec/tinkoffbroker)
+[![Build Status](https://github.com/ruslanec/tinkoffbroker/actions/workflows/build_package.yml/badge.svg)](https://github.com/ruslanec/tinkoffbroker)
 
 Dillinger is a cloud-enabled, mobile-ready, offline-storage compatible,
 AngularJS-powered HTML5 Markdown editor.
