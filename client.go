@@ -3,6 +3,7 @@ package tinkoffbroker
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/ruslanec/tinkoffbroker/domain"
@@ -131,13 +132,9 @@ func (c *client) Run(ctx context.Context) (err error) {
 
 //Close
 func (c *client) Close() {
-	//if c.services.MarketDataStream == nil {
-	//	c.services.MarketDataStream
-	//}
-
-	ctx := context.Background()
-	c.services.OrdersStream.UnsubscribeOrderTrades(ctx) //TODO exception service not defined
-	c.conn.Close()
+	if err := c.conn.Close(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 //Метод получения списка акций

@@ -16,37 +16,17 @@ jobs:
         check-latest: true
         cache: true
 
-    # - uses: actions/download-artifact@master
-    #   id: download
-    #   with:
-    #     name: proto
-    #     path: proto
-    # - run: |
-    #     ls
-    #     ls ./pkg/stockbroker/service/tinkoffbroker/proto
-    #     cp -rf ${{steps.download.outputs.download-path}}/* ./pkg/stockbroker/service/tinkoffbroker/proto
-    #     ls ./pkg/stockbroker/service/tinkoffbroker/proto
-
     - name: Verify dependencies
       run: go mod verify
 
     - name: Build
       run: make build
 
-    - name: Run go vet
-      run: make vet
-
-    - name: Install staticcheck
-      run: go install honnef.co/go/tools/cmd/staticcheck@latest
-
-    - name: Run staticcheck
-      run: staticcheck .
-
-    - name: Install golint
-      run: go install golang.org/x/lint/golint@latest
-
-    - name: Run golint
-      run: golint .
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v3
+      with:
+        version: v1.29
+        args: --disable unused
 
     - name: Run tests
       run: go test -race -vet=off .
