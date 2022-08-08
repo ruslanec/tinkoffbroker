@@ -27,6 +27,8 @@ jobs:
       with:
         version: v1.29
         args: --disable unused
+        skip-dirs:
+          proto
 
     - name: Run tests
       run: go test -race -vet=off .
