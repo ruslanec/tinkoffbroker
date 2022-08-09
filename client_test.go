@@ -13,7 +13,7 @@ import (
 func TestNewClient(t *testing.T) {
 	type args struct {
 		conn      *grpc.ClientConn
-		accountId string
+		accountID string
 		opts      []Option
 	}
 	tests := []struct {
@@ -25,7 +25,7 @@ func TestNewClient(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewClient(tt.args.conn, tt.args.accountId, tt.args.opts...); !reflect.DeepEqual(got, tt.want) {
+			if got := NewClient(tt.args.conn, tt.args.accountID, tt.args.opts...); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewClient() = %v, want %v", got, tt.want)
 			}
 		})
@@ -566,7 +566,7 @@ func Test_client_Dividends(t *testing.T) {
 	}
 }
 
-func Test_client_AssetById(t *testing.T) {
+func Test_client_AssetByID(t *testing.T) {
 	type args struct {
 		ctx context.Context
 		id  string
@@ -582,13 +582,13 @@ func Test_client_AssetById(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.c.AssetById(tt.args.ctx, tt.args.id)
+			got, err := tt.c.AssetByID(tt.args.ctx, tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("client.AssetById() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.AssetByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.AssetById() = %v, want %v", got, tt.want)
+				t.Errorf("client.AssetByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -759,7 +759,7 @@ func Test_client_Brands(t *testing.T) {
 	}
 }
 
-func Test_client_BrandById(t *testing.T) {
+func Test_client_BrandByID(t *testing.T) {
 	type args struct {
 		ctx context.Context
 		id  string
@@ -775,13 +775,13 @@ func Test_client_BrandById(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.c.BrandById(tt.args.ctx, tt.args.id)
+			got, err := tt.c.BrandByID(tt.args.ctx, tt.args.id)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("client.BrandById() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("client.BrandByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("client.BrandById() = %v, want %v", got, tt.want)
+				t.Errorf("client.BrandByID() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -1026,7 +1026,7 @@ func Test_client_OrderSellMarket(t *testing.T) {
 func Test_client_CancelOrder(t *testing.T) {
 	type args struct {
 		ctx     context.Context
-		orderId string
+		orderID string
 	}
 	tests := []struct {
 		name    string
@@ -1039,7 +1039,7 @@ func Test_client_CancelOrder(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.c.CancelOrder(tt.args.ctx, tt.args.orderId)
+			got, err := tt.c.CancelOrder(tt.args.ctx, tt.args.orderID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("client.CancelOrder() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -1054,7 +1054,7 @@ func Test_client_CancelOrder(t *testing.T) {
 func Test_client_OrderState(t *testing.T) {
 	type args struct {
 		ctx     context.Context
-		orderId string
+		orderID string
 	}
 	tests := []struct {
 		name    string
@@ -1067,7 +1067,7 @@ func Test_client_OrderState(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.c.OrderState(tt.args.ctx, tt.args.orderId)
+			got, err := tt.c.OrderState(tt.args.ctx, tt.args.orderID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("client.OrderState() error = %v, wantErr %v", err, tt.wantErr)
 				return

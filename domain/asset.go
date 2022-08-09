@@ -8,9 +8,9 @@ import (
 type StructuredProductType int32
 
 const (
-	SP_TYPE_UNSPECIFIED     StructuredProductType = 0 // Тип не определён.
-	SP_TYPE_DELIVERABLE     StructuredProductType = 1 // Поставочный.
-	SP_TYPE_NON_DELIVERABLE StructuredProductType = 2 // Беспоставочный.
+	StructuredProductTypeUnspecified    StructuredProductType = 0 // Тип не определён.
+	StructuredProductTypeDeliverable    StructuredProductType = 1 // Поставочный.
+	StructuredProductTypeNonDeliverable StructuredProductType = 2 // Беспоставочный.
 )
 
 // Тип актива
@@ -18,16 +18,16 @@ type AssetType int32
 
 // Тип актива.
 const (
-	ASSET_TYPE_UNSPECIFIED AssetType = 0 // Тип не определён.
-	ASSET_TYPE_CURRENCY    AssetType = 1 // Валюта.
-	ASSET_TYPE_COMMODITY   AssetType = 2 // Товар.
-	ASSET_TYPE_INDEX       AssetType = 3 // Индекс.
-	ASSET_TYPE_SECURITY    AssetType = 4 // Ценная бумага.
+	AssetTypeUnspecified AssetType = 0 // Тип не определён.
+	AssetTypeCurrency    AssetType = 1 // Валюта.
+	AssetTypeCommodity   AssetType = 2 // Товар.
+	AssetTypeIndex       AssetType = 3 // Индекс.
+	AssetTypeSecurity    AssetType = 4 // Ценная бумага.
 )
 
 // Информация об активе
 type Asset struct {
-	Uid         string             `json:"uid,omitempty"`         // Уникальный идентификатор актива.
+	UID         string             `json:"uid,omitempty"`         // Уникальный идентификатор актива.
 	Type        AssetType          `json:"type,omitempty"`        // Тип актива
 	Name        string             `json:"name,omitempty"`        // Наименование актива
 	Instruments []*AssetInstrument `json:"instruments,omitempty"` // Массив идентификаторов инструментов
@@ -35,7 +35,7 @@ type Asset struct {
 
 // Идентификаторы инструмента
 type AssetInstrument struct {
-	Uid            string            `json:"uid,omitempty"`             // uid идентификатор инструмента
+	UID            string            `json:"uid,omitempty"`             // uid идентификатор инструмента
 	Figi           string            `json:"figi,omitempty"`            // figi идентификатор инструмента
 	InstrumentType string            `json:"instrument_type,omitempty"` // Тип инструмента
 	Ticker         string            `json:"ticker,omitempty"`          // Тикер инструмента
@@ -46,12 +46,12 @@ type AssetInstrument struct {
 // Связь с другим инструментом
 type InstrumentLink struct {
 	Type          string `json:"type,omitempty"`           // Тип связи
-	InstrumentUid string `json:"instrument_uid,omitempty"` // uid идентификатор связанного инструмента
+	InstrumentUID string `json:"instrument_uid,omitempty"` // uid идентификатор связанного инструмента
 }
 
 // Данные по активу
 type AssetFull struct {
-	Uid           string             `json:"uid,omitempty"`            // Уникальный идентификатор актива
+	UID           string             `json:"uid,omitempty"`            // Уникальный идентификатор актива
 	Type          AssetType          `json:"type,omitempty"`           // Тип актива
 	Name          string             `json:"name,omitempty"`           // Наименование актива
 	NameBrief     string             `json:"name_brief,omitempty"`     // Короткое наименование актива
@@ -191,7 +191,7 @@ type AssetClearingCertificate struct {
 
 // Бренд.
 type Brand struct {
-	Uid               string `json:"uid,omitempty"`                  // uid идентификатор бренда.
+	UID               string `json:"uid,omitempty"`                  // uid идентификатор бренда.
 	Name              string `json:"name,omitempty"`                 // Наименование бренда.
 	Description       string `json:"description,omitempty"`          // Описание.
 	Info              string `json:"info,omitempty"`                 // Информация о бренде.

@@ -2867,7 +2867,7 @@ type GetTradingStatusResponse struct {
 	TradingStatus            SecurityTradingStatus `protobuf:"varint,2,opt,name=trading_status,json=tradingStatus,proto3,enum=tinkoff.public.invest.api.contract.v1.SecurityTradingStatus" json:"trading_status,omitempty"` //Статус торговли инструментом.
 	LimitOrderAvailableFlag  bool                  `protobuf:"varint,3,opt,name=limit_order_available_flag,json=limitOrderAvailableFlag,proto3" json:"limit_order_available_flag,omitempty"`                                //Признак доступности выставления лимитной заявки по инструменту.
 	MarketOrderAvailableFlag bool                  `protobuf:"varint,4,opt,name=market_order_available_flag,json=marketOrderAvailableFlag,proto3" json:"market_order_available_flag,omitempty"`                             //Признак доступности выставления рыночной заявки по инструменту.
-	ApiTradeAvailableFlag    bool                  `protobuf:"varint,5,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
+	APITradeAvailableFlag    bool                  `protobuf:"varint,5,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
 }
 
 func (x *GetTradingStatusResponse) Reset() {
@@ -2930,9 +2930,9 @@ func (x *GetTradingStatusResponse) GetMarketOrderAvailableFlag() bool {
 	return false
 }
 
-func (x *GetTradingStatusResponse) GetApiTradeAvailableFlag() bool {
+func (x *GetTradingStatusResponse) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }

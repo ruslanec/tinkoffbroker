@@ -65,7 +65,7 @@ type OpenSandboxAccountResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Номер счёта
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Номер счёта
 }
 
 func (x *OpenSandboxAccountResponse) Reset() {
@@ -100,9 +100,9 @@ func (*OpenSandboxAccountResponse) Descriptor() ([]byte, []int) {
 	return file_sandbox_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *OpenSandboxAccountResponse) GetAccountId() string {
+func (x *OpenSandboxAccountResponse) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -113,7 +113,7 @@ type CloseSandboxAccountRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Номер счёта
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Номер счёта
 }
 
 func (x *CloseSandboxAccountRequest) Reset() {
@@ -148,9 +148,9 @@ func (*CloseSandboxAccountRequest) Descriptor() ([]byte, []int) {
 	return file_sandbox_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CloseSandboxAccountRequest) GetAccountId() string {
+func (x *CloseSandboxAccountRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -200,7 +200,7 @@ type SandboxPayInRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string      `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Номер счёта
+	AccountID string      `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Номер счёта
 	Amount    *MoneyValue `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`                        //Сумма пополнения счёта в рублях
 }
 
@@ -236,9 +236,9 @@ func (*SandboxPayInRequest) Descriptor() ([]byte, []int) {
 	return file_sandbox_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *SandboxPayInRequest) GetAccountId() string {
+func (x *SandboxPayInRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }

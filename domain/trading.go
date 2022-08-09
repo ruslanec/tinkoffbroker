@@ -6,9 +6,9 @@ import "time"
 type TradeDirection int32
 
 const (
-	TradeDirection_TRADE_DIRECTION_UNSPECIFIED TradeDirection = 0 // Направление сделки не определено
-	TradeDirection_TRADE_DIRECTION_BUY         TradeDirection = 1 // Покупка
-	TradeDirection_TRADE_DIRECTION_SELL        TradeDirection = 2 // Продажа
+	TradeDirectionUnspecified TradeDirection = 0 // Направление сделки не определено
+	TradeDirectionBuy         TradeDirection = 1 // Покупка
+	TradeDirectionSell        TradeDirection = 2 // Продажа
 )
 
 // Данные по торговой площадке
@@ -45,11 +45,11 @@ type TradeInstrument struct {
 	Figi string `json:"figi,omitempty"` // Figi-идентификатор инструмента.
 }
 
-//Информация о сделке.
+// Информация о сделке.
 type Trade struct {
-	Figi      string         `json:"figi,omitempty"`      //Figi-идентификатор инструмента.
-	Direction TradeDirection `json:"direction,omitempty"` //Направление сделки.
-	Price     Quotation      `json:"price,omitempty"`     //Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
-	Quantity  int64          `json:"quantity,omitempty"`  //Количество лотов.
-	Time      *time.Time     `json:"time,omitempty"`      //Время сделки в часовом поясе UTC по времени биржи.
+	Figi      string         `json:"figi,omitempty"`      // Figi-идентификатор инструмента.
+	Direction TradeDirection `json:"direction,omitempty"` // Направление сделки.
+	Price     Quotation      `json:"price,omitempty"`     // Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
+	Quantity  int64          `json:"quantity,omitempty"`  // Количество лотов.
+	Time      *time.Time     `json:"time,omitempty"`      // Время сделки в часовом поясе UTC по времени биржи.
 }

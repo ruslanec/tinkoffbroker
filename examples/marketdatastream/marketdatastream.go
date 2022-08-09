@@ -47,7 +47,7 @@ func main() {
 	marketdatastream := marketdatastream.NewMarketDataStreamService(conn)
 
 	client := tinkoffbroker.NewClient(conn, *accountid, tinkoffbroker.WithMarketDataStream(marketdatastream))
-	//defer client.Close()
+	// defer client.Close()
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(time.Minute))
 	defer func() {

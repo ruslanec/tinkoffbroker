@@ -34,9 +34,9 @@ func (s *marketDataStreamService) SubscribeCandles(ctx context.Context, candles 
 		}
 	}
 
-	var tkf_candles []*tkf.CandleInstrument
+	var tkfCandles []*tkf.CandleInstrument
 	for _, candle := range candles {
-		tkf_candles = append(tkf_candles, &tkf.CandleInstrument{
+		tkfCandles = append(tkfCandles, &tkf.CandleInstrument{
 			Figi:     candle.Figi,
 			Interval: tkf.SubscriptionInterval(candle.Interval),
 		})
@@ -46,7 +46,7 @@ func (s *marketDataStreamService) SubscribeCandles(ctx context.Context, candles 
 		Payload: &tkf.MarketDataRequest_SubscribeCandlesRequest{
 			SubscribeCandlesRequest: &tkf.SubscribeCandlesRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_SUBSCRIBE,
-				Instruments:        tkf_candles,
+				Instruments:        tkfCandles,
 			},
 		},
 	})
@@ -62,9 +62,9 @@ func (s *marketDataStreamService) UnsubscribeCandles(ctx context.Context, candle
 		}
 	}
 
-	var tkf_candles []*tkf.CandleInstrument
+	tkfCandles := make([]*tkf.CandleInstrument, 0, len(candles))
 	for _, candle := range candles {
-		tkf_candles = append(tkf_candles, &tkf.CandleInstrument{
+		tkfCandles = append(tkfCandles, &tkf.CandleInstrument{
 			Figi:     candle.Figi,
 			Interval: tkf.SubscriptionInterval(candle.Interval),
 		})
@@ -74,7 +74,7 @@ func (s *marketDataStreamService) UnsubscribeCandles(ctx context.Context, candle
 		Payload: &tkf.MarketDataRequest_SubscribeCandlesRequest{
 			SubscribeCandlesRequest: &tkf.SubscribeCandlesRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_UNSUBSCRIBE,
-				Instruments:        tkf_candles,
+				Instruments:        tkfCandles,
 			},
 		},
 	})
@@ -90,9 +90,9 @@ func (s *marketDataStreamService) SubscribeOrderBook(ctx context.Context, orderb
 		}
 	}
 
-	var tkf_orderbooks []*tkf.OrderBookInstrument
+	tkfOrderbooks := make([]*tkf.OrderBookInstrument, 0, len(orderbooks))
 	for _, orderbook := range orderbooks {
-		tkf_orderbooks = append(tkf_orderbooks, &tkf.OrderBookInstrument{
+		tkfOrderbooks = append(tkfOrderbooks, &tkf.OrderBookInstrument{
 			Figi:  orderbook.Figi,
 			Depth: orderbook.Depth,
 		})
@@ -102,7 +102,7 @@ func (s *marketDataStreamService) SubscribeOrderBook(ctx context.Context, orderb
 		Payload: &tkf.MarketDataRequest_SubscribeOrderBookRequest{
 			SubscribeOrderBookRequest: &tkf.SubscribeOrderBookRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_SUBSCRIBE,
-				Instruments:        tkf_orderbooks,
+				Instruments:        tkfOrderbooks,
 			},
 		},
 	})
@@ -118,9 +118,9 @@ func (s *marketDataStreamService) UnsubscribeOrderBook(ctx context.Context, orde
 		}
 	}
 
-	var tkf_orderbooks []*tkf.OrderBookInstrument
+	tkfOrderbooks := make([]*tkf.OrderBookInstrument, 0, len(orderbooks))
 	for _, orderbook := range orderbooks {
-		tkf_orderbooks = append(tkf_orderbooks, &tkf.OrderBookInstrument{
+		tkfOrderbooks = append(tkfOrderbooks, &tkf.OrderBookInstrument{
 			Figi:  orderbook.Figi,
 			Depth: orderbook.Depth,
 		})
@@ -130,7 +130,7 @@ func (s *marketDataStreamService) UnsubscribeOrderBook(ctx context.Context, orde
 		Payload: &tkf.MarketDataRequest_SubscribeOrderBookRequest{
 			SubscribeOrderBookRequest: &tkf.SubscribeOrderBookRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_UNSUBSCRIBE,
-				Instruments:        tkf_orderbooks,
+				Instruments:        tkfOrderbooks,
 			},
 		},
 	})
@@ -146,9 +146,9 @@ func (s *marketDataStreamService) SubscribeTrades(ctx context.Context, trades []
 		}
 	}
 
-	var tkf_trades []*tkf.TradeInstrument
+	tkfTrades := make([]*tkf.TradeInstrument, 0, len(trades))
 	for _, trade := range trades {
-		tkf_trades = append(tkf_trades, &tkf.TradeInstrument{
+		tkfTrades = append(tkfTrades, &tkf.TradeInstrument{
 			Figi: trade.Figi,
 		})
 	}
@@ -157,7 +157,7 @@ func (s *marketDataStreamService) SubscribeTrades(ctx context.Context, trades []
 		Payload: &tkf.MarketDataRequest_SubscribeTradesRequest{
 			SubscribeTradesRequest: &tkf.SubscribeTradesRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_SUBSCRIBE,
-				Instruments:        tkf_trades,
+				Instruments:        tkfTrades,
 			},
 		},
 	})
@@ -173,9 +173,9 @@ func (s *marketDataStreamService) UnsubscribeTrades(ctx context.Context, trades 
 		}
 	}
 
-	var tkf_trades []*tkf.TradeInstrument
+	tkfTrades := make([]*tkf.TradeInstrument, 0, len(trades))
 	for _, trade := range trades {
-		tkf_trades = append(tkf_trades, &tkf.TradeInstrument{
+		tkfTrades = append(tkfTrades, &tkf.TradeInstrument{
 			Figi: trade.Figi,
 		})
 	}
@@ -184,7 +184,7 @@ func (s *marketDataStreamService) UnsubscribeTrades(ctx context.Context, trades 
 		Payload: &tkf.MarketDataRequest_SubscribeTradesRequest{
 			SubscribeTradesRequest: &tkf.SubscribeTradesRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_UNSUBSCRIBE,
-				Instruments:        tkf_trades,
+				Instruments:        tkfTrades,
 			},
 		},
 	})
@@ -200,9 +200,9 @@ func (s *marketDataStreamService) SubscribeInfo(ctx context.Context, instruments
 		}
 	}
 
-	var tkf_instruments []*tkf.InfoInstrument
+	tkfInstruments := make([]*tkf.InfoInstrument, 0, len(instruments))
 	for _, instrument := range instruments {
-		tkf_instruments = append(tkf_instruments, &tkf.InfoInstrument{
+		tkfInstruments = append(tkfInstruments, &tkf.InfoInstrument{
 			Figi: instrument.Figi,
 		})
 	}
@@ -211,7 +211,7 @@ func (s *marketDataStreamService) SubscribeInfo(ctx context.Context, instruments
 		Payload: &tkf.MarketDataRequest_SubscribeInfoRequest{
 			SubscribeInfoRequest: &tkf.SubscribeInfoRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_SUBSCRIBE,
-				Instruments:        tkf_instruments,
+				Instruments:        tkfInstruments,
 			},
 		},
 	})
@@ -227,9 +227,9 @@ func (s *marketDataStreamService) UnsubscribeInfo(ctx context.Context, instrumen
 		}
 	}
 
-	var tkf_instruments []*tkf.InfoInstrument
+	tkfInstruments := make([]*tkf.InfoInstrument, 0, len(instruments))
 	for _, instrument := range instruments {
-		tkf_instruments = append(tkf_instruments, &tkf.InfoInstrument{
+		tkfInstruments = append(tkfInstruments, &tkf.InfoInstrument{
 			Figi: instrument.Figi,
 		})
 	}
@@ -238,7 +238,7 @@ func (s *marketDataStreamService) UnsubscribeInfo(ctx context.Context, instrumen
 		Payload: &tkf.MarketDataRequest_SubscribeInfoRequest{
 			SubscribeInfoRequest: &tkf.SubscribeInfoRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_UNSUBSCRIBE,
-				Instruments:        tkf_instruments,
+				Instruments:        tkfInstruments,
 			},
 		},
 	})
@@ -254,9 +254,9 @@ func (s *marketDataStreamService) SubscribeLastPrices(ctx context.Context, lastp
 		}
 	}
 
-	var tkf_lastprices []*tkf.LastPriceInstrument
+	tkfLastprices := make([]*tkf.LastPriceInstrument, 0, len(lastprices))
 	for _, lastprice := range lastprices {
-		tkf_lastprices = append(tkf_lastprices, &tkf.LastPriceInstrument{
+		tkfLastprices = append(tkfLastprices, &tkf.LastPriceInstrument{
 			Figi: lastprice.Figi,
 		})
 	}
@@ -265,7 +265,7 @@ func (s *marketDataStreamService) SubscribeLastPrices(ctx context.Context, lastp
 		Payload: &tkf.MarketDataRequest_SubscribeLastPriceRequest{
 			SubscribeLastPriceRequest: &tkf.SubscribeLastPriceRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_SUBSCRIBE,
-				Instruments:        tkf_lastprices,
+				Instruments:        tkfLastprices,
 			},
 		},
 	})
@@ -281,9 +281,9 @@ func (s *marketDataStreamService) UnsubscribeLastPrices(ctx context.Context, las
 		}
 	}
 
-	var tkf_lastprices []*tkf.LastPriceInstrument
+	tkfLastprices := make([]*tkf.LastPriceInstrument, 0, len(lastprices))
 	for _, lastprice := range lastprices {
-		tkf_lastprices = append(tkf_lastprices, &tkf.LastPriceInstrument{
+		tkfLastprices = append(tkfLastprices, &tkf.LastPriceInstrument{
 			Figi: lastprice.Figi,
 		})
 	}
@@ -292,7 +292,7 @@ func (s *marketDataStreamService) UnsubscribeLastPrices(ctx context.Context, las
 		Payload: &tkf.MarketDataRequest_SubscribeLastPriceRequest{
 			SubscribeLastPriceRequest: &tkf.SubscribeLastPriceRequest{
 				SubscriptionAction: tkf.SubscriptionAction_SUBSCRIPTION_ACTION_UNSUBSCRIBE,
-				Instruments:        tkf_lastprices,
+				Instruments:        tkfLastprices,
 			},
 		},
 	})

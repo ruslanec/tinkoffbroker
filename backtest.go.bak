@@ -143,7 +143,7 @@ func (c *backtestClient) Dividends(ctx context.Context, figi string, from, to *t
 }
 
 // Метод получения актива по его идентификатору
-func (c *backtestClient) AssetById(ctx context.Context, id string) (*AssetFull, error) {
+func (c *backtestClient) AssetByID(ctx context.Context, id string) (*AssetFull, error) {
 	return nil, ErrNotImplemented
 }
 
@@ -178,7 +178,7 @@ func (c *backtestClient) Brands(ctx context.Context) ([]*Brand, error) {
 }
 
 // Метод получения бренда по его идентификатору
-func (c *backtestClient) BrandById(ctx context.Context, id string) (*Brand, error) {
+func (c *backtestClient) BrandByID(ctx context.Context, id string) (*Brand, error) {
 	return nil, ErrNotImplemented
 }
 
@@ -245,12 +245,12 @@ func (c *backtestClient) OrderSellMarket(ctx context.Context, figi string, quant
 }
 
 // Метод отмены биржевой заявки
-func (c *backtestClient) CancelOrder(ctx context.Context, orderId string) (*time.Time, error) {
+func (c *backtestClient) CancelOrder(ctx context.Context, orderID string) (*time.Time, error) {
 	return nil, ErrNotImplemented
 }
 
 // Метод получения статуса торгового поручения
-func (c *backtestClient) OrderState(ctx context.Context, orderId string) (*OrderState, error) {
+func (c *backtestClient) OrderState(ctx context.Context, orderID string) (*OrderState, error) {
 	return nil, ErrNotImplemented
 }
 

@@ -48,7 +48,7 @@ func main() {
 	operations := operations.NewOperationsService(conn, *accountid)
 
 	client := tinkoffbroker.NewClient(conn, *accountid, tinkoffbroker.WithOperations(operations))
-	//defer client.Close()
+	// defer client.Close()
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(time.Minute))
 	defer func() {
@@ -68,5 +68,4 @@ func main() {
 		// fmt.Println(string(s))
 		fmt.Println(position.String())
 	}
-
 }

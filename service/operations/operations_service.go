@@ -1,4 +1,4 @@
-/* Сервис получения информации о портфеле по конкретному счёту*/
+/*Сервис получения информации о портфеле по конкретному счёту*/
 package operations
 
 import (
@@ -15,29 +15,29 @@ import (
 
 type operationsService struct {
 	conn      *grpc.ClientConn
-	accountId string
+	accountID string
 	client    tkf.OperationsServiceClient
 }
 
-//Конструктор сервиса
-func NewOperationsService(conn *grpc.ClientConn, accountId string) service.OperationsService {
+// Конструктор сервиса
+func NewOperationsService(conn *grpc.ClientConn, accountID string) service.OperationsService {
 	client := tkf.NewOperationsServiceClient(conn)
 
 	return &operationsService{
 		conn:      conn,
-		accountId: accountId,
+		accountID: accountID,
 		client:    client,
 	}
 }
 
-//Метод получения портфеля по счёту
-func (s *operationsService) Portfolio(ctx context.Context) (*domain.Portfolio, error) { //TOD remove connections
-	if s.accountId == "" {
+// Метод получения портфеля по счёту
+func (s *operationsService) Portfolio(ctx context.Context) (*domain.Portfolio, error) { // TOD remove connections
+	if s.accountID == "" {
 		return nil, tinkoffbroker.ErrArgEmptyAccounID
 	}
 
 	resp, err := s.client.GetPortfolio(ctx, &tkf.PortfolioRequest{
-		AccountId: s.accountId,
+		AccountID: s.accountID,
 	})
 	if err != nil {
 		return nil, err
@@ -59,14 +59,14 @@ func (s *operationsService) Portfolio(ctx context.Context) (*domain.Portfolio, e
 	}, nil
 }
 
-//Метод получения списка операций по счёту
+// Метод получения списка операций по счёту
 func (s *operationsService) Operations(ctx context.Context, from, to *time.Time, state domain.OperationState, figi string) ([]*domain.Operation, error) {
-	if s.accountId == "" {
+	if s.accountID == "" {
 		return nil, tinkoffbroker.ErrArgCandleUnspecified
 	}
 
 	resp, err := s.client.GetOperations(ctx, &tkf.OperationsRequest{
-		AccountId: s.accountId,
+		AccountID: s.accountID,
 		From:      timestamppb.New(*from),
 		To:        timestamppb.New(*to),
 		State:     tkf.OperationState(state),
@@ -83,14 +83,14 @@ func (s *operationsService) Operations(ctx context.Context, from, to *time.Time,
 	return operations, nil
 }
 
-//Метод получения списка позиций по счёту
+// Метод получения списка позиций по счёту
 func (s *operationsService) Positions(ctx context.Context) (*domain.Positions, error) {
-	if s.accountId == "" {
+	if s.accountID == "" {
 		return nil, tinkoffbroker.ErrArgCandleUnspecified
 	}
 
 	resp, err := s.client.GetPositions(ctx, &tkf.PositionsRequest{
-		AccountId: s.accountId,
+		AccountID: s.accountID,
 	})
 	if err != nil {
 		return nil, err

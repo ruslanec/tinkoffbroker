@@ -2,16 +2,11 @@ package tinkoffbroker
 
 import "errors"
 
-var (
-	ErrArgCandleUnspecified = errors.New("error candle interval") // Неправильный интервал торговой свечи
-)
-var (
-	ErrArgTimeInterval = errors.New("error period bounds")
-)
+var ErrArgCandleUnspecified = errors.New("error candle interval") // Неправильный интервал торговой свечи
 
-var (
-	ErrSvcNotImplemented = errors.New("service not implemented")
-)
+var ErrArgTimeInterval = errors.New("error period bounds")
+
+var ErrSvcNotImplemented = errors.New("service not implemented")
 
 var (
 	ErrArgEmptyID       = errors.New("empty ID")

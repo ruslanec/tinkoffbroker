@@ -14,18 +14,23 @@ linters:
     - exportloopref
     - gocritic
     - gofumpt
-    - goimports
+    # - goimports
     - revive
     - gosimple
     - govet
     - ineffassign
-    - lll
-    - misspell
+    # - lll
+    # - misspell
     - staticcheck
-    - structcheck
+    # - structcheck
     - stylecheck
     - typecheck
     - unconvert
-    - unparam
+    # - unparam
     - varcheck
-  fast: false
+  # fast: false
+
+  linters-settings:
+  revive:
+    ignore-generated-header: true
+    severity: warning

@@ -46,6 +46,7 @@ choco install make
 git clone https://github.com/ruslanec/tinkoffbroker.git
 cd tinkoffbroker
 go tidy
+go install mvdan.cc/gofumpt@latest
 ```
 
 For production environments...

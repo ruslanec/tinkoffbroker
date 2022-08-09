@@ -1636,11 +1636,11 @@ type Bond struct {
 	PerpetualFlag         bool                  `protobuf:"varint,36,opt,name=perpetual_flag,json=perpetualFlag,proto3" json:"perpetual_flag,omitempty"`                                                                  //Признак бессрочной облигации.
 	AmortizationFlag      bool                  `protobuf:"varint,37,opt,name=amortization_flag,json=amortizationFlag,proto3" json:"amortization_flag,omitempty"`                                                         //Признак облигации с амортизацией долга.
 	MinPriceIncrement     *Quotation            `protobuf:"bytes,38,opt,name=min_price_increment,json=minPriceIncrement,proto3" json:"min_price_increment,omitempty"`                                                     //Шаг цены.
-	ApiTradeAvailableFlag bool                  `protobuf:"varint,39,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
-	Uid                   string                `protobuf:"bytes,40,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
+	APITradeAvailableFlag bool                  `protobuf:"varint,39,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
+	UID                   string                `protobuf:"bytes,40,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
 	RealExchange          RealExchange          `protobuf:"varint,41,opt,name=real_exchange,json=realExchange,proto3,enum=tinkoff.public.invest.api.contract.v1.RealExchange" json:"real_exchange,omitempty"`             //Реальная площадка исполнения расчётов.
-	PositionUid           string                `protobuf:"bytes,42,opt,name=position_uid,json=positionUid,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
-	ForIisFlag            bool                  `protobuf:"varint,51,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
+	PositionUID           string                `protobuf:"bytes,42,opt,name=position_uid,json=positionUID,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
+	ForIISFlag            bool                  `protobuf:"varint,51,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
 	First_1MinCandleDate  *timestamp.Timestamp  `protobuf:"bytes,61,opt,name=first_1min_candle_date,json=first1minCandleDate,proto3" json:"first_1min_candle_date,omitempty"`                                             //Дата первой минутной свечи.
 	First_1DayCandleDate  *timestamp.Timestamp  `protobuf:"bytes,62,opt,name=first_1day_candle_date,json=first1dayCandleDate,proto3" json:"first_1day_candle_date,omitempty"`                                             //Дата первой дневной свечи.
 }
@@ -1929,16 +1929,16 @@ func (x *Bond) GetMinPriceIncrement() *Quotation {
 	return nil
 }
 
-func (x *Bond) GetApiTradeAvailableFlag() bool {
+func (x *Bond) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }
 
-func (x *Bond) GetUid() string {
+func (x *Bond) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -1950,16 +1950,16 @@ func (x *Bond) GetRealExchange() RealExchange {
 	return RealExchange_REAL_EXCHANGE_UNSPECIFIED
 }
 
-func (x *Bond) GetPositionUid() string {
+func (x *Bond) GetPositionUID() string {
 	if x != nil {
-		return x.PositionUid
+		return x.PositionUID
 	}
 	return ""
 }
 
-func (x *Bond) GetForIisFlag() bool {
+func (x *Bond) GetForIISFlag() bool {
 	if x != nil {
-		return x.ForIisFlag
+		return x.ForIISFlag
 	}
 	return false
 }
@@ -2008,11 +2008,11 @@ type Currency struct {
 	SellAvailableFlag     bool                  `protobuf:"varint,23,opt,name=sell_available_flag,json=sellAvailableFlag,proto3" json:"sell_available_flag,omitempty"`                                                    //Признак доступности для продажи.
 	IsoCurrencyName       string                `protobuf:"bytes,24,opt,name=iso_currency_name,json=isoCurrencyName,proto3" json:"iso_currency_name,omitempty"`                                                           //Строковый ISO-код валюты.
 	MinPriceIncrement     *Quotation            `protobuf:"bytes,25,opt,name=min_price_increment,json=minPriceIncrement,proto3" json:"min_price_increment,omitempty"`                                                     //Шаг цены.
-	ApiTradeAvailableFlag bool                  `protobuf:"varint,26,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
-	Uid                   string                `protobuf:"bytes,27,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
+	APITradeAvailableFlag bool                  `protobuf:"varint,26,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
+	UID                   string                `protobuf:"bytes,27,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
 	RealExchange          RealExchange          `protobuf:"varint,28,opt,name=real_exchange,json=realExchange,proto3,enum=tinkoff.public.invest.api.contract.v1.RealExchange" json:"real_exchange,omitempty"`             //Реальная площадка исполнения расчётов.
-	PositionUid           string                `protobuf:"bytes,29,opt,name=position_uid,json=positionUid,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
-	ForIisFlag            bool                  `protobuf:"varint,41,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
+	PositionUID           string                `protobuf:"bytes,29,opt,name=position_uid,json=positionUID,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
+	ForIISFlag            bool                  `protobuf:"varint,41,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
 	First_1MinCandleDate  *timestamp.Timestamp  `protobuf:"bytes,56,opt,name=first_1min_candle_date,json=first1minCandleDate,proto3" json:"first_1min_candle_date,omitempty"`                                             //Дата первой минутной свечи.
 	First_1DayCandleDate  *timestamp.Timestamp  `protobuf:"bytes,57,opt,name=first_1day_candle_date,json=first1dayCandleDate,proto3" json:"first_1day_candle_date,omitempty"`                                             //Дата первой дневной свечи.
 }
@@ -2217,16 +2217,16 @@ func (x *Currency) GetMinPriceIncrement() *Quotation {
 	return nil
 }
 
-func (x *Currency) GetApiTradeAvailableFlag() bool {
+func (x *Currency) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }
 
-func (x *Currency) GetUid() string {
+func (x *Currency) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -2238,16 +2238,16 @@ func (x *Currency) GetRealExchange() RealExchange {
 	return RealExchange_REAL_EXCHANGE_UNSPECIFIED
 }
 
-func (x *Currency) GetPositionUid() string {
+func (x *Currency) GetPositionUID() string {
 	if x != nil {
-		return x.PositionUid
+		return x.PositionUID
 	}
 	return ""
 }
 
-func (x *Currency) GetForIisFlag() bool {
+func (x *Currency) GetForIISFlag() bool {
 	if x != nil {
-		return x.ForIisFlag
+		return x.ForIISFlag
 	}
 	return false
 }
@@ -2300,11 +2300,11 @@ type Etf struct {
 	BuyAvailableFlag      bool                  `protobuf:"varint,27,opt,name=buy_available_flag,json=buyAvailableFlag,proto3" json:"buy_available_flag,omitempty"`                                                       //Признак доступности для покупки.
 	SellAvailableFlag     bool                  `protobuf:"varint,28,opt,name=sell_available_flag,json=sellAvailableFlag,proto3" json:"sell_available_flag,omitempty"`                                                    //Признак доступности для продажи.
 	MinPriceIncrement     *Quotation            `protobuf:"bytes,29,opt,name=min_price_increment,json=minPriceIncrement,proto3" json:"min_price_increment,omitempty"`                                                     //Шаг цены.
-	ApiTradeAvailableFlag bool                  `protobuf:"varint,30,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
-	Uid                   string                `protobuf:"bytes,31,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
+	APITradeAvailableFlag bool                  `protobuf:"varint,30,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
+	UID                   string                `protobuf:"bytes,31,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
 	RealExchange          RealExchange          `protobuf:"varint,32,opt,name=real_exchange,json=realExchange,proto3,enum=tinkoff.public.invest.api.contract.v1.RealExchange" json:"real_exchange,omitempty"`             //Реальная площадка исполнения расчётов.
-	PositionUid           string                `protobuf:"bytes,33,opt,name=position_uid,json=positionUid,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
-	ForIisFlag            bool                  `protobuf:"varint,41,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
+	PositionUID           string                `protobuf:"bytes,33,opt,name=position_uid,json=positionUID,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
+	ForIISFlag            bool                  `protobuf:"varint,41,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
 	First_1MinCandleDate  *timestamp.Timestamp  `protobuf:"bytes,56,opt,name=first_1min_candle_date,json=first1minCandleDate,proto3" json:"first_1min_candle_date,omitempty"`                                             //Дата первой минутной свечи.
 	First_1DayCandleDate  *timestamp.Timestamp  `protobuf:"bytes,57,opt,name=first_1day_candle_date,json=first1dayCandleDate,proto3" json:"first_1day_candle_date,omitempty"`                                             //Дата первой дневной свечи.
 }
@@ -2537,16 +2537,16 @@ func (x *Etf) GetMinPriceIncrement() *Quotation {
 	return nil
 }
 
-func (x *Etf) GetApiTradeAvailableFlag() bool {
+func (x *Etf) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }
 
-func (x *Etf) GetUid() string {
+func (x *Etf) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -2558,16 +2558,16 @@ func (x *Etf) GetRealExchange() RealExchange {
 	return RealExchange_REAL_EXCHANGE_UNSPECIFIED
 }
 
-func (x *Etf) GetPositionUid() string {
+func (x *Etf) GetPositionUID() string {
 	if x != nil {
-		return x.PositionUid
+		return x.PositionUID
 	}
 	return ""
 }
 
-func (x *Etf) GetForIisFlag() bool {
+func (x *Etf) GetForIISFlag() bool {
 	if x != nil {
-		return x.ForIisFlag
+		return x.ForIISFlag
 	}
 	return false
 }
@@ -2621,12 +2621,12 @@ type Future struct {
 	BuyAvailableFlag      bool                  `protobuf:"varint,27,opt,name=buy_available_flag,json=buyAvailableFlag,proto3" json:"buy_available_flag,omitempty"`                                                       //Признак доступности для покупки.
 	SellAvailableFlag     bool                  `protobuf:"varint,28,opt,name=sell_available_flag,json=sellAvailableFlag,proto3" json:"sell_available_flag,omitempty"`                                                    //Признак доступности для продажи.
 	MinPriceIncrement     *Quotation            `protobuf:"bytes,29,opt,name=min_price_increment,json=minPriceIncrement,proto3" json:"min_price_increment,omitempty"`                                                     //Шаг цены.
-	ApiTradeAvailableFlag bool                  `protobuf:"varint,30,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
-	Uid                   string                `protobuf:"bytes,31,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
+	APITradeAvailableFlag bool                  `protobuf:"varint,30,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
+	UID                   string                `protobuf:"bytes,31,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
 	RealExchange          RealExchange          `protobuf:"varint,32,opt,name=real_exchange,json=realExchange,proto3,enum=tinkoff.public.invest.api.contract.v1.RealExchange" json:"real_exchange,omitempty"`             //Реальная площадка исполнения расчётов.
-	PositionUid           string                `protobuf:"bytes,33,opt,name=position_uid,json=positionUid,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
-	BasicAssetPositionUid string                `protobuf:"bytes,34,opt,name=basic_asset_position_uid,json=basicAssetPositionUid,proto3" json:"basic_asset_position_uid,omitempty"`                                       //Уникальный идентификатор позиции основного инструмента.
-	ForIisFlag            bool                  `protobuf:"varint,41,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
+	PositionUID           string                `protobuf:"bytes,33,opt,name=position_uid,json=positionUID,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
+	BasicAssetPositionUID string                `protobuf:"bytes,34,opt,name=basic_asset_position_uid,json=basicAssetPositionUID,proto3" json:"basic_asset_position_uid,omitempty"`                                       //Уникальный идентификатор позиции основного инструмента.
+	ForIISFlag            bool                  `protobuf:"varint,41,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
 	First_1MinCandleDate  *timestamp.Timestamp  `protobuf:"bytes,56,opt,name=first_1min_candle_date,json=first1minCandleDate,proto3" json:"first_1min_candle_date,omitempty"`                                             //Дата первой минутной свечи.
 	First_1DayCandleDate  *timestamp.Timestamp  `protobuf:"bytes,57,opt,name=first_1day_candle_date,json=first1dayCandleDate,proto3" json:"first_1day_candle_date,omitempty"`                                             //Дата первой дневной свечи.
 }
@@ -2866,16 +2866,16 @@ func (x *Future) GetMinPriceIncrement() *Quotation {
 	return nil
 }
 
-func (x *Future) GetApiTradeAvailableFlag() bool {
+func (x *Future) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }
 
-func (x *Future) GetUid() string {
+func (x *Future) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -2887,23 +2887,23 @@ func (x *Future) GetRealExchange() RealExchange {
 	return RealExchange_REAL_EXCHANGE_UNSPECIFIED
 }
 
-func (x *Future) GetPositionUid() string {
+func (x *Future) GetPositionUID() string {
 	if x != nil {
-		return x.PositionUid
+		return x.PositionUID
 	}
 	return ""
 }
 
-func (x *Future) GetBasicAssetPositionUid() string {
+func (x *Future) GetBasicAssetPositionUID() string {
 	if x != nil {
-		return x.BasicAssetPositionUid
+		return x.BasicAssetPositionUID
 	}
 	return ""
 }
 
-func (x *Future) GetForIisFlag() bool {
+func (x *Future) GetForIISFlag() bool {
 	if x != nil {
-		return x.ForIisFlag
+		return x.ForIISFlag
 	}
 	return false
 }
@@ -2957,11 +2957,11 @@ type Share struct {
 	DivYieldFlag          bool                  `protobuf:"varint,29,opt,name=div_yield_flag,json=divYieldFlag,proto3" json:"div_yield_flag,omitempty"`                                                                   //Признак наличия дивидендной доходности.
 	ShareType             ShareType             `protobuf:"varint,30,opt,name=share_type,json=shareType,proto3,enum=tinkoff.public.invest.api.contract.v1.ShareType" json:"share_type,omitempty"`                         //Тип акции. Возможные значения: [ShareType](https://tinkoff.github.io/investAPI/instruments#sharetype)
 	MinPriceIncrement     *Quotation            `protobuf:"bytes,31,opt,name=min_price_increment,json=minPriceIncrement,proto3" json:"min_price_increment,omitempty"`                                                     //Шаг цены.
-	ApiTradeAvailableFlag bool                  `protobuf:"varint,32,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
-	Uid                   string                `protobuf:"bytes,33,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
+	APITradeAvailableFlag bool                  `protobuf:"varint,32,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
+	UID                   string                `protobuf:"bytes,33,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
 	RealExchange          RealExchange          `protobuf:"varint,34,opt,name=real_exchange,json=realExchange,proto3,enum=tinkoff.public.invest.api.contract.v1.RealExchange" json:"real_exchange,omitempty"`             //Реальная площадка исполнения расчётов.
-	PositionUid           string                `protobuf:"bytes,35,opt,name=position_uid,json=positionUid,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
-	ForIisFlag            bool                  `protobuf:"varint,46,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
+	PositionUID           string                `protobuf:"bytes,35,opt,name=position_uid,json=positionUID,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
+	ForIISFlag            bool                  `protobuf:"varint,46,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
 	First_1MinCandleDate  *timestamp.Timestamp  `protobuf:"bytes,56,opt,name=first_1min_candle_date,json=first1minCandleDate,proto3" json:"first_1min_candle_date,omitempty"`                                             //Дата первой минутной свечи.
 	First_1DayCandleDate  *timestamp.Timestamp  `protobuf:"bytes,57,opt,name=first_1day_candle_date,json=first1dayCandleDate,proto3" json:"first_1day_candle_date,omitempty"`                                             //Дата первой дневной свечи.
 }
@@ -3201,16 +3201,16 @@ func (x *Share) GetMinPriceIncrement() *Quotation {
 	return nil
 }
 
-func (x *Share) GetApiTradeAvailableFlag() bool {
+func (x *Share) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }
 
-func (x *Share) GetUid() string {
+func (x *Share) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -3222,16 +3222,16 @@ func (x *Share) GetRealExchange() RealExchange {
 	return RealExchange_REAL_EXCHANGE_UNSPECIFIED
 }
 
-func (x *Share) GetPositionUid() string {
+func (x *Share) GetPositionUID() string {
 	if x != nil {
-		return x.PositionUid
+		return x.PositionUID
 	}
 	return ""
 }
 
-func (x *Share) GetForIisFlag() bool {
+func (x *Share) GetForIISFlag() bool {
 	if x != nil {
-		return x.ForIisFlag
+		return x.ForIISFlag
 	}
 	return false
 }
@@ -3631,11 +3631,11 @@ type Instrument struct {
 	BuyAvailableFlag      bool                  `protobuf:"varint,21,opt,name=buy_available_flag,json=buyAvailableFlag,proto3" json:"buy_available_flag,omitempty"`                                                       //Признак доступности для покупки.
 	SellAvailableFlag     bool                  `protobuf:"varint,22,opt,name=sell_available_flag,json=sellAvailableFlag,proto3" json:"sell_available_flag,omitempty"`                                                    //Признак доступности для продажи.
 	MinPriceIncrement     *Quotation            `protobuf:"bytes,23,opt,name=min_price_increment,json=minPriceIncrement,proto3" json:"min_price_increment,omitempty"`                                                     //Шаг цены.
-	ApiTradeAvailableFlag bool                  `protobuf:"varint,24,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
-	Uid                   string                `protobuf:"bytes,25,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
+	APITradeAvailableFlag bool                  `protobuf:"varint,24,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"`                                      //Признак доступности торгов через API.
+	UID                   string                `protobuf:"bytes,25,opt,name=uid,proto3" json:"uid,omitempty"`                                                                                                            //Уникальный идентификатор инструмента.
 	RealExchange          RealExchange          `protobuf:"varint,26,opt,name=real_exchange,json=realExchange,proto3,enum=tinkoff.public.invest.api.contract.v1.RealExchange" json:"real_exchange,omitempty"`             //Реальная площадка исполнения расчётов.
-	PositionUid           string                `protobuf:"bytes,27,opt,name=position_uid,json=positionUid,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
-	ForIisFlag            bool                  `protobuf:"varint,36,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
+	PositionUID           string                `protobuf:"bytes,27,opt,name=position_uid,json=positionUID,proto3" json:"position_uid,omitempty"`                                                                         //Уникальный идентификатор позиции инструмента.
+	ForIISFlag            bool                  `protobuf:"varint,36,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                                                         //Признак доступности для ИИС.
 	First_1MinCandleDate  *timestamp.Timestamp  `protobuf:"bytes,56,opt,name=first_1min_candle_date,json=first1minCandleDate,proto3" json:"first_1min_candle_date,omitempty"`                                             //Дата первой минутной свечи.
 	First_1DayCandleDate  *timestamp.Timestamp  `protobuf:"bytes,57,opt,name=first_1day_candle_date,json=first1dayCandleDate,proto3" json:"first_1day_candle_date,omitempty"`                                             //Дата первой дневной свечи.
 }
@@ -3833,16 +3833,16 @@ func (x *Instrument) GetMinPriceIncrement() *Quotation {
 	return nil
 }
 
-func (x *Instrument) GetApiTradeAvailableFlag() bool {
+func (x *Instrument) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }
 
-func (x *Instrument) GetUid() string {
+func (x *Instrument) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -3854,16 +3854,16 @@ func (x *Instrument) GetRealExchange() RealExchange {
 	return RealExchange_REAL_EXCHANGE_UNSPECIFIED
 }
 
-func (x *Instrument) GetPositionUid() string {
+func (x *Instrument) GetPositionUID() string {
 	if x != nil {
-		return x.PositionUid
+		return x.PositionUID
 	}
 	return ""
 }
 
-func (x *Instrument) GetForIisFlag() bool {
+func (x *Instrument) GetForIISFlag() bool {
 	if x != nil {
-		return x.ForIisFlag
+		return x.ForIISFlag
 	}
 	return false
 }
@@ -4302,7 +4302,7 @@ type AssetFull struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Uid           string               `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`                                                         //Уникальный идентификатор актива.
+	UID           string               `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`                                                         //Уникальный идентификатор актива.
 	Type          AssetType            `protobuf:"varint,2,opt,name=type,proto3,enum=tinkoff.public.invest.api.contract.v1.AssetType" json:"type,omitempty"` //Тип актива.
 	Name          string               `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`                                                       //Наименование актива.
 	NameBrief     string               `protobuf:"bytes,4,opt,name=name_brief,json=nameBrief,proto3" json:"name_brief,omitempty"`                            //Короткое наименование актива.
@@ -4356,9 +4356,9 @@ func (*AssetFull) Descriptor() ([]byte, []int) {
 	return file_instruments_proto_rawDescGZIP(), []int{38}
 }
 
-func (x *AssetFull) GetUid() string {
+func (x *AssetFull) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -4511,7 +4511,7 @@ type Asset struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Uid         string             `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`                                                         //Уникальный идентификатор актива.
+	UID         string             `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`                                                         //Уникальный идентификатор актива.
 	Type        AssetType          `protobuf:"varint,2,opt,name=type,proto3,enum=tinkoff.public.invest.api.contract.v1.AssetType" json:"type,omitempty"` //Тип актива.
 	Name        string             `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`                                                       //Наименование актива.
 	Instruments []*AssetInstrument `protobuf:"bytes,4,rep,name=instruments,proto3" json:"instruments,omitempty"`                                         //Массив идентификаторов инструментов.
@@ -4549,9 +4549,9 @@ func (*Asset) Descriptor() ([]byte, []int) {
 	return file_instruments_proto_rawDescGZIP(), []int{39}
 }
 
-func (x *Asset) GetUid() string {
+func (x *Asset) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -5626,7 +5626,7 @@ type Brand struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Uid               string `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`                                                          //uid идентификатор бренда.
+	UID               string `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`                                                          //uid идентификатор бренда.
 	Name              string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`                                                        //Наименование бренда.
 	Description       string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`                                          //Описание.
 	Info              string `protobuf:"bytes,4,opt,name=info,proto3" json:"info,omitempty"`                                                        //Информация о бренде.
@@ -5668,9 +5668,9 @@ func (*Brand) Descriptor() ([]byte, []int) {
 	return file_instruments_proto_rawDescGZIP(), []int{47}
 }
 
-func (x *Brand) GetUid() string {
+func (x *Brand) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -5730,7 +5730,7 @@ type AssetInstrument struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Uid            string            `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`                                             //uid идентификатор инструмента.
+	UID            string            `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`                                             //uid идентификатор инструмента.
 	Figi           string            `protobuf:"bytes,2,opt,name=figi,proto3" json:"figi,omitempty"`                                           //figi идентификатор инструмента.
 	InstrumentType string            `protobuf:"bytes,3,opt,name=instrument_type,json=instrumentType,proto3" json:"instrument_type,omitempty"` //Тип инструмента.
 	Ticker         string            `protobuf:"bytes,4,opt,name=ticker,proto3" json:"ticker,omitempty"`                                       //Тикер инструмента.
@@ -5770,9 +5770,9 @@ func (*AssetInstrument) Descriptor() ([]byte, []int) {
 	return file_instruments_proto_rawDescGZIP(), []int{48}
 }
 
-func (x *AssetInstrument) GetUid() string {
+func (x *AssetInstrument) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
@@ -5819,7 +5819,7 @@ type InstrumentLink struct {
 	unknownFields protoimpl.UnknownFields
 
 	Type          string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`                                        //Тип связи.
-	InstrumentUid string `protobuf:"bytes,2,opt,name=instrument_uid,json=instrumentUid,proto3" json:"instrument_uid,omitempty"` //uid идентификатор связанного инструмента.
+	InstrumentUID string `protobuf:"bytes,2,opt,name=instrument_uid,json=instrumentUID,proto3" json:"instrument_uid,omitempty"` //uid идентификатор связанного инструмента.
 }
 
 func (x *InstrumentLink) Reset() {
@@ -5861,9 +5861,9 @@ func (x *InstrumentLink) GetType() string {
 	return ""
 }
 
-func (x *InstrumentLink) GetInstrumentUid() string {
+func (x *InstrumentLink) GetInstrumentUID() string {
 	if x != nil {
-		return x.InstrumentUid
+		return x.InstrumentUID
 	}
 	return ""
 }
@@ -5967,7 +5967,7 @@ type FavoriteInstrument struct {
 	Isin                  string `protobuf:"bytes,4,opt,name=isin,proto3" json:"isin,omitempty"`                                                                      //Isin-идентификатор инструмента.
 	InstrumentType        string `protobuf:"bytes,11,opt,name=instrument_type,json=instrumentType,proto3" json:"instrument_type,omitempty"`                           //Тип инструмента.
 	OtcFlag               bool   `protobuf:"varint,16,opt,name=otc_flag,json=otcFlag,proto3" json:"otc_flag,omitempty"`                                               //Признак внебиржевой ценной бумаги.
-	ApiTradeAvailableFlag bool   `protobuf:"varint,17,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"` //Признак доступности торгов через API.
+	APITradeAvailableFlag bool   `protobuf:"varint,17,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"` //Признак доступности торгов через API.
 }
 
 func (x *FavoriteInstrument) Reset() {
@@ -6044,9 +6044,9 @@ func (x *FavoriteInstrument) GetOtcFlag() bool {
 	return false
 }
 
-func (x *FavoriteInstrument) GetApiTradeAvailableFlag() bool {
+func (x *FavoriteInstrument) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }
@@ -6470,10 +6470,10 @@ type InstrumentShort struct {
 	ClassCode             string               `protobuf:"bytes,4,opt,name=class_code,json=classCode,proto3" json:"class_code,omitempty"`                                           //ClassCode инструмента.
 	InstrumentType        string               `protobuf:"bytes,5,opt,name=instrument_type,json=instrumentType,proto3" json:"instrument_type,omitempty"`                            //Тип инструмента.
 	Name                  string               `protobuf:"bytes,6,opt,name=name,proto3" json:"name,omitempty"`                                                                      //Название инструмента.
-	Uid                   string               `protobuf:"bytes,7,opt,name=uid,proto3" json:"uid,omitempty"`                                                                        //Уникальный идентификатор инструмента.
-	PositionUid           string               `protobuf:"bytes,8,opt,name=position_uid,json=positionUid,proto3" json:"position_uid,omitempty"`                                     //Уникальный идентификатор позиции инструмента.
-	ApiTradeAvailableFlag bool                 `protobuf:"varint,11,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"` //Признак доступности торгов через API.
-	ForIisFlag            bool                 `protobuf:"varint,12,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                    //Признак доступности для ИИС.
+	UID                   string               `protobuf:"bytes,7,opt,name=uid,proto3" json:"uid,omitempty"`                                                                        //Уникальный идентификатор инструмента.
+	PositionUID           string               `protobuf:"bytes,8,opt,name=position_uid,json=positionUID,proto3" json:"position_uid,omitempty"`                                     //Уникальный идентификатор позиции инструмента.
+	APITradeAvailableFlag bool                 `protobuf:"varint,11,opt,name=api_trade_available_flag,json=apiTradeAvailableFlag,proto3" json:"api_trade_available_flag,omitempty"` //Признак доступности торгов через API.
+	ForIISFlag            bool                 `protobuf:"varint,12,opt,name=for_iis_flag,json=forIisFlag,proto3" json:"for_iis_flag,omitempty"`                                    //Признак доступности для ИИС.
 	First_1MinCandleDate  *timestamp.Timestamp `protobuf:"bytes,26,opt,name=first_1min_candle_date,json=first1minCandleDate,proto3" json:"first_1min_candle_date,omitempty"`        //Дата первой минутной свечи.
 	First_1DayCandleDate  *timestamp.Timestamp `protobuf:"bytes,27,opt,name=first_1day_candle_date,json=first1dayCandleDate,proto3" json:"first_1day_candle_date,omitempty"`        //Дата первой дневной свечи.
 }
@@ -6552,30 +6552,30 @@ func (x *InstrumentShort) GetName() string {
 	return ""
 }
 
-func (x *InstrumentShort) GetUid() string {
+func (x *InstrumentShort) GetUID() string {
 	if x != nil {
-		return x.Uid
+		return x.UID
 	}
 	return ""
 }
 
-func (x *InstrumentShort) GetPositionUid() string {
+func (x *InstrumentShort) GetPositionUID() string {
 	if x != nil {
-		return x.PositionUid
+		return x.PositionUID
 	}
 	return ""
 }
 
-func (x *InstrumentShort) GetApiTradeAvailableFlag() bool {
+func (x *InstrumentShort) GetAPITradeAvailableFlag() bool {
 	if x != nil {
-		return x.ApiTradeAvailableFlag
+		return x.APITradeAvailableFlag
 	}
 	return false
 }
 
-func (x *InstrumentShort) GetForIisFlag() bool {
+func (x *InstrumentShort) GetForIISFlag() bool {
 	if x != nil {
-		return x.ForIisFlag
+		return x.ForIISFlag
 	}
 	return false
 }
@@ -6639,7 +6639,7 @@ type GetBrandRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` //Uid-идентификатор бренда.
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` //UID-идентификатор бренда.
 }
 
 func (x *GetBrandRequest) Reset() {

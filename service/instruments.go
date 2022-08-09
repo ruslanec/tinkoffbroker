@@ -1,9 +1,8 @@
 package service
 
 import (
-	"time"
-
 	"context"
+	"time"
 
 	"github.com/ruslanec/tinkoffbroker/domain"
 )
@@ -48,7 +47,7 @@ type InstrumentsService interface {
 	// Метод для получения событий выплаты дивидендов по инструменту
 	Dividends(ctx context.Context, figi string, from, to time.Time) ([]*domain.Dividend, error)
 	// Метод получения актива по его идентификатору
-	AssetById(ctx context.Context, id string) (*domain.AssetFull, error)
+	AssetByID(ctx context.Context, id string) (*domain.AssetFull, error)
 	// Метод получения списка активов
 	Assets(ctx context.Context) ([]*domain.Asset, error)
 	// Метод получения списка избранных инструментов
@@ -62,5 +61,5 @@ type InstrumentsService interface {
 	// Метод получения списка брендов
 	Brands(ctx context.Context) ([]*domain.Brand, error)
 	// Метод получения бренда по его идентификатору
-	BrandById(ctx context.Context, id string) (*domain.Brand, error)
+	BrandByID(ctx context.Context, id string) (*domain.Brand, error)
 }

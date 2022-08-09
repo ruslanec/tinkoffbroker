@@ -906,7 +906,7 @@ message GetBrandsRequest { }
 
 //Запрос бренда.
 message GetBrandRequest {
-  string id = 1; //Uid-идентификатор бренда.
+  string id = 1; //UID-идентификатор бренда.
 }
 
 //Список брендов.

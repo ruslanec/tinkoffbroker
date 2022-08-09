@@ -13,10 +13,10 @@ import (
 )
 
 const (
-	INSTRUMENT_STATUS = tkf.InstrumentStatus_INSTRUMENT_STATUS_BASE //Базовый список инструментов (по умолчанию). Инструменты доступные для торговли через TINKOFF INVEST API.
+	instrumentStatus = tkf.InstrumentStatus_INSTRUMENT_STATUS_BASE // Базовый список инструментов (по умолчанию). Инструменты доступные для торговли через TINKOFF INVEST API.
 )
 
-//Сервис предоставления справочной информации о ценных бумагах
+// Сервис предоставления справочной информации о ценных бумагах
 type instrumentsService struct {
 	conn   *grpc.ClientConn
 	client tkf.InstrumentsServiceClient
@@ -31,7 +31,7 @@ func NewInstrumentsService(conn *grpc.ClientConn) service.InstrumentsService {
 	}
 }
 
-//Метод получения расписания торгов торговых площадок
+// Метод получения расписания торгов торговых площадок
 func (s *instrumentsService) TradingSchedules(ctx context.Context, exchange string, from, to time.Time) ([]*domain.TradingSchedule, error) {
 	var resp *tkf.TradingSchedulesResponse
 	var err error
@@ -100,7 +100,7 @@ func (s *instrumentsService) TradingSchedules(ctx context.Context, exchange stri
 	return schedules, nil
 }
 
-//Метод получения облигации по FIGI
+// Метод получения облигации по FIGI
 func (s *instrumentsService) BondByFigi(ctx context.Context, figi string) (*domain.Bond, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -117,10 +117,10 @@ func (s *instrumentsService) BondByFigi(ctx context.Context, figi string) (*doma
 	return service.ConvBond(resp.GetInstrument()), nil
 }
 
-//Метод получения списка облигаций
+// Метод получения списка облигаций
 func (s *instrumentsService) Bonds(ctx context.Context) ([]*domain.Bond, error) {
 	resp, err := s.client.Bonds(ctx, &tkf.InstrumentsRequest{
-		InstrumentStatus: INSTRUMENT_STATUS,
+		InstrumentStatus: instrumentStatus,
 	})
 	if err != nil {
 		return nil, err
@@ -133,7 +133,7 @@ func (s *instrumentsService) Bonds(ctx context.Context) ([]*domain.Bond, error) 
 	return bonds, nil
 }
 
-//Запрос купонов по облигации
+// Запрос купонов по облигации
 func (s *instrumentsService) BondCoupons(ctx context.Context, figi string, from, to time.Time) ([]*domain.Coupon, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -173,7 +173,7 @@ func (s *instrumentsService) BondCoupons(ctx context.Context, figi string, from,
 	return coupons, nil
 }
 
-//Метод получения валюты по FIGI
+// Метод получения валюты по FIGI
 func (s *instrumentsService) CurrencyByFigi(ctx context.Context, figi string) (*domain.Currency, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -190,10 +190,10 @@ func (s *instrumentsService) CurrencyByFigi(ctx context.Context, figi string) (*
 	return service.ConvCurrency(resp.GetInstrument()), nil
 }
 
-//Метод получения списка валют
+// Метод получения списка валют
 func (s *instrumentsService) Currencies(ctx context.Context) ([]*domain.Currency, error) {
 	resp, err := s.client.Currencies(ctx, &tkf.InstrumentsRequest{
-		InstrumentStatus: INSTRUMENT_STATUS,
+		InstrumentStatus: instrumentStatus,
 	})
 	if err != nil {
 		return nil, err
@@ -206,7 +206,7 @@ func (s *instrumentsService) Currencies(ctx context.Context) ([]*domain.Currency
 	return currencies, nil
 }
 
-//Метод получения инвестиционного фонда по его идентификатору
+// Метод получения инвестиционного фонда по его идентификатору
 func (s *instrumentsService) EtfByFigi(ctx context.Context, figi string) (*domain.Etf, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -223,10 +223,10 @@ func (s *instrumentsService) EtfByFigi(ctx context.Context, figi string) (*domai
 	return service.ConvEtf(resp.GetInstrument()), nil
 }
 
-//Метод получения списка инвестиционных фондов
+// Метод получения списка инвестиционных фондов
 func (s *instrumentsService) Etfs(ctx context.Context) ([]*domain.Etf, error) {
 	resp, err := s.client.Etfs(ctx, &tkf.InstrumentsRequest{
-		InstrumentStatus: INSTRUMENT_STATUS,
+		InstrumentStatus: instrumentStatus,
 	})
 	if err != nil {
 		return nil, err
@@ -239,7 +239,7 @@ func (s *instrumentsService) Etfs(ctx context.Context) ([]*domain.Etf, error) {
 	return etfs, nil
 }
 
-//Метод получения фьючерса по FIGI
+// Метод получения фьючерса по FIGI
 func (s *instrumentsService) ShareByFigi(ctx context.Context, figi string) (*domain.Share, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -256,10 +256,10 @@ func (s *instrumentsService) ShareByFigi(ctx context.Context, figi string) (*dom
 	return service.ConvShare(resp.GetInstrument()), nil
 }
 
-//Метод получения списка акций
+// Метод получения списка акций
 func (s *instrumentsService) Shares(ctx context.Context) ([]*domain.Share, error) {
 	resp, err := s.client.Shares(ctx, &tkf.InstrumentsRequest{
-		InstrumentStatus: INSTRUMENT_STATUS,
+		InstrumentStatus: instrumentStatus,
 	})
 	if err != nil {
 		return nil, err
@@ -273,7 +273,7 @@ func (s *instrumentsService) Shares(ctx context.Context) ([]*domain.Share, error
 	return shares, nil
 }
 
-//Метод получения фьючерса по FIGI
+// Метод получения фьючерса по FIGI
 func (s *instrumentsService) FutureByFigi(ctx context.Context, figi string) (*domain.Future, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -290,10 +290,10 @@ func (s *instrumentsService) FutureByFigi(ctx context.Context, figi string) (*do
 	return service.ConvFuture(resp.GetInstrument()), nil
 }
 
-//Метод получения списка фьючерсов
+// Метод получения списка фьючерсов
 func (s *instrumentsService) Future(ctx context.Context) ([]*domain.Future, error) {
 	resp, err := s.client.Futures(ctx, &tkf.InstrumentsRequest{
-		InstrumentStatus: INSTRUMENT_STATUS,
+		InstrumentStatus: instrumentStatus,
 	})
 	if err != nil {
 		return nil, err
@@ -306,7 +306,7 @@ func (s *instrumentsService) Future(ctx context.Context) ([]*domain.Future, erro
 	return futures, nil
 }
 
-//Метод получения накопленного купонного дохода по облигации
+// Метод получения накопленного купонного дохода по облигации
 func (s *instrumentsService) AccruedInterests(ctx context.Context, figi string, from, to time.Time) ([]*domain.AccruedInterest, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -338,7 +338,7 @@ func (s *instrumentsService) AccruedInterests(ctx context.Context, figi string, 
 	return interests, nil
 }
 
-//Метод получения размера гарантийного обеспечения по фьючерсам
+// Метод получения размера гарантийного обеспечения по фьючерсам
 func (s *instrumentsService) FuturesMargin(ctx context.Context, figi string) (*domain.FuturesMargin, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -356,10 +356,9 @@ func (s *instrumentsService) FuturesMargin(ctx context.Context, figi string) (*d
 		MinPriceIncrement:       service.ConvQuotationFromTkf(resp.MinPriceIncrement),
 		MinPriceIncrementAmount: service.ConvQuotationFromTkf(resp.MinPriceIncrementAmount),
 	}, nil
-
 }
 
-//Метод получения основной информации об инструменте
+// Метод получения основной информации об инструменте
 func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) (*domain.Instrument, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -376,7 +375,7 @@ func (s *instrumentsService) InstrumentByFigi(ctx context.Context, figi string) 
 	return service.ConvInstrument(resp.GetInstrument()), nil
 }
 
-//Метод для получения событий выплаты дивидендов по инструменту
+// Метод для получения событий выплаты дивидендов по инструменту
 func (s *instrumentsService) Dividends(ctx context.Context, figi string, from, to time.Time) ([]*domain.Dividend, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
@@ -420,8 +419,8 @@ func (s *instrumentsService) Dividends(ctx context.Context, figi string, from, t
 	return dividends, nil
 }
 
-//Метод получения актива по его идентификатору
-func (s *instrumentsService) AssetById(ctx context.Context, id string) (*domain.AssetFull, error) {
+// Метод получения актива по его идентификатору
+func (s *instrumentsService) AssetByID(ctx context.Context, id string) (*domain.AssetFull, error) {
 	if id == "" {
 		return nil, tinkoffbroker.ErrArgEmptyID
 	}
@@ -437,7 +436,7 @@ func (s *instrumentsService) AssetById(ctx context.Context, id string) (*domain.
 	}
 	deletedAt := tkfAF.GetDeletedAt().AsTime()
 
-	//service.Convert tkf.AssetCurrency to AssetCurrency
+	// service.Convert tkf.AssetCurrency to AssetCurrency
 	var currency *domain.AssetCurrency
 	if tkfAF.GetType() == tkf.AssetType_ASSET_TYPE_CURRENCY {
 		currency = &domain.AssetCurrency{
@@ -445,21 +444,21 @@ func (s *instrumentsService) AssetById(ctx context.Context, id string) (*domain.
 		}
 	}
 
-	//service.Convert tkf.AssetSecurity to AssetSecurity
+	// service.Convert tkf.AssetSecurity to AssetSecurity
 	var security *domain.AssetSecurity
 	tkfAS := tkfAF.GetSecurity()
 	if tkfAS != nil && tkfAF.GetType() == tkf.AssetType_ASSET_TYPE_SECURITY {
 		security = service.ConvAssetSecurity(tkfAS)
 	}
 
-	//service.Convert []*tkf.AssetInstrument to []*AssetInstrument
+	// service.Convert []*tkf.AssetInstrument to []*AssetInstrument
 	var instruments []*domain.AssetInstrument
 	for _, tkfInstrument := range tkfAF.GetInstruments() {
 		instruments = append(instruments, service.ConvAssetInstrument(tkfInstrument))
 	}
 
 	return &domain.AssetFull{
-		Uid:           tkfAF.GetUid(),
+		UID:           tkfAF.GetUID(),
 		Type:          domain.AssetType(tkfAF.GetType()),
 		Name:          tkfAF.GetName(),
 		NameBrief:     tkfAF.GetNameBrief(),
@@ -479,7 +478,7 @@ func (s *instrumentsService) AssetById(ctx context.Context, id string) (*domain.
 	}, nil
 }
 
-//Метод получения списка активов
+// Метод получения списка активов
 func (s *instrumentsService) Assets(ctx context.Context) ([]*domain.Asset, error) {
 	resp, err := s.client.GetAssets(ctx, &tkf.AssetsRequest{})
 	if err != nil {
@@ -491,17 +490,17 @@ func (s *instrumentsService) Assets(ctx context.Context) ([]*domain.Asset, error
 		return nil, tinkoffbroker.ErrRetEmptyField
 	}
 
-	//service.Convert tkf.Asset to Asset
+	// service.Convert tkf.Asset to Asset
 	var assets []*domain.Asset
 	for _, tkfAsset := range tkfAssets {
-		//service.Convert []*tkf.AssetInstrument to []*AssetInstrument
+		// service.Convert []*tkf.AssetInstrument to []*AssetInstrument
 		var instruments []*domain.AssetInstrument
 		for _, tkfInstrument := range tkfAsset.GetInstruments() {
 			instruments = append(instruments, service.ConvAssetInstrument(tkfInstrument))
 		}
 
 		assets = append(assets, &domain.Asset{
-			Uid:         tkfAsset.GetUid(),
+			UID:         tkfAsset.GetUID(),
 			Type:        domain.AssetType(tkfAsset.GetType()),
 			Name:        tkfAsset.GetName(),
 			Instruments: instruments,
@@ -511,7 +510,7 @@ func (s *instrumentsService) Assets(ctx context.Context) ([]*domain.Asset, error
 	return assets, nil
 }
 
-//Метод получения списка избранных инструментов
+// Метод получения списка избранных инструментов
 func (s *instrumentsService) Favorites(ctx context.Context) ([]*domain.FavoriteInstrument, error) {
 	resp, err := s.client.GetFavorites(ctx, &tkf.GetFavoritesRequest{})
 	if err != nil {
@@ -526,9 +525,9 @@ func (s *instrumentsService) Favorites(ctx context.Context) ([]*domain.FavoriteI
 	return favoriteInstruments, nil
 }
 
-//Метод редактирования списка избранных инструментов
+// Метод редактирования списка избранных инструментов
 func (s *instrumentsService) EditFavorites(ctx context.Context, figies []string, action domain.EditFavoritesActionType) ([]*domain.FavoriteInstrument, error) {
-	if len(figies) == 0 || action == domain.EDIT_FAVORITES_ACTION_TYPE_UNSPECIFIED {
+	if len(figies) == 0 || action == domain.EditFavoritesActionTypeUnspecified {
 		return nil, tinkoffbroker.ErrArgEmptyFigi
 	}
 
@@ -555,7 +554,7 @@ func (s *instrumentsService) EditFavorites(ctx context.Context, figies []string,
 	return favoriteInstruments, nil
 }
 
-//Метод получения списка стран
+// Метод получения списка стран
 func (s *instrumentsService) Countries(ctx context.Context) ([]*domain.Country, error) {
 	resp, err := s.client.GetCountries(ctx, &tkf.GetCountriesRequest{})
 	if err != nil {
@@ -574,7 +573,7 @@ func (s *instrumentsService) Countries(ctx context.Context) ([]*domain.Country, 
 	return countries, nil
 }
 
-//Метод поиска инструмента
+// Метод поиска инструмента
 func (s *instrumentsService) FindInstrument(ctx context.Context, query string) ([]*domain.InstrumentShort, error) {
 	if query == "" {
 		return nil, tinkoffbroker.ErrArgEmptyQuery
@@ -594,7 +593,7 @@ func (s *instrumentsService) FindInstrument(ctx context.Context, query string) (
 	return instruments, nil
 }
 
-//Метод получения списка брендов
+// Метод получения списка брендов
 func (s *instrumentsService) Brands(ctx context.Context) ([]*domain.Brand, error) {
 	resp, err := s.client.GetBrands(ctx, &tkf.GetBrandsRequest{})
 	if err != nil {
@@ -609,8 +608,8 @@ func (s *instrumentsService) Brands(ctx context.Context) ([]*domain.Brand, error
 	return brands, nil
 }
 
-//Метод получения бренда по его идентификатору
-func (s *instrumentsService) BrandById(ctx context.Context, id string) (*domain.Brand, error) {
+// Метод получения бренда по его идентификатору
+func (s *instrumentsService) BrandByID(ctx context.Context, id string) (*domain.Brand, error) {
 	if id == "" {
 		return nil, tinkoffbroker.ErrArgEmptyID
 	}

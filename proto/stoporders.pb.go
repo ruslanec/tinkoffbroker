@@ -185,7 +185,7 @@ type PostStopOrderRequest struct {
 	Price          *Quotation              `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`                                                                                                             //Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
 	StopPrice      *Quotation              `protobuf:"bytes,4,opt,name=stop_price,json=stopPrice,proto3" json:"stop_price,omitempty"`                                                                                    //Стоп-цена заявки за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
 	Direction      StopOrderDirection      `protobuf:"varint,5,opt,name=direction,proto3,enum=tinkoff.public.invest.api.contract.v1.StopOrderDirection" json:"direction,omitempty"`                                      //Направление операции.
-	AccountId      string                  `protobuf:"bytes,6,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                                                                    //Номер счёта.
+	AccountID      string                  `protobuf:"bytes,6,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`                                                                                    //Номер счёта.
 	ExpirationType StopOrderExpirationType `protobuf:"varint,7,opt,name=expiration_type,json=expirationType,proto3,enum=tinkoff.public.invest.api.contract.v1.StopOrderExpirationType" json:"expiration_type,omitempty"` //Тип экспирации заявки.
 	StopOrderType  StopOrderType           `protobuf:"varint,8,opt,name=stop_order_type,json=stopOrderType,proto3,enum=tinkoff.public.invest.api.contract.v1.StopOrderType" json:"stop_order_type,omitempty"`            //Тип заявки.
 	ExpireDate     *timestamp.Timestamp    `protobuf:"bytes,9,opt,name=expire_date,json=expireDate,proto3" json:"expire_date,omitempty"`                                                                                 //Дата и время окончания действия стоп-заявки в часовом поясе UTC. **Для ExpirationType = GoodTillDate заполнение обязательно**.
@@ -258,9 +258,9 @@ func (x *PostStopOrderRequest) GetDirection() StopOrderDirection {
 	return StopOrderDirection_STOP_ORDER_DIRECTION_UNSPECIFIED
 }
 
-func (x *PostStopOrderRequest) GetAccountId() string {
+func (x *PostStopOrderRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -292,7 +292,7 @@ type PostStopOrderResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StopOrderId string `protobuf:"bytes,1,opt,name=stop_order_id,json=stopOrderId,proto3" json:"stop_order_id,omitempty"` //Уникальный идентификатор стоп-заявки.
+	StopOrderID string `protobuf:"bytes,1,opt,name=stop_order_id,json=stopOrderID,proto3" json:"stop_order_id,omitempty"` //Уникальный идентификатор стоп-заявки.
 }
 
 func (x *PostStopOrderResponse) Reset() {
@@ -327,9 +327,9 @@ func (*PostStopOrderResponse) Descriptor() ([]byte, []int) {
 	return file_stoporders_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *PostStopOrderResponse) GetStopOrderId() string {
+func (x *PostStopOrderResponse) GetStopOrderID() string {
 	if x != nil {
-		return x.StopOrderId
+		return x.StopOrderID
 	}
 	return ""
 }
@@ -340,7 +340,7 @@ type GetStopOrdersRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Идентификатор счёта клиента.
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Идентификатор счёта клиента.
 }
 
 func (x *GetStopOrdersRequest) Reset() {
@@ -375,9 +375,9 @@ func (*GetStopOrdersRequest) Descriptor() ([]byte, []int) {
 	return file_stoporders_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetStopOrdersRequest) GetAccountId() string {
+func (x *GetStopOrdersRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -436,8 +436,8 @@ type CancelStopOrderRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId   string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`         //Идентификатор счёта клиента.
-	StopOrderId string `protobuf:"bytes,2,opt,name=stop_order_id,json=stopOrderId,proto3" json:"stop_order_id,omitempty"` //Уникальный идентификатор стоп-заявки.
+	AccountID   string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`         //Идентификатор счёта клиента.
+	StopOrderID string `protobuf:"bytes,2,opt,name=stop_order_id,json=stopOrderID,proto3" json:"stop_order_id,omitempty"` //Уникальный идентификатор стоп-заявки.
 }
 
 func (x *CancelStopOrderRequest) Reset() {
@@ -472,16 +472,16 @@ func (*CancelStopOrderRequest) Descriptor() ([]byte, []int) {
 	return file_stoporders_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CancelStopOrderRequest) GetAccountId() string {
+func (x *CancelStopOrderRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
 
-func (x *CancelStopOrderRequest) GetStopOrderId() string {
+func (x *CancelStopOrderRequest) GetStopOrderID() string {
 	if x != nil {
-		return x.StopOrderId
+		return x.StopOrderID
 	}
 	return ""
 }
@@ -540,7 +540,7 @@ type StopOrder struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StopOrderId        string               `protobuf:"bytes,1,opt,name=stop_order_id,json=stopOrderId,proto3" json:"stop_order_id,omitempty"`                                                   //Идентификатор-идентификатор стоп-заявки.
+	StopOrderID        string               `protobuf:"bytes,1,opt,name=stop_order_id,json=stopOrderID,proto3" json:"stop_order_id,omitempty"`                                                   //Идентификатор-идентификатор стоп-заявки.
 	LotsRequested      int64                `protobuf:"varint,2,opt,name=lots_requested,json=lotsRequested,proto3" json:"lots_requested,omitempty"`                                              //Запрошено лотов.
 	Figi               string               `protobuf:"bytes,3,opt,name=figi,proto3" json:"figi,omitempty"`                                                                                      //Figi-идентификатор инструмента.
 	Direction          StopOrderDirection   `protobuf:"varint,4,opt,name=direction,proto3,enum=tinkoff.public.invest.api.contract.v1.StopOrderDirection" json:"direction,omitempty"`             //Направление операции.
@@ -585,9 +585,9 @@ func (*StopOrder) Descriptor() ([]byte, []int) {
 	return file_stoporders_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *StopOrder) GetStopOrderId() string {
+func (x *StopOrder) GetStopOrderID() string {
 	if x != nil {
-		return x.StopOrderId
+		return x.StopOrderID
 	}
 	return ""
 }

@@ -6,27 +6,27 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-//Режим торгов инструмента
+// Режим торгов инструмента
 type SecurityTradingStatus int32
 
 const (
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_UNSPECIFIED                      SecurityTradingStatus = 0  //Торговый статус не определён
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_NOT_AVAILABLE_FOR_TRADING        SecurityTradingStatus = 1  //Недоступен для торгов
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_OPENING_PERIOD                   SecurityTradingStatus = 2  //Период открытия торгов
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_CLOSING_PERIOD                   SecurityTradingStatus = 3  //Период закрытия торгов
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_BREAK_IN_TRADING                 SecurityTradingStatus = 4  //Перерыв в торговле
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_NORMAL_TRADING                   SecurityTradingStatus = 5  //Нормальная торговля
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_CLOSING_AUCTION                  SecurityTradingStatus = 6  //Аукцион закрытия
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_DARK_POOL_AUCTION                SecurityTradingStatus = 7  //Аукцион крупных пакетов
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_DISCRETE_AUCTION                 SecurityTradingStatus = 8  //Дискретный аукцион
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_OPENING_AUCTION_PERIOD           SecurityTradingStatus = 9  //Аукцион открытия
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_TRADING_AT_CLOSING_AUCTION_PRICE SecurityTradingStatus = 10 //Период торгов по цене аукциона закрытия
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_SESSION_ASSIGNED                 SecurityTradingStatus = 11 //Сессия назначена
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_SESSION_CLOSE                    SecurityTradingStatus = 12 //Сессия закрыта
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_SESSION_OPEN                     SecurityTradingStatus = 13 //Сессия открыта
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_DEALER_NORMAL_TRADING            SecurityTradingStatus = 14 //Доступна торговля в режиме внутренней ликвидности брокера
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_DEALER_BREAK_IN_TRADING          SecurityTradingStatus = 15 //Перерыв торговли в режиме внутренней ликвидности брокера
-	SecurityTradingStatus_SECURITY_TRADING_STATUS_DEALER_NOT_AVAILABLE_FOR_TRADING SecurityTradingStatus = 16 //Недоступна торговля в режиме внутренней ликвидности брокера
+	SecurityTradingStatusUnspecified                  SecurityTradingStatus = 0  // Торговый статус не определён
+	SecurityTradingStatusNotAvailableForTrading       SecurityTradingStatus = 1  // Недоступен для торгов
+	SecurityTradingStatusOpeningPeriod                SecurityTradingStatus = 2  // Период открытия торгов
+	SecurityTradingStatusClosingPeriod                SecurityTradingStatus = 3  // Период закрытия торгов
+	SecurityTradingStatusBreakInTrading               SecurityTradingStatus = 4  // Перерыв в торговле
+	SecurityTradingStatusNormalTrading                SecurityTradingStatus = 5  // Нормальная торговля
+	SecurityTradingStatusClosingAuction               SecurityTradingStatus = 6  // Аукцион закрытия
+	SecurityTradingStatusDarkPoolAuction              SecurityTradingStatus = 7  // Аукцион крупных пакетов
+	SecurityTradingStatusDiscreteAuction              SecurityTradingStatus = 8  // Дискретный аукцион
+	SecurityTradingStatusOpeningAuctionPeriod         SecurityTradingStatus = 9  // Аукцион открытия
+	SecurityTradingStatusTradingAtClosingAuctionPrice SecurityTradingStatus = 10 // Период торгов по цене аукциона закрытия
+	SecurityTradingStatusSessionAssigned              SecurityTradingStatus = 11 // Сессия назначена
+	SecurityTradingStatusSessionClose                 SecurityTradingStatus = 12 // Сессия закрыта
+	SecurityTradingStatusSessionOpen                  SecurityTradingStatus = 13 // Сессия открыта
+	SecurityTradingStatusDealerNormalTrading          SecurityTradingStatus = 14 // Доступна торговля в режиме внутренней ликвидности брокера
+	SecurityTradingStatusDealerBreakInTrading         SecurityTradingStatus = 15 // Перерыв торговли в режиме внутренней ликвидности брокера
+	SecurityTradingStatusDealerNotAvailableForTrading SecurityTradingStatus = 16 // Недоступна торговля в режиме внутренней ликвидности брокера
 )
 
 // Котировка - денежная сумма без указания валюты

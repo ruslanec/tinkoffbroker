@@ -365,12 +365,12 @@ type OrderTrades struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OrderId   string               `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`                                                 //Идентификатор торгового поручения.
+	OrderID   string               `protobuf:"bytes,1,opt,name=order_id,json=orderID,proto3" json:"order_id,omitempty"`                                                 //Идентификатор торгового поручения.
 	CreatedAt *timestamp.Timestamp `protobuf:"bytes,2,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                                           //Дата и время создания сообщения в часовом поясе UTC.
 	Direction OrderDirection       `protobuf:"varint,3,opt,name=direction,proto3,enum=tinkoff.public.invest.api.contract.v1.OrderDirection" json:"direction,omitempty"` //Направление сделки.
 	Figi      string               `protobuf:"bytes,4,opt,name=figi,proto3" json:"figi,omitempty"`                                                                      //Figi-идентификатор инструмента.
 	Trades    []*OrderTrade        `protobuf:"bytes,5,rep,name=trades,proto3" json:"trades,omitempty"`                                                                  //Массив сделок.
-	AccountId string               `protobuf:"bytes,6,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                           //Идентификатор счёта.
+	AccountID string               `protobuf:"bytes,6,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`                                           //Идентификатор счёта.
 }
 
 func (x *OrderTrades) Reset() {
@@ -405,9 +405,9 @@ func (*OrderTrades) Descriptor() ([]byte, []int) {
 	return file_orders_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *OrderTrades) GetOrderId() string {
+func (x *OrderTrades) GetOrderID() string {
 	if x != nil {
-		return x.OrderId
+		return x.OrderID
 	}
 	return ""
 }
@@ -440,9 +440,9 @@ func (x *OrderTrades) GetTrades() []*OrderTrade {
 	return nil
 }
 
-func (x *OrderTrades) GetAccountId() string {
+func (x *OrderTrades) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -521,9 +521,9 @@ type PostOrderRequest struct {
 	Quantity  int64          `protobuf:"varint,2,opt,name=quantity,proto3" json:"quantity,omitempty"`                                                                         //Количество лотов.
 	Price     *Quotation     `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`                                                                                //Цена одного инструмента. Для получения стоимости лота требуется умножить на лотность инструмента. Игнорируется для рыночных поручений.
 	Direction OrderDirection `protobuf:"varint,4,opt,name=direction,proto3,enum=tinkoff.public.invest.api.contract.v1.OrderDirection" json:"direction,omitempty"`             //Направление операции.
-	AccountId string         `protobuf:"bytes,5,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                                       //Номер счёта.
+	AccountID string         `protobuf:"bytes,5,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`                                                       //Номер счёта.
 	OrderType OrderType      `protobuf:"varint,6,opt,name=order_type,json=orderType,proto3,enum=tinkoff.public.invest.api.contract.v1.OrderType" json:"order_type,omitempty"` //Тип заявки.
-	OrderId   string         `protobuf:"bytes,7,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`                                                             //Идентификатор запроса выставления поручения для целей идемпотентности. Максимальная длина 36 символов.
+	OrderID   string         `protobuf:"bytes,7,opt,name=order_id,json=orderID,proto3" json:"order_id,omitempty"`                                                             //Идентификатор запроса выставления поручения для целей идемпотентности. Максимальная длина 36 символов.
 }
 
 func (x *PostOrderRequest) Reset() {
@@ -586,9 +586,9 @@ func (x *PostOrderRequest) GetDirection() OrderDirection {
 	return OrderDirection_ORDER_DIRECTION_UNSPECIFIED
 }
 
-func (x *PostOrderRequest) GetAccountId() string {
+func (x *PostOrderRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -600,9 +600,9 @@ func (x *PostOrderRequest) GetOrderType() OrderType {
 	return OrderType_ORDER_TYPE_UNSPECIFIED
 }
 
-func (x *PostOrderRequest) GetOrderId() string {
+func (x *PostOrderRequest) GetOrderID() string {
 	if x != nil {
-		return x.OrderId
+		return x.OrderID
 	}
 	return ""
 }
@@ -613,7 +613,7 @@ type PostOrderResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OrderId               string                     `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`                                                                                                                    //Идентификатор заявки.
+	OrderID               string                     `protobuf:"bytes,1,opt,name=order_id,json=orderID,proto3" json:"order_id,omitempty"`                                                                                                                    //Идентификатор заявки.
 	ExecutionReportStatus OrderExecutionReportStatus `protobuf:"varint,2,opt,name=execution_report_status,json=executionReportStatus,proto3,enum=tinkoff.public.invest.api.contract.v1.OrderExecutionReportStatus" json:"execution_report_status,omitempty"` //Текущий статус заявки.
 	LotsRequested         int64                      `protobuf:"varint,3,opt,name=lots_requested,json=lotsRequested,proto3" json:"lots_requested,omitempty"`                                                                                                 //Запрошено лотов.
 	LotsExecuted          int64                      `protobuf:"varint,4,opt,name=lots_executed,json=lotsExecuted,proto3" json:"lots_executed,omitempty"`                                                                                                    //Исполнено лотов.
@@ -663,9 +663,9 @@ func (*PostOrderResponse) Descriptor() ([]byte, []int) {
 	return file_orders_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *PostOrderResponse) GetOrderId() string {
+func (x *PostOrderResponse) GetOrderID() string {
 	if x != nil {
-		return x.OrderId
+		return x.OrderID
 	}
 	return ""
 }
@@ -781,8 +781,8 @@ type CancelOrderRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Номер счёта.
-	OrderId   string `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`       //Идентификатор заявки.
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Номер счёта.
+	OrderID   string `protobuf:"bytes,2,opt,name=order_id,json=orderID,proto3" json:"order_id,omitempty"`       //Идентификатор заявки.
 }
 
 func (x *CancelOrderRequest) Reset() {
@@ -817,16 +817,16 @@ func (*CancelOrderRequest) Descriptor() ([]byte, []int) {
 	return file_orders_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *CancelOrderRequest) GetAccountId() string {
+func (x *CancelOrderRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
 
-func (x *CancelOrderRequest) GetOrderId() string {
+func (x *CancelOrderRequest) GetOrderID() string {
 	if x != nil {
-		return x.OrderId
+		return x.OrderID
 	}
 	return ""
 }
@@ -885,8 +885,8 @@ type GetOrderStateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Номер счёта.
-	OrderId   string `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`       //Идентификатор заявки.
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Номер счёта.
+	OrderID   string `protobuf:"bytes,2,opt,name=order_id,json=orderID,proto3" json:"order_id,omitempty"`       //Идентификатор заявки.
 }
 
 func (x *GetOrderStateRequest) Reset() {
@@ -921,16 +921,16 @@ func (*GetOrderStateRequest) Descriptor() ([]byte, []int) {
 	return file_orders_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *GetOrderStateRequest) GetAccountId() string {
+func (x *GetOrderStateRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
 
-func (x *GetOrderStateRequest) GetOrderId() string {
+func (x *GetOrderStateRequest) GetOrderID() string {
 	if x != nil {
-		return x.OrderId
+		return x.OrderID
 	}
 	return ""
 }
@@ -941,7 +941,7 @@ type GetOrdersRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Номер счёта.
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Номер счёта.
 }
 
 func (x *GetOrdersRequest) Reset() {
@@ -976,9 +976,9 @@ func (*GetOrdersRequest) Descriptor() ([]byte, []int) {
 	return file_orders_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *GetOrdersRequest) GetAccountId() string {
+func (x *GetOrdersRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -1037,7 +1037,7 @@ type OrderState struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OrderId               string                     `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`                                                                                                                    //Идентификатор заявки.
+	OrderID               string                     `protobuf:"bytes,1,opt,name=order_id,json=orderID,proto3" json:"order_id,omitempty"`                                                                                                                    //Идентификатор заявки.
 	ExecutionReportStatus OrderExecutionReportStatus `protobuf:"varint,2,opt,name=execution_report_status,json=executionReportStatus,proto3,enum=tinkoff.public.invest.api.contract.v1.OrderExecutionReportStatus" json:"execution_report_status,omitempty"` //Текущий статус заявки.
 	LotsRequested         int64                      `protobuf:"varint,3,opt,name=lots_requested,json=lotsRequested,proto3" json:"lots_requested,omitempty"`                                                                                                 //Запрошено лотов.
 	LotsExecuted          int64                      `protobuf:"varint,4,opt,name=lots_executed,json=lotsExecuted,proto3" json:"lots_executed,omitempty"`                                                                                                    //Исполнено лотов.
@@ -1089,9 +1089,9 @@ func (*OrderState) Descriptor() ([]byte, []int) {
 	return file_orders_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *OrderState) GetOrderId() string {
+func (x *OrderState) GetOrderID() string {
 	if x != nil {
-		return x.OrderId
+		return x.OrderID
 	}
 	return ""
 }
@@ -1223,7 +1223,7 @@ type OrderStage struct {
 
 	Price    *MoneyValue `protobuf:"bytes,1,opt,name=price,proto3" json:"price,omitempty"`                    //Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента..
 	Quantity int64       `protobuf:"varint,2,opt,name=quantity,proto3" json:"quantity,omitempty"`             //Количество лотов.
-	TradeId  string      `protobuf:"bytes,3,opt,name=trade_id,json=tradeId,proto3" json:"trade_id,omitempty"` //Идентификатор торговой операции.
+	TradeID  string      `protobuf:"bytes,3,opt,name=trade_id,json=tradeId,proto3" json:"trade_id,omitempty"` //Идентификатор торговой операции.
 }
 
 func (x *OrderStage) Reset() {
@@ -1272,9 +1272,9 @@ func (x *OrderStage) GetQuantity() int64 {
 	return 0
 }
 
-func (x *OrderStage) GetTradeId() string {
+func (x *OrderStage) GetTradeID() string {
 	if x != nil {
-		return x.TradeId
+		return x.TradeID
 	}
 	return ""
 }
@@ -1285,8 +1285,8 @@ type ReplaceOrderRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId      string     `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                                        //Номер счета.
-	OrderId        string     `protobuf:"bytes,6,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`                                                              //Идентификатор заявки на бирже.
+	AccountID      string     `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`                                                        //Номер счета.
+	OrderID        string     `protobuf:"bytes,6,opt,name=order_id,json=orderID,proto3" json:"order_id,omitempty"`                                                              //Идентификатор заявки на бирже.
 	IdempotencyKey string     `protobuf:"bytes,7,opt,name=idempotency_key,json=idempotencyKey,proto3" json:"idempotency_key,omitempty"`                                         //Новый идентификатор запроса выставления поручения для целей идемпотентности. Максимальная длина 36 символов. Перезатирает старый ключ.
 	Quantity       int64      `protobuf:"varint,11,opt,name=quantity,proto3" json:"quantity,omitempty"`                                                                         //Количество лотов.
 	Price          *Quotation `protobuf:"bytes,12,opt,name=price,proto3" json:"price,omitempty"`                                                                                //Цена за 1 инструмент.
@@ -1325,16 +1325,16 @@ func (*ReplaceOrderRequest) Descriptor() ([]byte, []int) {
 	return file_orders_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *ReplaceOrderRequest) GetAccountId() string {
+func (x *ReplaceOrderRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
 
-func (x *ReplaceOrderRequest) GetOrderId() string {
+func (x *ReplaceOrderRequest) GetOrderID() string {
 	if x != nil {
-		return x.OrderId
+		return x.OrderID
 	}
 	return ""
 }

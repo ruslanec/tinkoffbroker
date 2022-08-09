@@ -35,15 +35,15 @@ type marketDataService struct {
 1 день				от 1 дня до 1 года
 */
 const (
-	MAX_PERIOD_INTERVAL_1_5_15_MIN = 24 * time.Hour
-	MAX_PERIOD_INTERVAL_1_HOUR     = 7 * 24 * time.Hour
-	MAX_PERIOD_INTERVAL_1_DAY      = 365 * 24 * time.Hour
+	maxPeriodIntervalForMinuteCandles = 24 * time.Hour
+	maxPeriodIntervalForHourCandles   = 7 * 24 * time.Hour
+	maxPeriodIntervalForDayCandles    = 365 * 24 * time.Hour
 )
 
-//Доступные значения глубины стакана: 1, 10, 20, 30, 40, 50.
+// Доступные значения глубины стакана: 1, 10, 20, 30, 40, 50.
 var allowableOrderBookDepth = []int32{1, 10, 20, 30, 40, 50}
 
-//Конструктор сервиса
+// Конструктор сервиса
 func NewMarketDataService(conn *grpc.ClientConn) service.MarketDataService {
 	return &marketDataService{
 		conn:   conn,
@@ -51,12 +51,11 @@ func NewMarketDataService(conn *grpc.ClientConn) service.MarketDataService {
 	}
 }
 
-//Метод запроса последних цен по инструментам
+// Метод запроса последних цен по инструментам
 func (s *marketDataService) LastPrices(ctx context.Context, figi []string) ([]*domain.LastPrice, error) {
 	resp, err := s.client.GetLastPrices(ctx, &tkf.GetLastPricesRequest{
 		Figi: figi,
 	})
-
 	if err != nil {
 		return nil, err
 	}
@@ -73,9 +72,9 @@ func (s *marketDataService) LastPrices(ctx context.Context, figi []string) ([]*d
 	return prices, nil
 }
 
-//Метод запроса исторических свечей по инструменту
+// Метод запроса исторических свечей по инструменту
 func (s *marketDataService) Candles(ctx context.Context, figi string, from, to time.Time, interval domain.CandleInterval) ([]*domain.Candle, error) {
-	ctx, cancel := context.WithTimeout(ctx, tinkoffbroker.REQ_TIMEOUT) //TODO
+	ctx, cancel := context.WithTimeout(ctx, tinkoffbroker.DefaultRequestTimeout) // TODO
 	defer cancel()
 
 	var timerangeInterval time.Duration
@@ -83,11 +82,11 @@ func (s *marketDataService) Candles(ctx context.Context, figi string, from, to t
 	case tkf.CandleInterval_CANDLE_INTERVAL_UNSPECIFIED:
 		return nil, tinkoffbroker.ErrArgCandleUnspecified
 	case tkf.CandleInterval_CANDLE_INTERVAL_1_MIN, tkf.CandleInterval_CANDLE_INTERVAL_5_MIN, tkf.CandleInterval_CANDLE_INTERVAL_15_MIN:
-		timerangeInterval = MAX_PERIOD_INTERVAL_1_5_15_MIN
+		timerangeInterval = maxPeriodIntervalForMinuteCandles
 	case tkf.CandleInterval_CANDLE_INTERVAL_HOUR:
-		timerangeInterval = MAX_PERIOD_INTERVAL_1_HOUR
+		timerangeInterval = maxPeriodIntervalForHourCandles
 	case tkf.CandleInterval_CANDLE_INTERVAL_DAY:
-		timerangeInterval = MAX_PERIOD_INTERVAL_1_DAY
+		timerangeInterval = maxPeriodIntervalForDayCandles
 	default:
 		return nil, tinkoffbroker.ErrArgCandleUnspecified
 	}
@@ -99,7 +98,7 @@ func (s *marketDataService) Candles(ctx context.Context, figi string, from, to t
 		if start == to {
 			continue
 		}
-		end := start.Add(time.Duration(timerangeInterval))
+		end := start.Add(timerangeInterval)
 		if end.After(to) {
 			end = to
 		}
@@ -115,7 +114,7 @@ func (s *marketDataService) Candles(ctx context.Context, figi string, from, to t
 			return nil, err
 		}
 
-		//Контроль ограничений по тарифу. При исчерпании кол-ва запросов делаем паузу до сброса счетчика запросов
+		// Контроль ограничений по тарифу. При исчерпании кол-ва запросов делаем паузу до сброса счетчика запросов
 		if limitRemaining, ok := header["x-ratelimit-remaining"]; ok {
 			if len(limitRemaining) > 0 && limitRemaining[0] == "0" {
 				if limitReset, ok := header["x-ratelimit-reset"]; ok {
@@ -146,7 +145,7 @@ func (s *marketDataService) Candles(ctx context.Context, figi string, from, to t
 	return candles, nil
 }
 
-//Метод получения стакана по инструменту
+// Метод получения стакана по инструменту
 func (s *marketDataService) OrderBook(ctx context.Context, figi string, depth int32) (*domain.OrderBook, error) {
 	if !contains(allowableOrderBookDepth, depth) {
 		return nil, tinkoffbroker.ErrArgCandleUnspecified
@@ -186,7 +185,7 @@ func (s *marketDataService) OrderBook(ctx context.Context, figi string, depth in
 	}, nil
 }
 
-//Метод запроса статуса торгов по инструментам
+// Метод запроса статуса торгов по инструментам
 func (s *marketDataService) TradingStatus(ctx context.Context, figi string) (*domain.InstrumentTradingStatus, error) {
 	resp, err := s.client.GetTradingStatus(ctx, &tkf.GetTradingStatusRequest{
 		Figi: figi,
@@ -211,7 +210,7 @@ func contains(array []int32, value int32) bool {
 	return false
 }
 
-//Метод запроса обезличенных сделок за последний час.
+// Метод запроса обезличенных сделок за последний час.
 func (s *marketDataService) LastTrades(ctx context.Context, figi string, from, to time.Time) ([]*domain.Trade, error) {
 	if figi == "" {
 		return nil, tinkoffbroker.ErrArgEmptyFigi

@@ -25,14 +25,14 @@ import (
 
 type usersService struct {
 	conn      *grpc.ClientConn
-	accountId string
+	accountID string
 	client    tkf.UsersServiceClient
 }
 
-func NewUsersService(conn *grpc.ClientConn, accountId string) service.UsersService {
+func NewUsersService(conn *grpc.ClientConn, accountID string) service.UsersService {
 	return &usersService{
 		conn:      conn,
-		accountId: accountId,
+		accountID: accountID,
 		client:    tkf.NewUsersServiceClient(conn),
 	}
 }
@@ -47,16 +47,13 @@ func (s *usersService) Accounts(ctx context.Context) ([]*domain.Account, error) 
 	tkfAccounts := resp.GetAccounts()
 	accounts := make([]*domain.Account, 0, len(tkfAccounts))
 	for _, tkfAccount := range tkfAccounts {
-		openedDate := service.ConvTimestamp(tkfAccount.OpenedDate)
-		closedDate := service.ConvTimestamp(tkfAccount.ClosedDate)
-
 		accounts = append(accounts, &domain.Account{
-			Id:          tkfAccount.GetId(),
+			ID:          tkfAccount.GetId(),
 			Type:        domain.AccountType(tkfAccount.GetType()),
 			Name:        tkfAccount.GetName(),
 			Status:      domain.AccountStatus(tkfAccount.GetStatus()),
-			OpenedDate:  openedDate,
-			ClosedDate:  closedDate,
+			OpenedDate:  service.ConvTimestamp(tkfAccount.OpenedDate),
+			ClosedDate:  service.ConvTimestamp(tkfAccount.ClosedDate),
 			AccessLevel: domain.AccessLevel(tkfAccount.GetAccessLevel()),
 		})
 	}
@@ -97,7 +94,7 @@ func (s *usersService) UserTariff(ctx context.Context) (*domain.UserTariff, erro
 // Расчёт маржинальных показателей по счёту пользователя
 func (s *usersService) MarginAttributes(ctx context.Context) (*domain.MarginAttributes, error) {
 	resp, err := s.client.GetMarginAttributes(ctx, &tkf.GetMarginAttributesRequest{
-		AccountId: s.accountId,
+		AccountID: s.accountID,
 	})
 	if err != nil {
 		return nil, err

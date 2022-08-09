@@ -2,33 +2,33 @@ package domain
 
 import "time"
 
-//Интервал свечей.
+// Интервал свечей.
 type CandleInterval int32
 
 const (
-	CandleInterval_CANDLE_INTERVAL_UNSPECIFIED CandleInterval = 0 //Интервал не определён.
-	CandleInterval_CANDLE_INTERVAL_1_MIN       CandleInterval = 1 //1 минута.
-	CandleInterval_CANDLE_INTERVAL_5_MIN       CandleInterval = 2 //5 минут.
-	CandleInterval_CANDLE_INTERVAL_15_MIN      CandleInterval = 3 //15 минут.
-	CandleInterval_CANDLE_INTERVAL_HOUR        CandleInterval = 4 //1 час.
-	CandleInterval_CANDLE_INTERVAL_DAY         CandleInterval = 5 //1 день.
+	CandleIntervalUnspecified CandleInterval = 0 // Интервал не определён.
+	CandleInterval1Min        CandleInterval = 1 // 1 минута.
+	CandleInterval5Min        CandleInterval = 2 // 5 минут.
+	CandleInterval15Min       CandleInterval = 3 // 15 минут.
+	CandleIntervalHour        CandleInterval = 4 // 1 час.
+	CandleIntervalDay         CandleInterval = 5 // 1 день.
 )
 
 var (
 	CandleIntervalToDuration = map[CandleInterval]time.Duration{
-		CandleInterval_CANDLE_INTERVAL_1_MIN:  time.Minute,
-		CandleInterval_CANDLE_INTERVAL_5_MIN:  time.Minute * 5,
-		CandleInterval_CANDLE_INTERVAL_15_MIN: time.Minute * 15,
-		CandleInterval_CANDLE_INTERVAL_HOUR:   time.Hour,
-		CandleInterval_CANDLE_INTERVAL_DAY:    time.Hour * 24,
+		CandleInterval1Min:  time.Minute,
+		CandleInterval5Min:  time.Minute * 5,
+		CandleInterval15Min: time.Minute * 15,
+		CandleIntervalHour:  time.Hour,
+		CandleIntervalDay:   time.Hour * 24,
 	}
 
 	CandleDurationToInterval = map[time.Duration]CandleInterval{
-		time.Minute:      CandleInterval_CANDLE_INTERVAL_1_MIN,
-		time.Minute * 5:  CandleInterval_CANDLE_INTERVAL_5_MIN,
-		time.Minute * 15: CandleInterval_CANDLE_INTERVAL_15_MIN,
-		time.Hour:        CandleInterval_CANDLE_INTERVAL_HOUR,
-		time.Hour * 24:   CandleInterval_CANDLE_INTERVAL_DAY,
+		time.Minute:      CandleInterval1Min,
+		time.Minute * 5:  CandleInterval5Min,
+		time.Minute * 15: CandleInterval15Min,
+		time.Hour:        CandleIntervalHour,
+		time.Hour * 24:   CandleIntervalDay,
 	}
 )
 
@@ -36,9 +36,9 @@ var (
 type SubscriptionInterval int32 // TODO: заменить на CandleInterval
 
 const (
-	SubscriptionInterval_SUBSCRIPTION_INTERVAL_UNSPECIFIED  SubscriptionInterval = 0 // Интервал свечи не определён
-	SubscriptionInterval_SUBSCRIPTION_INTERVAL_ONE_MINUTE   SubscriptionInterval = 1 // Минутные свечи
-	SubscriptionInterval_SUBSCRIPTION_INTERVAL_FIVE_MINUTES SubscriptionInterval = 2 // Пятиминутные свечи
+	SubscriptionIntervalUnspecified SubscriptionInterval = 0 // Интервал свечи не определён
+	SubscriptionIntervalOneMinute   SubscriptionInterval = 1 // Минутные свечи
+	SubscriptionIntervalFiveMinutes SubscriptionInterval = 2 // Пятиминутные свечи
 )
 
 // Информация о свече
@@ -53,7 +53,7 @@ type Candle struct {
 	Volume   int64          `json:"volume,omitempty"`    // Объём сделок в лотах
 }
 
-//Запрос изменения статус подписки на свечи
+// Запрос изменения статус подписки на свечи
 type CandleInstrument struct {
 	Figi     string               `json:"figi,omitempty"`     // Figi-идентификатор инструмента
 	Interval SubscriptionInterval `json:"interval,omitempty"` // Интервал свечей

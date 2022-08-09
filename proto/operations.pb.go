@@ -374,7 +374,7 @@ type OperationsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string               `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                   //Идентификатор счёта клиента.
+	AccountID string               `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`                                   //Идентификатор счёта клиента.
 	From      *timestamp.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`                                                              //Начало периода (по UTC).
 	To        *timestamp.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`                                                                  //Окончание периода (по UTC).
 	State     OperationState       `protobuf:"varint,4,opt,name=state,proto3,enum=tinkoff.public.invest.api.contract.v1.OperationState" json:"state,omitempty"` //Статус запрашиваемых операций.
@@ -413,9 +413,9 @@ func (*OperationsRequest) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *OperationsRequest) GetAccountId() string {
+func (x *OperationsRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -654,7 +654,7 @@ type OperationTrade struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TradeId  string               `protobuf:"bytes,1,opt,name=trade_id,json=tradeId,proto3" json:"trade_id,omitempty"`    //Идентификатор сделки.
+	TradeID  string               `protobuf:"bytes,1,opt,name=trade_id,json=tradeId,proto3" json:"trade_id,omitempty"`    //Идентификатор сделки.
 	DateTime *timestamp.Timestamp `protobuf:"bytes,2,opt,name=date_time,json=dateTime,proto3" json:"date_time,omitempty"` //Дата и время сделки в часовом поясе UTC.
 	Quantity int64                `protobuf:"varint,3,opt,name=quantity,proto3" json:"quantity,omitempty"`                //Количество инструментов.
 	Price    *MoneyValue          `protobuf:"bytes,4,opt,name=price,proto3" json:"price,omitempty"`                       //Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента.
@@ -692,9 +692,9 @@ func (*OperationTrade) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *OperationTrade) GetTradeId() string {
+func (x *OperationTrade) GetTradeID() string {
 	if x != nil {
-		return x.TradeId
+		return x.TradeID
 	}
 	return ""
 }
@@ -726,7 +726,7 @@ type PortfolioRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Идентификатор счёта пользователя.
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Идентификатор счёта пользователя.
 }
 
 func (x *PortfolioRequest) Reset() {
@@ -761,9 +761,9 @@ func (*PortfolioRequest) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *PortfolioRequest) GetAccountId() string {
+func (x *PortfolioRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -870,7 +870,7 @@ type PositionsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Идентификатор счёта пользователя.
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Идентификатор счёта пользователя.
 }
 
 func (x *PositionsRequest) Reset() {
@@ -905,9 +905,9 @@ func (*PositionsRequest) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *PositionsRequest) GetAccountId() string {
+func (x *PositionsRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -998,7 +998,7 @@ type WithdrawLimitsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Идентификатор счёта пользователя.
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Идентификатор счёта пользователя.
 }
 
 func (x *WithdrawLimitsRequest) Reset() {
@@ -1033,9 +1033,9 @@ func (*WithdrawLimitsRequest) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *WithdrawLimitsRequest) GetAccountId() string {
+func (x *WithdrawLimitsRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -1541,7 +1541,7 @@ type GenerateBrokerReportRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string               `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Идентификатор счёта клиента.
+	AccountID string               `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Идентификатор счёта клиента.
 	From      *timestamp.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`                            //Начало периода в часовом поясе UTC.
 	To        *timestamp.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`                                //Окончание периода в часовом поясе UTC.
 }
@@ -1578,9 +1578,9 @@ func (*GenerateBrokerReportRequest) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *GenerateBrokerReportRequest) GetAccountId() string {
+func (x *GenerateBrokerReportRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -1777,8 +1777,8 @@ type BrokerReport struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TradeId                    string               `protobuf:"bytes,1,opt,name=trade_id,json=tradeId,proto3" json:"trade_id,omitempty"`                                                             //Номер сделки.
-	OrderId                    string               `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`                                                             //Номер поручения.
+	TradeID                    string               `protobuf:"bytes,1,opt,name=trade_id,json=tradeId,proto3" json:"trade_id,omitempty"`                                                             //Номер сделки.
+	OrderID                    string               `protobuf:"bytes,2,opt,name=order_id,json=orderID,proto3" json:"order_id,omitempty"`                                                             //Номер поручения.
 	Figi                       string               `protobuf:"bytes,3,opt,name=figi,proto3" json:"figi,omitempty"`                                                                                  //Figi-идентификатор инструмента.
 	ExecuteSign                string               `protobuf:"bytes,4,opt,name=execute_sign,json=executeSign,proto3" json:"execute_sign,omitempty"`                                                 //Признак исполнения.
 	TradeDatetime              *timestamp.Timestamp `protobuf:"bytes,5,opt,name=trade_datetime,json=tradeDatetime,proto3" json:"trade_datetime,omitempty"`                                           //Дата и время заключения в часовом поясе UTC.
@@ -1838,16 +1838,16 @@ func (*BrokerReport) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *BrokerReport) GetTradeId() string {
+func (x *BrokerReport) GetTradeID() string {
 	if x != nil {
-		return x.TradeId
+		return x.TradeID
 	}
 	return ""
 }
 
-func (x *BrokerReport) GetOrderId() string {
+func (x *BrokerReport) GetOrderID() string {
 	if x != nil {
-		return x.OrderId
+		return x.OrderID
 	}
 	return ""
 }
@@ -2197,7 +2197,7 @@ type GenerateDividendsForeignIssuerReportRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId string               `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"` //Идентификатор счёта клиента.
+	AccountID string               `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"` //Идентификатор счёта клиента.
 	From      *timestamp.Timestamp `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`                            //Начало периода (по UTC).
 	To        *timestamp.Timestamp `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`                                //Окончание периода (по UTC).
 }
@@ -2234,9 +2234,9 @@ func (*GenerateDividendsForeignIssuerReportRequest) Descriptor() ([]byte, []int)
 	return file_operations_proto_rawDescGZIP(), []int{22}
 }
 
-func (x *GenerateDividendsForeignIssuerReportRequest) GetAccountId() string {
+func (x *GenerateDividendsForeignIssuerReportRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -2763,7 +2763,7 @@ type AccountSubscriptionStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId          string                      `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                                                                                    //Идентификатор счёта
+	AccountID          string                      `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`                                                                                                    //Идентификатор счёта
 	SubscriptionStatus PortfolioSubscriptionStatus `protobuf:"varint,6,opt,name=subscription_status,json=subscriptionStatus,proto3,enum=tinkoff.public.invest.api.contract.v1.PortfolioSubscriptionStatus" json:"subscription_status,omitempty"` //Результат подписки.
 }
 
@@ -2799,9 +2799,9 @@ func (*AccountSubscriptionStatus) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{30}
 }
 
-func (x *AccountSubscriptionStatus) GetAccountId() string {
+func (x *AccountSubscriptionStatus) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -2819,7 +2819,7 @@ type GetOperationsByCursorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccountId          string               `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`                                                                                  //Идентификатор счёта клиента.
+	AccountID          string               `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`                                                                                  //Идентификатор счёта клиента.
 	InstrumentId       string               `protobuf:"bytes,2,opt,name=instrument_id,json=instrumentId,proto3" json:"instrument_id,omitempty"`                                                                         //Идентификатор инструмента (Figi инструмента или uid инструмента)
 	From               *timestamp.Timestamp `protobuf:"bytes,6,opt,name=from,proto3" json:"from,omitempty"`                                                                                                             //Начало периода (по UTC).
 	To                 *timestamp.Timestamp `protobuf:"bytes,7,opt,name=to,proto3" json:"to,omitempty"`                                                                                                                 //Окончание периода (по UTC).
@@ -2864,9 +2864,9 @@ func (*GetOperationsByCursorRequest) Descriptor() ([]byte, []int) {
 	return file_operations_proto_rawDescGZIP(), []int{31}
 }
 
-func (x *GetOperationsByCursorRequest) GetAccountId() string {
+func (x *GetOperationsByCursorRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }
@@ -3012,7 +3012,7 @@ type OperationItem struct {
 	unknownFields protoimpl.UnknownFields
 
 	Cursor            string               `protobuf:"bytes,1,opt,name=cursor,proto3" json:"cursor,omitempty"`                                                                                                   //Курсор.
-	BrokerAccountId   string               `protobuf:"bytes,6,opt,name=broker_account_id,json=brokerAccountId,proto3" json:"broker_account_id,omitempty"`                                                        //Номер счета клиента.
+	BrokerAccountID   string               `protobuf:"bytes,6,opt,name=broker_account_id,json=brokerAccountID,proto3" json:"broker_account_id,omitempty"`                                                        //Номер счета клиента.
 	Id                string               `protobuf:"bytes,16,opt,name=id,proto3" json:"id,omitempty"`                                                                                                          //Номер поручения.
 	ParentOperationId string               `protobuf:"bytes,17,opt,name=parent_operation_id,json=parentOperationId,proto3" json:"parent_operation_id,omitempty"`                                                 //Номер родительского поручения.
 	Name              string               `protobuf:"bytes,18,opt,name=name,proto3" json:"name,omitempty"`                                                                                                      //Название операции.
@@ -3020,7 +3020,7 @@ type OperationItem struct {
 	Type              OperationType        `protobuf:"varint,22,opt,name=type,proto3,enum=tinkoff.public.invest.api.contract.v1.OperationType" json:"type,omitempty"`                                            //Тип операции.
 	Description       string               `protobuf:"bytes,23,opt,name=description,proto3" json:"description,omitempty"`                                                                                        //Описание операции.
 	State             OperationState       `protobuf:"varint,24,opt,name=state,proto3,enum=tinkoff.public.invest.api.contract.v1.OperationState" json:"state,omitempty"`                                         //Статус поручения.
-	InstrumentUid     string               `protobuf:"bytes,31,opt,name=instrument_uid,json=instrumentUid,proto3" json:"instrument_uid,omitempty"`                                                               //Уникальный идентификатор инструмента.
+	InstrumentUID     string               `protobuf:"bytes,31,opt,name=instrument_uid,json=instrumentUID,proto3" json:"instrument_uid,omitempty"`                                                               //Уникальный идентификатор инструмента.
 	Figi              string               `protobuf:"bytes,32,opt,name=figi,proto3" json:"figi,omitempty"`                                                                                                      //Figi.
 	InstrumentType    string               `protobuf:"bytes,33,opt,name=instrument_type,json=instrumentType,proto3" json:"instrument_type,omitempty"`                                                            //Тип инструмента.
 	InstrumentKind    InstrumentType       `protobuf:"varint,34,opt,name=instrument_kind,json=instrumentKind,proto3,enum=tinkoff.public.invest.api.contract.v1.InstrumentType" json:"instrument_kind,omitempty"` //Тип инструмента.
@@ -3077,9 +3077,9 @@ func (x *OperationItem) GetCursor() string {
 	return ""
 }
 
-func (x *OperationItem) GetBrokerAccountId() string {
+func (x *OperationItem) GetBrokerAccountID() string {
 	if x != nil {
-		return x.BrokerAccountId
+		return x.BrokerAccountID
 	}
 	return ""
 }
@@ -3133,9 +3133,9 @@ func (x *OperationItem) GetState() OperationState {
 	return OperationState_OPERATION_STATE_UNSPECIFIED
 }
 
-func (x *OperationItem) GetInstrumentUid() string {
+func (x *OperationItem) GetInstrumentUID() string {
 	if x != nil {
-		return x.InstrumentUid
+		return x.InstrumentUID
 	}
 	return ""
 }

@@ -24,13 +24,13 @@ type OrdersService interface {
 	// Метод выставления рыночной заявки на продажу
 	OrderSellMarket(ctx context.Context, figi string, quantity int64, price *domain.Quotation) (*domain.PostOrderResponse, error)
 	// Метод отмены биржевой заявки
-	CancelOrder(ctx context.Context, orderId string) (*time.Time, error)
+	CancelOrder(ctx context.Context, orderID string) (*time.Time, error)
 	// Метод получения статуса торгового поручения
-	OrderState(ctx context.Context, orderId string) (*domain.OrderState, error)
+	OrderState(ctx context.Context, orderID string) (*domain.OrderState, error)
 	// Метод получения списка активных заявок по счёту
 	Orders(ctx context.Context) ([]*domain.OrderState, error)
-	//Метод изменения выставленной заявки.
-	ReplaceOrder(ctx context.Context, orderId string, quantity int64, price *domain.Quotation, priceType domain.PriceType) (*domain.PostOrderResponse, error)
+	// Метод изменения выставленной заявки.
+	ReplaceOrder(ctx context.Context, orderID string, quantity int64, price *domain.Quotation, priceType domain.PriceType) (*domain.PostOrderResponse, error)
 }
 
 // Потоковый сервис получения информации о сделках пользователя

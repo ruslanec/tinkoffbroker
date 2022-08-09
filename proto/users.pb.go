@@ -378,7 +378,7 @@ type GetMarginAttributesRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Идентификатор счёта пользователя.
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	AccountID string `protobuf:"bytes,1,opt,name=account_id,json=accountID,proto3" json:"account_id,omitempty"`
 }
 
 func (x *GetMarginAttributesRequest) Reset() {
@@ -413,9 +413,9 @@ func (*GetMarginAttributesRequest) Descriptor() ([]byte, []int) {
 	return file_users_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetMarginAttributesRequest) GetAccountId() string {
+func (x *GetMarginAttributesRequest) GetAccountID() string {
 	if x != nil {
-		return x.AccountId
+		return x.AccountID
 	}
 	return ""
 }

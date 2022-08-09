@@ -61,7 +61,7 @@ type Positions struct {
 	Futures                 []*PositionInstrument `json:"futures,omitempty"`                    // Список фьючерсов портфеля
 }
 
-//Баланс позиции инструмента
+// Баланс позиции инструмента
 type PositionInstrument struct {
 	Figi    string `json:"figi,omitempty"`    // Figi-идентификатор бумаги
 	Blocked int64  `json:"blocked,omitempty"` // Заблокировано
